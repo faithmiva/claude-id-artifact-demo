@@ -135,6 +135,24 @@
   .navbtn:focus-visible{outline:2px solid var(--color-secondary);outline-offset:2px;}
   .navbtn.active{background:var(--color-base-white);color:var(--color-primary);border-color:var(--color-base-white);}
 
+  /* ---- prev/next step nav ---- */
+  .pagenav{display:flex;justify-content:space-between;gap:var(--spacing-sm);margin-top:var(--spacing-md);}
+  .navstep{
+    font-family:var(--font-sans);font-weight:600;font-size:0.8125rem;
+    padding:0.55rem 1rem;border-radius:var(--radius-lg);cursor:pointer;
+    transition:background .15s ease,color .15s ease;
+  }
+  .navstep.next{background:var(--color-primary);color:var(--color-base-white);border:none;}
+  .navstep.next:hover{background:var(--color-primary-dark);}
+  .navstep.prev{background:transparent;color:var(--color-text-primary);border:1px solid var(--color-border-secondary);}
+  .navstep.prev:hover{background:var(--color-bg-tertiary);}
+  .navstep:disabled{opacity:.4;cursor:not-allowed;}
+  .navstep:focus-visible{outline:2px solid var(--color-accent);outline-offset:2px;}
+  .hero .navstep.prev{border-color:rgba(255,255,255,.5);color:var(--color-base-white);}
+  .hero .navstep.prev:hover{background:rgba(255,255,255,.12);}
+  .hero .navstep.next{background:var(--color-secondary);color:var(--color-primary);}
+  .hero .navstep.next:hover{background:var(--color-secondary-dark);color:var(--color-base-white);}
+
   .page{display:none;}
   .page.active{display:block;flex:1 0 auto;}
   #page-title.active{display:flex;flex-direction:column;}
@@ -272,6 +290,9 @@
       <div class="kicker">DBA 9101 · Study Session 1</div>
       <h1>Introduction to Management Thought and Philosophy</h1>
       <p class="subtitle">Epistemic Foundations, Research Paradigms, and Executive Judgement in African and Global Contexts</p>
+      <nav class="pagenav" style="justify-content:flex-end;" aria-label="Section navigation">
+        <button class="navstep next" data-dir="next">Next ›</button>
+      </nav>
     </div>
   </div>
 </section>
@@ -317,6 +338,10 @@
       <button class="primary" id="a1-btn" disabled>Calculate Alignment</button>
       <div id="a1-out" aria-live="polite"></div>
     </div>
+    <nav class="pagenav" aria-label="Section navigation">
+      <button class="navstep prev" data-dir="prev">‹ Previous</button>
+      <button class="navstep next" data-dir="next">Next ›</button>
+    </nav>
   </div></section>
 </section>
 
@@ -373,6 +398,10 @@
 
       <div id="a2-out" aria-live="polite"></div>
     </div>
+    <nav class="pagenav" aria-label="Section navigation">
+      <button class="navstep prev" data-dir="prev">‹ Previous</button>
+      <button class="navstep next" data-dir="next">Next ›</button>
+    </nav>
   </div></section>
 </section>
 
@@ -414,6 +443,10 @@
         <div id="a3-out" aria-live="polite"></div>
       </div>
     </div>
+    <nav class="pagenav" aria-label="Section navigation">
+      <button class="navstep prev" data-dir="prev">‹ Previous</button>
+      <button class="navstep next" data-dir="next">Next ›</button>
+    </nav>
   </div></section>
 </section>
 
@@ -446,6 +479,10 @@
 
       <div id="a4-out" aria-live="polite"></div>
     </div>
+    <nav class="pagenav" aria-label="Section navigation">
+      <button class="navstep prev" data-dir="prev">‹ Previous</button>
+      <button class="navstep next" data-dir="next">Next ›</button>
+    </nav>
   </div></section>
 </section>
 
@@ -494,6 +531,10 @@
       <button class="primary" id="a5-btn" disabled>Submit &amp; Evaluate</button>
       <div id="a5-out" aria-live="polite"></div>
     </div>
+    <nav class="pagenav" aria-label="Section navigation">
+      <button class="navstep prev" data-dir="prev">‹ Previous</button>
+      <button class="navstep next" data-dir="next">Next ›</button>
+    </nav>
   </div></section>
 </section>
 
@@ -517,22 +558,65 @@
       </div>
     </div>
   </div></section>
+  <div class="inner">
+    <nav class="pagenav" style="justify-content:flex-start;" aria-label="Section navigation">
+      <button class="navstep prev" data-dir="prev">‹ Previous</button>
+    </nav>
+  </div>
 </section>
 
 <footer><div class="inner">DBA 9101 · Study Session 1 · Highlight</div></footer>
 </main>
 
 <script>
-// ---------- nav ----------
+// ---------- page navigation (tabs + prev/next) ----------
+const PAGES = [
+  {id:'title', label:'Title'},
+  {id:'a1', label:'Activity 1'},
+  {id:'a2', label:'Activity 2'},
+  {id:'a3', label:'Activity 3'},
+  {id:'a4', label:'Activity 4'},
+  {id:'a5', label:'Activity 5'},
+  {id:'takeaways', label:'Takeaways'}
+];
+
+function activatePage(id){
+  const idx = PAGES.findIndex(p=>p.id===id);
+  if(idx===-1) return;
+  document.querySelectorAll('.navbtn').forEach(b=>b.classList.toggle('active', b.dataset.page===id));
+  document.querySelectorAll('.page').forEach(p=>p.classList.toggle('active', p.id==='page-'+id));
+
+  const prevPage = PAGES[idx-1], nextPage = PAGES[idx+1];
+  document.querySelectorAll('.navstep.prev').forEach(btn=>{
+    btn.disabled = !prevPage;
+    btn.setAttribute('aria-label', prevPage ? `Go to previous section: ${prevPage.label}` : 'No previous section');
+  });
+  document.querySelectorAll('.navstep.next').forEach(btn=>{
+    btn.disabled = !nextPage;
+    btn.setAttribute('aria-label', nextPage ? `Go to next section: ${nextPage.label}` : 'No next section');
+  });
+
+  const scroller = document.querySelector('.main-scroll');
+  if(scroller) scroller.scrollTop = 0;
+  const activePage = document.getElementById('page-'+id);
+  if(activePage) activePage.setAttribute('tabindex','-1');
+}
+
 document.querySelectorAll('.navbtn').forEach(btn=>{
+  btn.addEventListener('click', ()=> activatePage(btn.dataset.page));
+});
+
+document.querySelectorAll('.navstep').forEach(btn=>{
   btn.addEventListener('click', ()=>{
-    document.querySelectorAll('.navbtn').forEach(b=>b.classList.remove('active'));
-    document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-    btn.classList.add('active');
-    document.getElementById('page-'+btn.dataset.page).classList.add('active');
-    window.scrollTo({top:0,behavior:'auto'});
+    const current = document.querySelector('.page.active').id.replace('page-','');
+    const idx = PAGES.findIndex(p=>p.id===current);
+    const dir = btn.dataset.dir;
+    const targetIdx = dir==='prev' ? idx-1 : idx+1;
+    if(targetIdx>=0 && targetIdx<PAGES.length) activatePage(PAGES[targetIdx].id);
   });
 });
+
+activatePage('title');
 
 function wordCount(str){ return str.trim().length ? str.trim().split(/\s+/).length : 0; }
 
