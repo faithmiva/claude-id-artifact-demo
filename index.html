@@ -9,159 +9,220 @@
 <link href="https://fonts.googleapis.com/css2?family=Afacad:wght@500;600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --navy:#09314F;
-    --navy-2:#0c3d61;
-    --cream:#F8F5F2;
-    --red:#E43B31;
-    --gold:#B79A7F;
-    --sand:#D6C7B2;
-    --white:#FFFFFF;
-    --ink:#0E2233;
-    --edge: clamp(20px, 5vw, 100px);
-    --gap: clamp(16px, 2.4vw, 32px);
-    --card-pad: clamp(20px, 3vw, 40px);
-    --radius: 20px;
-    font-size: 16px;
+    /* ---- theme tokens, verbatim from the tenant theme object ---- */
+    --color-accent:#0591E2;
+    --color-primary:#0A3150;
+    --color-primary-dark:#072339;
+    --color-secondary:#BB9E7F;
+    --color-secondary-dark:#90785E;
+    --color-destructive:#E83831;
+    --color-success:#009933;
+    --color-warning:#FFAB00;
+    --color-info:#3355FF;
+    --color-base-white:#FFFFFF;
+    --color-base-black:#000000;
+    --color-bg-primary:#FFFFFF;
+    --color-bg-secondary:#F8F9FA;
+    --color-bg-tertiary:#F0F2F4;
+    --color-bg-quaternary:#DDE2E7;
+    --color-bg-selected:#DBEDFF;
+    --color-bg-selected-wash:#E4F1FF;
+    --color-bg-disabled:#9DABB6;
+    --color-bg-pressed:#CED5DB;
+    --color-text-primary:#081D2D;
+    --color-text-secondary:#404D67;
+    --color-text-tertiary:#667085;
+    --color-border-primary:#DDE2E7;
+    --color-border-secondary:#667085;
+    --color-sf-primary:#CDE5FF;
+    --color-sf-secondary:#EEE3D8;
+    --color-sf-accent:#E4F1FF;
+    --color-sf-destructive:#FDE5D8;
+    --color-sf-success:#C9EFDD;
+    --color-sf-warning:#F4EAC9;
+    --color-sf-info:#CDE5FF;
+    --color-nav-background:#0A3150;
+    --color-nav-text:#9DABB6;
+    --color-nav-text-active:#FFFFFF;
+    --color-nav-active-bg:#DBEDFF;
+
+    --font-sans:'Manrope', ui-sans-serif, system-ui, -apple-system, sans-serif;
+    --font-afacad:'Afacad', ui-sans-serif, system-ui, sans-serif;
+
+    --radius-sm:0.125rem;
+    --radius:0.25rem;
+    --radius-md:0.375rem;
+    --radius-lg:0.5rem;
+    --radius-xl:0.75rem;
+    --radius-2xl:1rem;
+    --radius-3xl:1.5rem;
+    --radius-4xl:2rem;
+
+    --shadow-sm:0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow:0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+    --shadow-md:0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    --shadow-lg:0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+
+    --spacing-xs:0.25rem;
+    --spacing-sm:0.5rem;
+    --spacing-md:1rem;
+    --spacing-lg:1.5rem;
+    --spacing-xl:2rem;
+
+    --edge: clamp(var(--spacing-lg), 3vw, var(--spacing-xl));
   }
   *{box-sizing:border-box;}
+  html{font-size:16px;} /* rem base — page-viewer's rem headings depend on this staying 16px */
   body{
     margin:0;
-    background:var(--cream);
-    color:var(--ink);
-    font-family:'Manrope',sans-serif;
-    font-size:26px;
-    line-height:1.5;
+    background:var(--color-bg-secondary);
+    color:var(--color-text-primary);
+    font-family:var(--font-sans);
+    font-size:14px;
+    line-height:1.6;
     overflow-x:hidden;
   }
-  h1,h2,h3,.num,.stat{font-family:'Afacad',sans-serif;font-weight:700;}
-  .inner{max-width:1440px;margin:0 auto;padding-left:var(--edge);padding-right:var(--edge);}
+  h1,h2,h3,.display,.stat{font-family:var(--font-afacad);font-weight:700;}
+  .inner{max-width:1280px;margin:0 auto;padding-left:var(--edge);padding-right:var(--edge);}
 
-  /* nav */
-  .topnav{position:sticky;top:0;z-index:50;background:var(--navy);border-bottom:1px solid rgba(255,255,255,.12);}
-  .topnav .inner{display:flex;flex-wrap:wrap;gap:10px;padding-top:14px;padding-bottom:14px;}
+  /* ---- page-viewer: prose rules, verbatim, for all narrative/body text blocks ---- */
+  .page-viewer{ line-height:1.7; color:var(--color-text-primary); font-size:14px; }
+  .page-viewer h1{ font-size:3rem; font-weight:700; margin:0.75rem 0 0.5rem; font-family:var(--font-afacad); }
+  .page-viewer h2{ font-size:1.875rem; font-weight:700; margin:0.75rem 0 0.5rem; font-family:var(--font-afacad); }
+  .page-viewer h3{ font-size:1.5rem; font-weight:600; margin:0.75rem 0 0.5rem; font-family:var(--font-afacad); }
+  .page-viewer h4{ font-size:1.25rem; font-weight:600; margin:0.75rem 0 0.5rem; }
+  .page-viewer h5{ font-size:1.125rem; font-weight:600; margin:0.75rem 0 0.5rem; }
+  .page-viewer h6{ font-size:1rem; font-weight:600; margin:0.75rem 0 0.5rem; color:var(--color-text-secondary); }
+  .page-viewer p{ font-size:0.875rem; margin:0.5rem 0; }
+  .page-viewer ul{ list-style:disc; margin:0.5rem 0; padding-left:1.5rem; }
+  .page-viewer ol{ list-style:decimal; margin:0.5rem 0; padding-left:1.5rem; }
+  .page-viewer li{ margin:0.25rem 0; font-size:0.875rem; }
+  .page-viewer strong,.page-viewer b{ font-weight:700; }
+  .page-viewer.on-dark{ color:var(--color-base-white); }
+  .page-viewer.on-dark h1,.page-viewer.on-dark h2,.page-viewer.on-dark h3{ color:var(--color-base-white); }
+  .page-viewer.on-dark h6{ color:var(--color-bg-quaternary); }
+
+  /* ---- nav ---- */
+  .topnav{position:sticky;top:0;z-index:50;background:var(--color-nav-background);border-bottom:1px solid rgba(255,255,255,.12);}
+  .topnav .inner{display:flex;flex-wrap:wrap;gap:var(--spacing-xs);padding-top:var(--spacing-sm);padding-bottom:var(--spacing-sm);}
   .navbtn{
-    font-family:'Manrope',sans-serif;font-weight:700;font-size:24px;
-    background:transparent;color:#cfe0ee;border:1px solid rgba(255,255,255,.25);
-    border-radius:999px;padding:10px 20px;cursor:pointer;transition:background .15s ease, color .15s ease;
+    font-family:var(--font-sans);font-weight:600;font-size:0.8125rem;
+    background:transparent;color:var(--color-nav-text);border:1px solid rgba(255,255,255,.25);
+    border-radius:999px;padding:0.4rem 0.9rem;cursor:pointer;transition:background .15s ease,color .15s ease;
   }
   .navbtn:hover{background:rgba(255,255,255,.08);}
-  .navbtn:focus-visible{outline:3px solid var(--gold);outline-offset:2px;}
-  .navbtn.active{background:var(--white);color:var(--navy);border-color:var(--white);}
+  .navbtn:focus-visible{outline:2px solid var(--color-secondary);outline-offset:2px;}
+  .navbtn.active{background:var(--color-base-white);color:var(--color-primary);border-color:var(--color-base-white);}
 
   .page{display:none;}
   .page.active{display:block;}
 
-  /* hero / title page */
-  .hero{background:var(--navy);color:var(--white);padding:clamp(60px,12vw,140px) 0;text-align:left;}
-  .hero .kicker{color:var(--gold);font-weight:700;font-size:24px;letter-spacing:.02em;margin-bottom:18px;}
-  .hero h1{font-size:clamp(38px,5.4vw,64px);line-height:1.08;margin:0 0 20px 0;}
-  .hero .subtitle{font-size:clamp(22px,2.4vw,30px);color:#dbe7f1;font-weight:500;max-width:900px;margin:0;}
+  /* ---- hero ---- */
+  .hero{background:var(--color-primary);color:var(--color-base-white);padding:clamp(2.5rem,7vw,5rem) 0;}
+  .kicker{font-family:var(--font-sans);font-weight:700;font-size:0.8125rem;letter-spacing:.02em;margin-bottom:0.75rem;color:var(--color-secondary);}
+  .hero h1{font-size:clamp(1.75rem,3.4vw,2.5rem);line-height:1.15;margin:0 0 0.75rem 0;font-family:var(--font-afacad);}
+  .hero .subtitle{font-size:0.9375rem;color:var(--color-bg-quaternary);font-weight:500;max-width:640px;margin:0;line-height:1.6;}
 
-  /* divider band */
-  .divider{position:relative;background:var(--navy);overflow:hidden;padding:36px 0;}
+  /* ---- divider band ---- */
+  .divider{position:relative;background:var(--color-primary);overflow:hidden;padding:1.25rem 0;}
   .divider .ghostnum{position:absolute;right:var(--edge);top:50%;transform:translateY(-50%);
-    font-size:clamp(90px,16vw,220px);color:rgba(183,154,127,.18);font-weight:700;line-height:1;pointer-events:none;}
-  .divider .label{color:var(--gold);font-weight:700;font-size:26px;position:relative;}
+    font-size:clamp(3.5rem,9vw,7rem);color:rgba(187,158,127,.18);font-weight:700;line-height:1;pointer-events:none;font-family:var(--font-afacad);}
+  .divider .label{color:var(--color-secondary);font-weight:700;font-size:0.9375rem;position:relative;font-family:var(--font-sans);}
 
-  section.content{padding:var(--card-pad) 0 clamp(60px,8vw,120px) 0;}
+  section.content{padding:var(--spacing-lg) 0 clamp(2rem,6vw,3.5rem) 0;}
 
   .card{
-    background:var(--white);border-radius:var(--radius);
-    box-shadow:0 18px 40px -20px rgba(9,49,79,.35);
-    padding:var(--card-pad);
+    background:var(--color-bg-primary);border-radius:var(--radius-2xl);
+    box-shadow:var(--shadow-md);
+    padding:var(--spacing-lg);
+    border:1px solid var(--color-border-primary);
   }
-  .card.navycard{background:var(--navy);color:var(--white);}
-  .card.navycard .kicker{color:var(--gold);}
+  .card.navycard{background:var(--color-primary);color:var(--color-base-white);border-color:var(--color-primary-dark);}
 
-  .kicker{font-weight:700;font-size:24px;color:var(--red);margin-bottom:6px;}
-  .card h3{font-size:clamp(24px,2.6vw,32px);margin:0 0 12px 0;color:var(--navy);}
-  .card.navycard h3{color:var(--white);}
+  .card h3{font-size:1.25rem;margin:0 0 0.5rem 0;color:var(--color-primary);font-family:var(--font-afacad);font-weight:700;}
+  .card.navycard h3{color:var(--color-base-white);}
 
-  .grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:var(--gap);}
-  .stack > * + *{margin-top:var(--gap);}
-  .stack-sm > * + *{margin-top:14px;}
+  .grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));gap:var(--spacing-lg);}
+  .stack > * + *{margin-top:var(--spacing-lg);}
+  .stack-sm > * + *{margin-top:var(--spacing-sm);}
 
-  label{display:block;font-weight:700;margin-bottom:8px;}
+  label{display:block;font-weight:600;font-size:0.8125rem;margin-bottom:0.375rem;color:var(--color-text-secondary);}
   select, textarea, input[type=text]{
-    width:100%;font-family:'Manrope',sans-serif;font-size:24px;padding:14px 16px;
-    border:1px solid #c7d2da;border-radius:12px;background:var(--white);color:var(--ink);
+    width:100%;font-family:var(--font-sans);font-size:0.875rem;padding:0.6rem 0.75rem;
+    border:1px solid var(--color-border-primary);border-radius:var(--radius-lg);background:var(--color-bg-primary);color:var(--color-text-primary);
   }
-  select:focus-visible, textarea:focus-visible, input:focus-visible{outline:3px solid var(--navy);outline-offset:1px;}
-  textarea{min-height:120px;resize:vertical;}
+  select:focus-visible, textarea:focus-visible, input:focus-visible{outline:2px solid var(--color-accent);outline-offset:1px;}
+  textarea{min-height:88px;resize:vertical;line-height:1.6;}
 
-  input[type=range]{width:100%;accent-color:var(--navy);height:28px;}
-  input[type=range]:focus-visible{outline:3px solid var(--navy);outline-offset:3px;}
-  .sliderrow{margin-bottom:22px;}
-  .sliderrow .sv{color:var(--red);font-weight:700;}
+  input[type=range]{width:100%;accent-color:var(--color-primary);height:20px;}
+  input[type=range]:focus-visible{outline:2px solid var(--color-accent);outline-offset:3px;}
+  .sliderrow{margin-bottom:1.1rem;}
+  .sliderrow .sv{color:var(--color-accent);font-weight:700;}
 
   button.primary{
-    font-family:'Manrope',sans-serif;font-weight:700;font-size:24px;
-    background:var(--navy);color:var(--white);border:none;border-radius:14px;
-    padding:16px 28px;cursor:pointer;transition:background .15s ease;
+    font-family:var(--font-sans);font-weight:600;font-size:0.8125rem;
+    background:var(--color-primary);color:var(--color-base-white);border:none;border-radius:var(--radius-lg);
+    padding:0.65rem 1.25rem;cursor:pointer;transition:background .15s ease;
   }
-  button.primary:hover{background:var(--navy-2);}
-  button.primary:disabled{background:#9fb2c0;cursor:not-allowed;}
-  button.primary:focus-visible{outline:3px solid var(--gold);outline-offset:2px;}
+  button.primary:hover{background:var(--color-primary-dark);}
+  button.primary:disabled{background:var(--color-bg-disabled);cursor:not-allowed;}
+  button.primary:focus-visible{outline:2px solid var(--color-secondary);outline-offset:2px;}
 
-  .badge{display:inline-block;border-radius:999px;padding:8px 20px;font-weight:700;font-size:24px;}
-  .badge.risk-high{background:var(--red);color:var(--white);}
-  .badge.risk-mod{background:var(--gold);color:var(--navy);}
-  .badge.risk-low{background:#dcecd8;color:#1f5c33;}
-  .badge.neutral{background:var(--sand);color:var(--navy);}
+  .badge{display:inline-block;border-radius:999px;padding:0.3rem 0.85rem;font-weight:700;font-size:0.75rem;font-family:var(--font-sans);}
+  .badge.risk-high{background:var(--color-destructive);color:var(--color-base-white);}
+  .badge.risk-mod{background:var(--color-warning);color:var(--color-text-primary);}
+  .badge.risk-low{background:var(--color-success);color:var(--color-base-white);}
+  .badge.neutral{background:var(--color-sf-accent);color:var(--color-primary);}
 
-  .alertbox{border-radius:14px;padding:18px 22px;margin-top:16px;font-weight:600;}
-  .alertbox.warn{background:#fbe6e3;color:#8a241b;border:1px solid #f0b6ae;}
-  .alertbox.good{background:#e2f2e0;color:#245c2c;border:1px solid #b9dcb2;}
-  .alertbox.info{background:#eef2f6;color:var(--navy);border:1px solid #cfdbe4;}
+  .alertbox{border-radius:var(--radius-xl);padding:0.85rem 1.1rem;margin-top:0.85rem;font-weight:500;font-size:0.8125rem;line-height:1.6;}
+  .alertbox.warn{background:var(--color-sf-destructive);color:#8a241b;border:1px solid #f0b6ae;}
+  .alertbox.good{background:var(--color-sf-success);color:#1c5c33;border:1px solid #a9dcc0;}
+  .alertbox.info{background:var(--color-sf-info);color:var(--color-primary);border:1px solid #b7d0f0;}
 
-  .gaugewrap{margin-top:10px;}
-  .gaugelabel{display:flex;justify-content:space-between;font-weight:700;margin-bottom:6px;}
-  .gaugetrack{background:var(--sand);border-radius:999px;height:22px;overflow:hidden;}
-  .gaugefill{background:var(--navy);height:100%;border-radius:999px;transition:width .3s ease;}
-  .gaugefill.red{background:var(--red);}
+  .gaugewrap{margin-top:0.6rem;}
+  .gaugelabel{display:flex;justify-content:space-between;font-weight:600;font-size:0.8125rem;margin-bottom:0.35rem;}
+  .gaugetrack{background:rgba(255,255,255,.18);border-radius:999px;height:14px;overflow:hidden;}
+  .card:not(.navycard) .gaugetrack{background:var(--color-bg-quaternary);}
+  .gaugefill{background:var(--color-secondary);height:100%;border-radius:999px;transition:width .3s ease;}
+  .gaugefill.red{background:var(--color-destructive);}
 
-  .fourgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:14px;}
-  .flownode{border:2px solid #c7d2da;border-radius:14px;padding:14px;text-align:center;font-weight:700;background:#f4f6f8;}
-  .flownode.on{border-color:#3f9450;background:#e2f2e0;color:#1f5c33;}
-  .flownode.off{border-color:var(--red);background:#fbe6e3;color:#8a241b;}
+  .fourgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,140px),1fr));gap:0.6rem;}
+  .flownode{border:1.5px solid var(--color-border-primary);border-radius:var(--radius-lg);padding:0.6rem;text-align:center;font-weight:600;font-size:0.75rem;background:var(--color-bg-tertiary);}
+  .flownode.on{border-color:var(--color-success);background:var(--color-sf-success);color:#1c5c33;}
+  .flownode.off{border-color:var(--color-destructive);background:var(--color-sf-destructive);color:#8a241b;}
 
-  .togglegrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:14px;margin:16px 0;}
-  .toggle{display:flex;align-items:center;justify-content:space-between;background:#f4f6f8;border-radius:14px;padding:14px 18px;}
-  .switch{position:relative;width:64px;height:34px;flex:none;}
+  .togglegrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:0.6rem;margin:0.75rem 0;}
+  .toggle{display:flex;align-items:center;justify-content:space-between;background:var(--color-bg-tertiary);border-radius:var(--radius-lg);padding:0.6rem 0.85rem;font-size:0.8125rem;font-weight:500;}
+  .switch{position:relative;width:38px;height:22px;flex:none;}
   .switch input{opacity:0;width:100%;height:100%;position:absolute;cursor:pointer;margin:0;}
-  .slider-track{position:absolute;inset:0;background:#c7d2da;border-radius:999px;transition:.15s;}
-  .slider-track:before{content:"";position:absolute;height:26px;width:26px;left:4px;top:4px;background:white;border-radius:50%;transition:.15s;}
-  .switch input:checked + .slider-track{background:var(--navy);}
-  .switch input:checked + .slider-track:before{transform:translateX(30px);}
-  .switch input:focus-visible + .slider-track{outline:3px solid var(--gold);outline-offset:2px;}
+  .slider-track{position:absolute;inset:0;background:var(--color-bg-quaternary);border-radius:999px;transition:.15s;}
+  .slider-track:before{content:"";position:absolute;height:16px;width:16px;left:3px;top:3px;background:var(--color-base-white);border-radius:50%;transition:.15s;}
+  .switch input:checked + .slider-track{background:var(--color-primary);}
+  .switch input:checked + .slider-track:before{transform:translateX(16px);}
+  .switch input:focus-visible + .slider-track{outline:2px solid var(--color-secondary);outline-offset:2px;}
 
-  .radiogroup{display:flex;flex-direction:column;gap:10px;margin-bottom:14px;}
-  .radiogroup label{display:flex;align-items:center;gap:10px;font-weight:600;background:#f4f6f8;border-radius:12px;padding:12px 16px;cursor:pointer;}
-  .radiogroup input{width:24px;height:24px;accent-color:var(--navy);}
+  .radiogroup{display:flex;flex-direction:column;gap:0.5rem;margin-bottom:0.85rem;}
+  .radiogroup label{display:flex;align-items:center;gap:0.6rem;font-weight:500;font-size:0.8125rem;background:var(--color-bg-tertiary);border-radius:var(--radius-lg);padding:0.6rem 0.85rem;cursor:pointer;margin-bottom:0;color:var(--color-text-primary);}
+  .radiogroup input{width:16px;height:16px;accent-color:var(--color-primary);}
 
-  .matrix3{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;max-width:420px;margin:18px 0;position:relative;}
-  .mcell{aspect-ratio:1;border-radius:10px;background:#eef2f6;border:1px solid #d7dee4;}
-  .mcell.target{background:var(--red);border-color:var(--red);}
-  .matrixlabels{display:flex;justify-content:space-between;font-size:22px;color:var(--navy);font-weight:700;margin-top:4px;}
+  .matrix3{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;max-width:280px;margin:0.85rem 0;}
+  .mcell{aspect-ratio:1;border-radius:var(--radius-md);background:var(--color-bg-tertiary);border:1px solid var(--color-border-primary);}
+  .mcell.target{background:var(--color-destructive);border-color:var(--color-destructive);}
+  .matrixlabels{display:flex;justify-content:space-between;font-size:0.75rem;color:var(--color-text-secondary);font-weight:600;margin-top:0.25rem;}
 
-  .scoreline{font-size:24px;margin:4px 0;}
-  .scoreline b{color:var(--navy);}
+  .scoreline{font-size:0.8125rem;margin:0.2rem 0;}
+  .scoreline b{color:var(--color-primary);}
+  .card.navycard .scoreline b{color:var(--color-base-white);}
 
-  footer{background:var(--navy);color:#cfe0ee;text-align:left;padding:28px 0;font-size:24px;}
-
-  ul.actionlist{padding-left:26px;margin:0;}
-  ul.actionlist li{margin-bottom:14px;}
+  footer{background:var(--color-primary);color:var(--color-bg-quaternary);padding:1.25rem 0;font-size:0.75rem;}
 
   @media (max-width:640px){
-    body{font-size:24px;}
-    .card{padding:20px;}
+    .card{padding:var(--spacing-md);}
   }
-  @media (prefers-reduced-motion: reduce){
-    *{transition:none !important;}
-  }
+  @media (prefers-reduced-motion: reduce){ *{transition:none !important;} }
   @media print{
     .topnav{display:none;}
-    .hero,.divider,.card.navycard,footer{background:var(--white) !important;color:var(--ink) !important;}
+    .hero,.divider,.card.navycard,footer{background:var(--color-base-white) !important;color:var(--color-text-primary) !important;}
     .page{display:block !important;}
   }
 </style>
@@ -183,7 +244,7 @@
 <!-- TITLE PAGE -->
 <section class="page active" id="page-title">
   <div class="hero">
-    <div class="inner">
+    <div class="inner page-viewer on-dark">
       <div class="kicker">DBA 9101 · Study Session 1</div>
       <h1>Introduction to Management Thought and Philosophy</h1>
       <p class="subtitle">Epistemic Foundations, Research Paradigms, and Executive Judgement in African and Global Contexts</p>
@@ -196,7 +257,9 @@
   <div class="divider"><div class="inner"><span class="ghostnum">1</span><span class="label">Activity 1 · Multi-Perspective Lens Analysis</span></div></div>
   <section class="content"><div class="inner">
     <div class="card stack">
-      <p>A major Nigerian commercial bank recently conducted its annual employee engagement survey, reporting a record high score of 84% engagement (up from 68% two years prior). Senior leadership presented this result to the Board as definitive proof that recent cultural and operational reforms have succeeded. However, internal human resource records reveal that voluntary turnover among high-performing middle managers has escalated to 22% over the same period. Furthermore, exit interviews (conducted off-site) suggest that staff completed the engagement survey positively out of fear that response anonymity had been compromised. As a DBA scholar-practitioner, you must evaluate this organisational intelligence crisis by adopting distinct executive lenses to expose how underlying philosophical stances alter managerial interpretation and strategic action.</p>
+      <div class="page-viewer">
+        <p>A major Nigerian commercial bank recently conducted its annual employee engagement survey, reporting a record high score of 84% engagement (up from 68% two years prior). Senior leadership presented this result to the Board as definitive proof that recent cultural and operational reforms have succeeded. However, internal human resource records reveal that voluntary turnover among high-performing middle managers has escalated to 22% over the same period. Furthermore, exit interviews (conducted off-site) suggest that staff completed the engagement survey positively out of fear that response anonymity had been compromised. As a DBA scholar-practitioner, you must evaluate this organisational intelligence crisis by adopting distinct executive lenses to expose how underlying philosophical stances alter managerial interpretation and strategic action.</p>
+      </div>
 
       <div>
         <label for="a1-lens">Executive Lens</label>
@@ -238,7 +301,9 @@
   <div class="divider"><div class="inner"><span class="ghostnum">2</span><span class="label">Activity 2 · Concept Genealogy Driver Mapping</span></div></div>
   <section class="content"><div class="inner">
     <div class="card stack">
-      <p>When a technology-driven logistics enterprise in Lagos implemented algorithmic GPS tracking to improve delivery efficiency, driver turnover spiked by 35%, and driver-orchestrated fuel tracking fraud increased. Senior management initially diagnosed this as an "employee attitude and discipline problem." Trace this practical management problem down to its underlying ontological, epistemological, and axiological assumptions.</p>
+      <div class="page-viewer">
+        <p>When a technology-driven logistics enterprise in Lagos implemented algorithmic GPS tracking to improve delivery efficiency, driver turnover spiked by 35%, and driver-orchestrated fuel tracking fraud increased. Senior management initially diagnosed this as an "employee attitude and discipline problem." Trace this practical management problem down to its underlying ontological, epistemological, and axiological assumptions.</p>
+      </div>
 
       <div>
         <label for="a2-s1">Stage 1 — Practical Management Problem</label>
@@ -293,7 +358,7 @@
   <section class="content"><div class="inner">
     <div class="grid2">
       <div class="card stack-sm">
-        <p>Balance quantitative metric control, contextual/indigenous adaptation, and qualitative voice and dialogue to optimise organisational decision robustness.</p>
+        <div class="page-viewer"><p>Balance quantitative metric control, contextual/indigenous adaptation, and qualitative voice and dialogue to optimise organisational decision robustness.</p></div>
         <div class="sliderrow">
           <label for="a3-m">Quantitative Metric Weight (M) — <span class="sv" id="a3-m-v">33%</span></label>
           <input type="range" id="a3-m" min="0" max="100" step="5" value="35">
@@ -333,7 +398,9 @@
   <div class="divider"><div class="inner"><span class="ghostnum">4</span><span class="label">Activity 4 · Research Stance &amp; Governance Risk Matrix</span></div></div>
   <section class="content"><div class="inner">
     <div class="card stack">
-      <p>A diversified African conglomerate faces a governance breakdown across West African subsidiaries. Choose a research stance and toggle the environmental variables to see how the alignment risk shifts.</p>
+      <div class="page-viewer">
+        <p>A diversified African conglomerate faces a governance breakdown across West African subsidiaries. Choose a research stance and toggle the environmental variables to see how the alignment risk shifts.</p>
+      </div>
 
       <div class="radiogroup" role="radiogroup" aria-label="Research stance">
         <label><input type="radio" name="a4-stance" value="positivist" checked> Stance A: Positivist Audit Stance</label>
@@ -366,7 +433,7 @@
 
       <div class="stack-sm">
         <h3>Claim 1</h3>
-        <p>"Because quantitative performance dashboards provide objective numerical data, they eliminate managerial bias and accurately reflect organisational reality."</p>
+        <div class="page-viewer"><p>"Because quantitative performance dashboards provide objective numerical data, they eliminate managerial bias and accurately reflect organisational reality."</p></div>
         <div class="radiogroup" role="radiogroup" aria-label="Claim 1 classification">
           <label><input type="radio" name="a5-c1" value="True"> True</label>
           <label><input type="radio" name="a5-c1" value="False"> False</label>
@@ -378,7 +445,7 @@
 
       <div class="stack-sm">
         <h3>Claim 2</h3>
-        <p>"Indigenous African management practices, such as the Igbo Apprenticeship System (Igba-Boi), should be treated strictly as informal cultural artefacts rather than legitimate sources of management theory building."</p>
+        <div class="page-viewer"><p>"Indigenous African management practices, such as the Igbo Apprenticeship System (Igba-Boi), should be treated strictly as informal cultural artefacts rather than legitimate sources of management theory building."</p></div>
         <div class="radiogroup" role="radiogroup" aria-label="Claim 2 classification">
           <label><input type="radio" name="a5-c2" value="True"> True</label>
           <label><input type="radio" name="a5-c2" value="False"> False</label>
@@ -390,7 +457,7 @@
 
       <div class="stack-sm">
         <h3>Claim 3</h3>
-        <p>"Critical realism is an effective philosophical foundation for DBA research in developing economies because it connects observable surface events with deeper, hidden structural mechanisms."</p>
+        <div class="page-viewer"><p>"Critical realism is an effective philosophical foundation for DBA research in developing economies because it connects observable surface events with deeper, hidden structural mechanisms."</p></div>
         <div class="radiogroup" role="radiogroup" aria-label="Claim 3 classification">
           <label><input type="radio" name="a5-c3" value="True"> True</label>
           <label><input type="radio" name="a5-c3" value="False"> False</label>
@@ -412,16 +479,18 @@
   <section class="content"><div class="inner grid2">
     <div class="card">
       <h3>Executive Summary</h3>
-      <p>Management thought is not an abstract catalogue of historical theories, but a disciplined lens for interrogating executive practice, organisational structures, and research design. Senior executives and DBA candidates must cultivate epistemic humility, recognising that empirical data does not speak for itself but is interpreted through specific philosophical filters. African organisational contexts must not be treated as imperfect copies of Western models; indigenous practices such as the Igbo Apprenticeship System represent rich, legitimate foundations for original management theory building.</p>
+      <div class="page-viewer"><p>Management thought is not an abstract catalogue of historical theories, but a disciplined lens for interrogating executive practice, organisational structures, and research design. Senior executives and DBA candidates must cultivate epistemic humility, recognising that empirical data does not speak for itself but is interpreted through specific philosophical filters. African organisational contexts must not be treated as imperfect copies of Western models; indigenous practices such as the Igbo Apprenticeship System represent rich, legitimate foundations for original management theory building.</p></div>
     </div>
     <div class="card navycard">
       <h3>Practitioner Action Items</h3>
-      <ul class="actionlist">
-        <li><b>Audit Organisational Control Systems:</b> Critically examine existing dashboards, audit routines and KPIs to identify hidden assumptions about human motivation, authority and control.</li>
-        <li><b>Articulate Epistemic Stances in Decision-Making:</b> Before approving major strategies, explicitly define the evidentiary assumptions guiding the proposal.</li>
-        <li><b>Integrate Critical Realism into Executive Inquiry:</b> When investigating persistent failures, design diagnostic frameworks that uncover hidden structural mechanisms.</li>
-        <li><b>Advance Context-Sensitive Management Theory:</b> Treat local and African organisational realities as primary sources of management knowledge generation.</li>
-      </ul>
+      <div class="page-viewer on-dark">
+        <ul>
+          <li><strong>Audit Organisational Control Systems:</strong> Critically examine existing dashboards, audit routines and KPIs to identify hidden assumptions about human motivation, authority and control.</li>
+          <li><strong>Articulate Epistemic Stances in Decision-Making:</strong> Before approving major strategies, explicitly define the evidentiary assumptions guiding the proposal.</li>
+          <li><strong>Integrate Critical Realism into Executive Inquiry:</strong> When investigating persistent failures, design diagnostic frameworks that uncover hidden structural mechanisms.</li>
+          <li><strong>Advance Context-Sensitive Management Theory:</strong> Treat local and African organisational realities as primary sources of management knowledge generation.</li>
+        </ul>
+      </div>
     </div>
   </div></section>
 </section>
@@ -471,10 +540,10 @@ a1btn.addEventListener('click',()=>{
   else { rubric='Critical Epistemic Failure: uncritical reliance on unexamined surface metrics.'; rubricClass='risk-high'; }
 
   document.getElementById('a1-out').innerHTML = `
-    <div class="alertbox info" style="margin-top:20px;">
+    <div class="alertbox info">
       <div class="scoreline"><b>Epistemic Misalignment Index (EMI):</b> ${emi.toFixed(1)}</div>
-      ${stateTitle ? `<span class="badge ${rubricClass}">${stateTitle}</span><p style="margin-top:10px;">${stateMsg}</p>` : ''}
-      <p style="margin-top:10px;"><b>Executive Rubric:</b> ${rubric}</p>
+      ${stateTitle ? `<span class="badge ${rubricClass}">${stateTitle}</span><p style="margin-top:8px;">${stateMsg}</p>` : ''}
+      <p style="margin-top:8px;"><b>Executive Rubric:</b> ${rubric}</p>
     </div>`;
 });
 
@@ -487,7 +556,6 @@ document.getElementById('a2-btn').addEventListener('click',()=>{
   else if(A==='A1'&&B==='B2'&&C==='C2'&&D==='D2'){ status='Coherent Interpretivist Paradigm'; score=100; diag='Your framework is internally consistent, prioritising employee meaning, dignity and lived experience.'; coherent=true; }
   else if(A==='A1'&&B==='B3'&&C==='C3'&&D==='D3'){ status='Coherent Critical Realist Paradigm'; score=100; diag='Optimal DBA Alignment: you effectively connect surface metrics with deeper socio-structural mechanisms.'; coherent=true; }
   else {
-    // Dissonant path: mismatches counted against whichever family (1/2/3) is most common among B, C, D.
     const nums=[B,C,D].map(x=>x.slice(1));
     const counts={'1':0,'2':0,'3':0}; nums.forEach(n=>counts[n]++);
     const majority = Object.keys(counts).reduce((a,b)=>counts[a]>=counts[b]?a:b);
@@ -502,12 +570,11 @@ document.getElementById('a2-btn').addEventListener('click',()=>{
     dissonanceAlert = `<div class="alertbox warn">Epistemic Dissonance Detected: you are attempting to enforce mechanistic control while claiming human-centred values. Your methodology will fail in practice.</div>`;
   }
 
-  // flowchart coloring: green if this exact path is one of the 3 coherent ones, else color each node vs majority family
   const nodes=[document.getElementById('a2-n1'),document.getElementById('a2-n2'),document.getElementById('a2-n3'),document.getElementById('a2-n4')];
   nodes.forEach(n=>{n.classList.remove('on','off');});
   if(coherent){ nodes.forEach(n=>n.classList.add('on')); }
   else {
-    nodes[0].classList.add('on'); // stage 1 always shown neutral/on since A1 is the shared problem framing
+    nodes[0].classList.add('on');
     const nums=[B,C,D].map(x=>x.slice(1));
     const counts={'1':0,'2':0,'3':0}; nums.forEach(n=>counts[n]++);
     const majority = Object.keys(counts).reduce((a,b)=>counts[a]>=counts[b]?a:b);
@@ -515,9 +582,9 @@ document.getElementById('a2-btn').addEventListener('click',()=>{
   }
 
   document.getElementById('a2-out').innerHTML = `
-    <div class="alertbox ${coherent?'good':'warn'}" style="margin-top:20px;">
+    <div class="alertbox ${coherent?'good':'warn'}">
       <div class="scoreline"><b>Status:</b> ${status} &nbsp;·&nbsp; <b>Alignment Score:</b> ${score.toFixed(1)}%</div>
-      <p style="margin-top:10px;">${diag}</p>
+      <p style="margin-top:8px;">${diag}</p>
     </div>
     ${dissonanceAlert}`;
 });
@@ -554,8 +621,8 @@ function a3calc(){
   else if(DRS>=50) perf='Moderate Risk: system vulnerable to contextual misalignment or employee cynicism.';
   else perf='Unstable System: immediate risk of operational friction or strategic failure.';
 
-  document.getElementById('a3-out').innerHTML = alerts.map(a=>`<div class="alertbox ${a.t}" style="margin-top:14px;">${a.m}</div>`).join('') +
-    `<div class="alertbox info" style="margin-top:14px;"><b>Performance Breakdown:</b> ${perf}</div>`;
+  document.getElementById('a3-out').innerHTML = alerts.map(a=>`<div class="alertbox ${a.t}">${a.m}</div>`).join('') +
+    `<div class="alertbox info"><b>Performance Breakdown:</b> ${perf}</div>`;
 }
 [a3m,a3c,a3v].forEach(el=>el.addEventListener('input',a3calc));
 a3calc();
@@ -574,12 +641,10 @@ function a4calc(){
     if(t3){ risk=2; }
   }
   const ars = (risk*30) + ((3-depth)*20);
-  let zone = ars<=30?'good':(ars<=60?'warn-mid':'warn');
 
-  // matrix render: X = depth (1..3, treat 0 as column 1 visually), Y = risk (1..3)
   const gridEl=document.getElementById('a4-matrix');
   gridEl.innerHTML='';
-  const dCol = Math.max(1,depth); // 0 depth still shown in column 1 for visual placement
+  const dCol = Math.max(1,depth);
   for(let row=3; row>=1; row--){
     for(let col=1; col<=3; col++){
       const cell=document.createElement('div');
@@ -590,9 +655,9 @@ function a4calc(){
 
   let zoneLabel = ars<=30?'Green (low alignment risk)':(ars<=60?'Yellow (moderate alignment risk)':'Red (high alignment risk)');
   document.getElementById('a4-out').innerHTML = `
-    <div class="alertbox ${ars<=30?'good':(ars<=60?'info':'warn')}" style="margin-top:10px;">
+    <div class="alertbox ${ars<=30?'good':(ars<=60?'info':'warn')}">
       <div class="scoreline"><b>Alignment Risk Score (ARS):</b> ${ars} — ${zoneLabel}</div>
-      ${notes.map(n=>`<p style="margin-top:8px;">${n}</p>`).join('')}
+      ${notes.map(n=>`<p style="margin-top:6px;">${n}</p>`).join('')}
     </div>`;
 }
 document.querySelectorAll('input[name=a4-stance]').forEach(r=>r.addEventListener('change',a4calc));
@@ -633,7 +698,7 @@ document.getElementById('a5-btn').addEventListener('click',()=>{
     rows.push(`<div class="scoreline"><b>Claim ${i}:</b> Classification ${classPts}/10 · Word count ${wcPts}/5 · Keywords ${kwPts}/15 (matched: ${matched.length?matched.join(', '):'none'}) → <b>${modTotal}/30</b></div>`);
   }
   document.getElementById('a5-out').innerHTML = `
-    <div class="alertbox info" style="margin-top:20px;">
+    <div class="alertbox info">
       <h3 style="margin-top:0;">Score Breakdown — ${total}/90</h3>
       ${rows.join('')}
     </div>`;
