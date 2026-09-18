@@ -94,6 +94,8 @@
     overflow-y:auto;
     overflow-x:hidden;
     -webkit-overflow-scrolling:touch;
+    display:flex;
+    flex-direction:column;
   }
   h1,h2,h3,.display,.stat{font-family:var(--font-afacad);font-weight:700;}
   .inner{max-width:1280px;margin:0 auto;padding-left:var(--edge);padding-right:var(--edge);}
@@ -133,8 +135,8 @@
   .navbtn:focus-visible{outline:2px solid var(--color-secondary);outline-offset:2px;}
   .navbtn.active{background:var(--color-base-white);color:var(--color-primary);border-color:var(--color-base-white);}
 
-  .page{display:none;min-height:100%;}
-  .page.active{display:block;}
+  .page{display:none;}
+  .page.active{display:block;flex:1 0 auto;}
   #page-title.active{display:flex;flex-direction:column;}
   #page-title .hero{flex:1 1 auto;display:flex;align-items:center;}
 
@@ -235,7 +237,7 @@
   .scoreline b{color:var(--color-primary);}
   .card.navycard .scoreline b{color:var(--color-base-white);}
 
-  footer{background:var(--color-primary);color:var(--color-bg-quaternary);padding:1.25rem 0;font-size:0.75rem;}
+  footer{background:var(--color-primary);color:var(--color-bg-quaternary);padding:1.25rem 0;font-size:0.75rem;flex:0 0 auto;}
 
   @media (max-width:640px){
     .card{padding:var(--spacing-md);}
