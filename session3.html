@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DBA 9101 · Study Session 3 · Highlight</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Afacad:wght@500;600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --color-accent:#0591E2;
+    --color-primary:#0A3150;
+    --color-primary-dark:#072339;
+    --color-secondary:#BB9E7F;
+    --color-secondary-dark:#90785E;
+    --color-destructive:#E83831;
+    --color-success:#009933;
+    --color-warning:#FFAB00;
+    --color-info:#3355FF;
+    --color-base-white:#FFFFFF;
+    --color-base-black:#000000;
+    --color-bg-primary:#FFFFFF;
+    --color-bg-secondary:#F8F9FA;
+    --color-bg-tertiary:#F0F2F4;
+    --color-bg-quaternary:#DDE2E7;
+    --color-bg-selected:#DBEDFF;
+    --color-bg-selected-wash:#E4F1FF;
+    --color-bg-disabled:#9DABB6;
+    --color-bg-pressed:#CED5DB;
+    --color-text-primary:#081D2D;
+    --color-text-secondary:#404D67;
+    --color-text-tertiary:#667085;
+    --color-border-primary:#DDE2E7;
+    --color-border-secondary:#667085;
+    --color-sf-primary:#CDE5FF;
+    --color-sf-secondary:#EEE3D8;
+    --color-sf-accent:#E4F1FF;
+    --color-sf-destructive:#FDE5D8;
+    --color-sf-success:#C9EFDD;
+    --color-sf-warning:#F4EAC9;
+    --color-sf-info:#CDE5FF;
+    --color-nav-background:#0A3150;
+    --color-nav-text:#9DABB6;
+    --color-nav-text-active:#FFFFFF;
+    --color-nav-active-bg:#DBEDFF;
+
+    --font-sans:'Manrope', ui-sans-serif, system-ui, -apple-system, sans-serif;
+    --font-afacad:'Afacad', ui-sans-serif, system-ui, sans-serif;
+
+    --radius-sm:0.125rem;
+    --radius:0.25rem;
+    --radius-md:0.375rem;
+    --radius-lg:0.5rem;
+    --radius-xl:0.75rem;
+    --radius-2xl:1rem;
+    --radius-3xl:1.5rem;
+    --radius-4xl:2rem;
+
+    --shadow-sm:0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow:0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+    --shadow-md:0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    --shadow-lg:0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+
+    --spacing-xs:0.25rem;
+    --spacing-sm:0.5rem;
+    --spacing-md:1rem;
+    --spacing-lg:1.5rem;
+    --spacing-xl:2rem;
+
+    --edge: var(--spacing-md);
+  }
+  *{box-sizing:border-box;}
+  html,body{height:100%;}
+  html{font-size:16px;}
+  body{
+    margin:0;
+    background:var(--color-bg-secondary);
+    color:var(--color-text-primary);
+    font-family:var(--font-sans);
+    font-size:14px;
+    line-height:1.6;
+    overflow-x:hidden;
+    display:flex;
+    flex-direction:column;
+    height:100vh;
+    min-height:360px;
+  }
+  .main-scroll{
+    flex:1 1 auto;
+    min-height:0;
+    overflow-y:auto;
+    overflow-x:hidden;
+    -webkit-overflow-scrolling:touch;
+    display:flex;
+    flex-direction:column;
+  }
+  h1,h2,h3,.display,.stat{font-family:var(--font-afacad);font-weight:700;}
+  .inner{max-width:1280px;margin:0 auto;padding-left:var(--edge);padding-right:var(--edge);}
+
+  .page-viewer{ line-height:1.7; color:var(--color-text-primary); font-size:14px; }
+  .page-viewer h1{ font-size:3rem; font-weight:700; margin:0.75rem 0 0.5rem; font-family:var(--font-afacad); }
+  .page-viewer h2{ font-size:1.875rem; font-weight:700; margin:0.75rem 0 0.5rem; font-family:var(--font-afacad); }
+  .page-viewer h3{ font-size:1.5rem; font-weight:600; margin:0.75rem 0 0.5rem; font-family:var(--font-afacad); }
+  .page-viewer h4{ font-size:1.25rem; font-weight:600; margin:0.75rem 0 0.5rem; }
+  .page-viewer h5{ font-size:1.125rem; font-weight:600; margin:0.75rem 0 0.5rem; }
+  .page-viewer h6{ font-size:1rem; font-weight:600; margin:0.75rem 0 0.5rem; color:var(--color-text-secondary); }
+  .page-viewer p{ font-size:0.875rem; margin:0.5rem 0; }
+  .page-viewer ul{ list-style:disc; margin:0.5rem 0; padding-left:1.5rem; }
+  .page-viewer ol{ list-style:decimal; margin:0.5rem 0; padding-left:1.5rem; }
+  .page-viewer li{ margin:0.25rem 0; font-size:0.875rem; }
+  .page-viewer strong,.page-viewer b{ font-weight:700; }
+  .page-viewer.on-dark{ color:var(--color-base-white); }
+  .page-viewer.on-dark h1,.page-viewer.on-dark h2,.page-viewer.on-dark h3{ color:var(--color-base-white); }
+  .page-viewer.on-dark h6{ color:var(--color-bg-quaternary); }
+
+  .topnav{flex:0 0 auto;background:var(--color-nav-background);border-bottom:1px solid rgba(255,255,255,.12);}
+  .topnav .inner{
+    display:flex;flex-wrap:nowrap;gap:var(--spacing-xs);
+    padding-top:0.5rem;padding-bottom:0.5rem;
+    overflow-x:auto;scrollbar-width:thin;
+  }
+  .navbtn{
+    flex:0 0 auto;
+    font-family:var(--font-sans);font-weight:600;font-size:0.75rem;
+    background:transparent;color:var(--color-nav-text);border:1px solid rgba(255,255,255,.25);
+    border-radius:999px;padding:0.35rem 0.75rem;cursor:pointer;transition:background .15s ease,color .15s ease;
+    white-space:nowrap;
+  }
+  .navbtn:hover{background:rgba(255,255,255,.08);}
+  .navbtn:focus-visible{outline:2px solid var(--color-secondary);outline-offset:2px;}
+  .navbtn.active{background:var(--color-base-white);color:var(--color-primary);border-color:var(--color-base-white);}
+
+  .pagenav{display:flex;justify-content:space-between;gap:var(--spacing-sm);margin-top:var(--spacing-md);}
+  .navstep{
+    font-family:var(--font-sans);font-weight:600;font-size:0.8125rem;
+    padding:0.55rem 1rem;border-radius:var(--radius-lg);cursor:pointer;
+    transition:background .15s ease,color .15s ease;
+  }
+  .navstep.next{background:var(--color-primary);color:var(--color-base-white);border:none;}
+  .navstep.next:hover{background:var(--color-primary-dark);}
+  .navstep.prev{background:transparent;color:var(--color-text-primary);border:1px solid var(--color-border-secondary);}
+  .navstep.prev:hover{background:var(--color-bg-tertiary);}
+  .navstep:disabled{opacity:.4;cursor:not-allowed;}
+  .navstep:focus-visible{outline:2px solid var(--color-accent);outline-offset:2px;}
+  .hero .navstep.prev{border-color:rgba(255,255,255,.5);color:var(--color-base-white);}
+  .hero .navstep.prev:hover{background:rgba(255,255,255,.12);}
+  .hero .navstep.next{background:var(--color-secondary);color:var(--color-primary);}
+  .hero .navstep.next:hover{background:var(--color-secondary-dark);color:var(--color-base-white);}
+
+  .page{display:none;}
+  .page.active{display:block;flex:1 0 auto;}
+  #page-title.active{display:flex;flex-direction:column;}
+  #page-title .hero{flex:1 1 auto;display:flex;align-items:center;}
+
+  .hero{background:var(--color-primary);color:var(--color-base-white);padding:1.25rem 0;}
+  .kicker{font-family:var(--font-sans);font-weight:700;font-size:0.75rem;letter-spacing:.02em;margin-bottom:0.4rem;color:var(--color-secondary);}
+  .hero h1{font-size:1.375rem;line-height:1.2;margin:0 0 0.4rem 0;font-family:var(--font-afacad);}
+  .hero .subtitle{font-size:0.8125rem;color:var(--color-bg-quaternary);font-weight:500;max-width:100%;margin:0;line-height:1.55;}
+
+  .divider{position:relative;background:var(--color-primary);overflow:hidden;padding:0.6rem 0;}
+  .divider .ghostnum{position:absolute;right:var(--edge);top:50%;transform:translateY(-50%);
+    font-size:2.25rem;color:rgba(187,158,127,.2);font-weight:700;line-height:1;pointer-events:none;font-family:var(--font-afacad);}
+  .divider .label{color:var(--color-secondary);font-weight:700;font-size:0.8125rem;position:relative;font-family:var(--font-sans);}
+
+  section.content{padding:var(--spacing-md) 0 var(--spacing-lg) 0;}
+
+  .card{
+    background:var(--color-bg-primary);border-radius:var(--radius-xl);
+    box-shadow:var(--shadow-md);
+    padding:var(--spacing-md);
+    border:1px solid var(--color-border-primary);
+  }
+  .card.navycard{background:var(--color-primary);color:var(--color-base-white);border-color:var(--color-primary-dark);}
+
+  .card h3{font-size:1.0625rem;margin:0 0 0.4rem 0;color:var(--color-primary);font-family:var(--font-afacad);font-weight:700;}
+  .card.navycard h3{color:var(--color-base-white);}
+
+  .grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:var(--spacing-md);}
+  .stack > * + *{margin-top:var(--spacing-md);}
+  .stack-sm > * + *{margin-top:var(--spacing-sm);}
+
+  label{display:block;font-weight:600;font-size:0.8125rem;margin-bottom:0.375rem;color:var(--color-text-secondary);}
+  select, textarea, input[type=text], input[type=number]{
+    width:100%;font-family:var(--font-sans);font-size:0.875rem;padding:0.6rem 0.75rem;
+    border:1px solid var(--color-border-primary);border-radius:var(--radius-lg);background:var(--color-bg-primary);color:var(--color-text-primary);
+  }
+  select:focus-visible, textarea:focus-visible, input:focus-visible{outline:2px solid var(--color-accent);outline-offset:1px;}
+  textarea{min-height:62px;resize:vertical;line-height:1.6;}
+
+  input[type=range]{width:100%;accent-color:var(--color-primary);height:20px;}
+  input[type=range]:focus-visible{outline:2px solid var(--color-accent);outline-offset:3px;}
+  .sliderrow{margin-bottom:0.75rem;}
+  .sliderrow .sv{color:var(--color-accent);font-weight:700;}
+
+  button.primary{
+    font-family:var(--font-sans);font-weight:600;font-size:0.8125rem;
+    background:var(--color-primary);color:var(--color-base-white);border:none;border-radius:var(--radius-lg);
+    padding:0.65rem 1.25rem;cursor:pointer;transition:background .15s ease;
+  }
+  button.primary:hover{background:var(--color-primary-dark);}
+  button.primary:disabled{background:var(--color-bg-disabled);cursor:not-allowed;}
+  button.primary:focus-visible{outline:2px solid var(--color-secondary);outline-offset:2px;}
+
+  .badge{display:inline-block;border-radius:999px;padding:0.3rem 0.85rem;font-weight:700;font-size:0.75rem;font-family:var(--font-sans);}
+  .badge.risk-high{background:var(--color-destructive);color:var(--color-base-white);}
+  .badge.risk-mod{background:var(--color-warning);color:var(--color-text-primary);}
+  .badge.risk-low{background:var(--color-success);color:var(--color-base-white);}
+  .badge.neutral{background:var(--color-sf-accent);color:var(--color-primary);}
+
+  .alertbox{border-radius:var(--radius-xl);padding:0.85rem 1.1rem;margin-top:0.85rem;font-weight:500;font-size:0.8125rem;line-height:1.6;}
+  .alertbox.warn{background:var(--color-sf-destructive);color:#8a241b;border:1px solid #f0b6ae;}
+  .alertbox.good{background:var(--color-sf-success);color:#1c5c33;border:1px solid #a9dcc0;}
+  .alertbox.info{background:var(--color-sf-info);color:var(--color-primary);border:1px solid #b7d0f0;}
+
+  .gaugewrap{margin-top:0.6rem;}
+  .gaugelabel{display:flex;justify-content:space-between;font-weight:600;font-size:0.8125rem;margin-bottom:0.35rem;}
+  .gaugetrack{background:rgba(255,255,255,.18);border-radius:999px;height:14px;overflow:hidden;}
+  .card:not(.navycard) .gaugetrack{background:var(--color-bg-quaternary);}
+  .gaugefill{background:var(--color-secondary);height:100%;border-radius:999px;transition:width .3s ease;}
+  .gaugefill.red{background:var(--color-destructive);}
+
+  .radiogroup{display:flex;flex-direction:column;gap:0.5rem;margin-bottom:0.85rem;}
+  .radiogroup label{display:flex;align-items:center;gap:0.6rem;font-weight:500;font-size:0.8125rem;background:var(--color-bg-tertiary);border-radius:var(--radius-lg);padding:0.6rem 0.85rem;cursor:pointer;margin-bottom:0;color:var(--color-text-primary);}
+  .radiogroup input{width:16px;height:16px;accent-color:var(--color-primary);}
+
+  .matrix3{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;max-width:280px;margin:0.85rem 0;}
+  .mcell{aspect-ratio:1;border-radius:var(--radius-md);background:var(--color-bg-tertiary);border:1px solid var(--color-border-primary);}
+  .matrixlabels{display:flex;justify-content:space-between;font-size:0.75rem;color:var(--color-text-secondary);font-weight:600;margin-top:0.25rem;}
+
+  .scoreline{font-size:0.8125rem;margin:0.2rem 0;}
+  .scoreline b{color:var(--color-primary);}
+  .card.navycard .scoreline b{color:var(--color-base-white);}
+
+  .resultgrid{display:grid;grid-template-columns:1fr 1fr;gap:0.4rem 0.9rem;margin-top:0.5rem;}
+
+  footer{background:var(--color-primary);color:var(--color-bg-quaternary);padding:1.25rem 0;font-size:0.75rem;flex:0 0 auto;}
+
+  @media (max-width:640px){ .card{padding:var(--spacing-md);} }
+  @media (prefers-reduced-motion: reduce){ *{transition:none !important;} }
+  @media print{
+    .topnav{display:none;}
+    .hero,.divider,.card.navycard,footer{background:var(--color-base-white) !important;color:var(--color-text-primary) !important;}
+    .page{display:block !important;}
+  }
+</style>
+</head>
+<body>
+
+<nav class="topnav" aria-label="Study session navigation">
+  <div class="inner">
+    <button class="navbtn active" data-page="title">Title</button>
+    <button class="navbtn" data-page="a1">Activity 1</button>
+    <button class="navbtn" data-page="a2">Activity 2</button>
+    <button class="navbtn" data-page="a3">Activity 3</button>
+    <button class="navbtn" data-page="a4">Activity 4</button>
+    <button class="navbtn" data-page="a5">Activity 5</button>
+    <button class="navbtn" data-page="a6">Activity 6</button>
+    <button class="navbtn" data-page="takeaways">Takeaways</button>
+  </div>
+</nav>
+
+<main class="main-scroll">
+<!-- TITLE PAGE -->
+<section class="page active" id="page-title">
+  <div class="hero">
+    <div class="inner page-viewer on-dark">
+      <div class="kicker">DBA 9101 · Study Session 3</div>
+      <h1>Systems and Contingency Theories, Decision-Making and Rationality</h1>
+      <p class="subtitle">Navigating Complexity, Environmental Fit, and Bounded Rationality in C-Suite Governance</p>
+      <nav class="pagenav" style="justify-content:flex-end;" aria-label="Section navigation">
+        <button class="navstep next" data-dir="next">Next ›</button>
+      </nav>
+    </div>
+  </div>
+</section>
+
+<!-- ACTIVITY 1 -->
+<section class="page" id="page-a1">
+  <div class="divider"><div class="inner"><span class="ghostnum">1</span><span class="label">Activity 1 · What-If Simulation</span></div></div>
+  <section class="content"><div class="inner">
+    <div class="grid2">
+      <div class="card stack-sm">
+        <div class="page-viewer"><p>Grounded in Burns &amp; Stalker and Lawrence &amp; Lorsch's contingency perspectives, model how misalignment between environmental turbulence and organisational structure creates friction, delay or decision paralysis.</p></div>
+        <div class="sliderrow"><label for="c1-e">Environmental Turbulence (E) — <span class="sv" id="c1-e-v">5</span></label><input type="range" id="c1-e" min="1" max="10" step="1" value="5"></div>
+        <div class="sliderrow"><label for="c1-s">Structural Formalisation (S) — <span class="sv" id="c1-s-v">8</span></label><input type="range" id="c1-s" min="1" max="10" step="1" value="8"></div>
+        <div class="sliderrow"><label for="c1-d">Decision Decentralisation (D) — <span class="sv" id="c1-d-v">3</span></label><input type="range" id="c1-d" min="1" max="10" step="1" value="3"></div>
+      </div>
+      <div class="card navycard stack-sm">
+        <h3>Live Indicators</h3>
+        <div class="gaugewrap"><div class="gaugelabel"><span>Fit Score (F)</span><span id="c1-f-v">0</span></div>
+          <div class="gaugetrack"><div class="gaugefill" id="c1-f-bar" style="width:0%"></div></div></div>
+        <div class="scoreline"><b>System Stress Index (SSI):</b> <span id="c1-ssi-v">0</span></div>
+        <div class="scoreline"><b>Strategic Agility Rating (SAR):</b> <span id="c1-sar-v">0</span></div>
+        <div id="c1-out" aria-live="polite"></div>
+      </div>
+    </div>
+    <nav class="pagenav" aria-label="Section navigation">
+      <button class="navstep prev" data-dir="prev">‹ Previous</button>
+      <button class="navstep next" data-dir="next">Next ›</button>
+    </nav>
+  </div></section>
+</section>
+
+<!-- ACTIVITY 2 -->
+<section class="page" id="page-a2">
+  <div class="divider"><div class="inner"><span class="ghostnum">2</span><span class="label">Activity 2 · Quantitative Analysis &amp; Calculation</span></div></div>
+  <section class="content"><div class="inner">
+    <div class="card stack">
+      <div class="page-viewer"><p>Herbert Simon's bounded rationality shows executives satisfice rather than exhaustively optimise. Calculate the financial trade-off between exhaustive search and a satisficing strategy under search-cost constraints.</p></div>
+
+      <div><label for="c2-n">Total Available Market Options (N)</label><input type="number" id="c2-n" min="10" max="500" value="200"></div>
+      <div><label for="c2-c">Search Cost per Option, USD (C)</label><input type="number" id="c2-c" min="50" max="1000" value="300"></div>
+      <div><label for="c2-v">Expected Gross Value per Option, USD (V)</label><input type="number" id="c2-v" min="100" max="5000" value="600"></div>
+      <div class="sliderrow">
+        <label for="c2-t">Satisficing Aspiration Threshold (T) — <span class="sv" id="c2-t-v">80%</span></label>
+        <input type="range" id="c2-t" min="50" max="95" step="5" value="80">
+      </div>
+
+      <button class="primary" id="c2-btn">Run Economic Rationality Analysis</button>
+      <div id="c2-out" aria-live="polite"></div>
+    </div>
+    <nav class="pagenav" aria-label="Section navigation">
+      <button class="navstep prev" data-dir="prev">‹ Previous</button>
+      <button class="navstep next" data-dir="next">Next ›</button>
+    </nav>
+  </div></section>
+</section>
+
+<!-- ACTIVITY 3 -->
+<section class="page" id="page-a3">
+  <div class="divider"><div class="inner"><span class="ghostnum">3</span><span class="label">Activity 3 · Risk &amp; Decision Analysis</span></div></div>
+  <section class="content"><div class="inner">
+    <div class="card stack">
+      <div class="page-viewer"><p>Garbage-can decision-making (Cohen, March &amp; Olsen) lets problems, solutions, participants and choices flow independently. Combine a stream-alignment pattern with a prevailing cognitive bias to evaluate governance risk.</p></div>
+
+      <div>
+        <label for="c3-stream">Stream Alignment Focus</label>
+        <select id="c3-stream">
+          <option value="problems">Problems Looking for Solutions</option>
+          <option value="choice">Choice Opportunities Looking for Problems</option>
+          <option value="participants">Participants Seeking Decision Arenas</option>
+          <option value="solutions" selected>Solutions Looking for Problems</option>
+        </select>
+      </div>
+      <div>
+        <label for="c3-bias">Predominant Cognitive Bias</label>
+        <select id="c3-bias">
+          <option value="availability">Availability Heuristic</option>
+          <option value="confirmation">Confirmation Bias</option>
+          <option value="sunkcost">Sunk Cost Fallacy</option>
+          <option value="groupthink" selected>Groupthink</option>
+        </select>
+      </div>
+      <div class="sliderrow">
+        <label for="c3-tc">Executive Time Constraint (TC) — <span class="sv" id="c3-tc-v">3</span></label>
+        <input type="range" id="c3-tc" min="1" max="5" step="1" value="3">
+      </div>
+
+      <button class="primary" id="c3-btn">Evaluate Governance Risk Matrix</button>
+      <div class="matrix3" id="c3-matrix" aria-hidden="true"></div>
+      <div class="matrixlabels"><span>Rational → Garbage Can</span><span>Risk severity ↑</span></div>
+      <div id="c3-out" aria-live="polite"></div>
+    </div>
+    <nav class="pagenav" aria-label="Section navigation">
+      <button class="navstep prev" data-dir="prev">‹ Previous</button>
+      <button class="navstep next" data-dir="next">Next ›</button>
+    </nav>
+  </div></section>
+</section>
+
+<!-- ACTIVITY 4 -->
+<section class="page" id="page-a4">
+  <div class="divider"><div class="inner"><span class="ghostnum">4</span><span class="label">Activity 4 · Practitioner Lens / Multi-Perspective Analysis</span></div></div>
+  <section class="content"><div class="inner">
+    <div class="card stack">
+      <div class="page-viewer"><p>A workforce-monitoring software rollout (Digital Taylorism) is interpreted differently across the C-suite. Evaluate it through a chosen executive lens against four diagnostic hypotheses.</p></div>
+
+      <div>
+        <label for="c4-lens">C-Suite Executive Lens</label>
+        <select id="c4-lens">
+          <option value="">Select a lens…</option>
+          <option value="CEO">Chief Executive Officer (CEO)</option>
+          <option value="CFO">Chief Financial Officer (CFO)</option>
+          <option value="CIO">Chief Information Officer (CIO)</option>
+          <option value="CRO">Chief Risk Officer (CRO)</option>
+          <option value="HRD">Human Resources Director (HRD)</option>
+        </select>
+      </div>
+
+      <div class="radiogroup" role="radiogroup" aria-label="Diagnostic hypothesis">
+        <label><input type="radio" name="c4-hyp" value="A"> A: Open-System Sub-system Friction (Human–Technology Mismatch)</label>
+        <label><input type="radio" name="c4-hyp" value="B"> B: Bounded Rationality and Information Asymmetry</label>
+        <label><input type="radio" name="c4-hyp" value="C"> C: Escalation of Commitment (Sunk Cost Biases)</label>
+        <label><input type="radio" name="c4-hyp" value="D"> D: Strategic Contingency Mismatch (Structure–Environment Drift)</label>
+      </div>
+
+      <div>
+        <label for="c4-just">Executive Reasoning and Mitigation Synthesis (minimum 50 words) — <span id="c4-wc">0</span> words</label>
+        <textarea id="c4-just"></textarea>
+      </div>
+
+      <button class="primary" id="c4-btn" disabled>Evaluate Role Perspective</button>
+      <div id="c4-out" aria-live="polite"></div>
+    </div>
+    <nav class="pagenav" aria-label="Section navigation">
+      <button class="navstep prev" data-dir="prev">‹ Previous</button>
+      <button class="navstep next" data-dir="next">Next ›</button>
+    </nav>
+  </div></section>
+</section>
+
+<!-- ACTIVITY 5 -->
+<section class="page" id="page-a5">
+  <div class="divider"><div class="inner"><span class="ghostnum">5</span><span class="label">Activity 5 · Scenario-Based Decision Analysis</span></div></div>
+  <section class="content"><div class="inner">
+    <div class="grid2">
+      <div class="card stack-sm">
+        <div class="page-viewer"><p>A sudden supply-chain disruption and regulatory shift has hit your organisation. Navigate the structural crisis while balancing internal integration with external boundary spanning.</p></div>
+        <label>Node 1 — Strategic Response</label>
+        <div class="radiogroup" role="radiogroup" aria-label="Node 1 choice">
+          <label><input type="radio" name="c5-1" value="A"> 1A: Centralise operational decisions</label>
+          <label><input type="radio" name="c5-1" value="B"> 1B: Decentralise to regional, boundary-spanning teams</label>
+          <label><input type="radio" name="c5-1" value="C"> 1C: Buffer the core system (expand inventory reserves)</label>
+        </div>
+        <div id="c5-node2-wrap" style="display:none;">
+          <label>Node 2 — Structural Alignment</label>
+          <div class="radiogroup" role="radiogroup" aria-label="Node 2 choice">
+            <label><input type="radio" name="c5-2" value="A"> 2A: Integrative Coordination Committees</label>
+            <label><input type="radio" name="c5-2" value="B"> 2B: Total Autonomy</label>
+          </div>
+        </div>
+      </div>
+      <div class="card navycard stack-sm">
+        <h3>Live Metrics</h3>
+        <div class="gaugewrap"><div class="gaugelabel"><span>Organisational Resilience (ORS)</span><span id="c5-ors-v">50</span></div>
+          <div class="gaugetrack"><div class="gaugefill" id="c5-ors-bar" style="width:50%"></div></div></div>
+        <div class="gaugewrap"><div class="gaugelabel"><span>System Interdependence (SII)</span><span id="c5-sii-v">50</span></div>
+          <div class="gaugetrack"><div class="gaugefill" id="c5-sii-bar" style="width:50%"></div></div></div>
+        <div class="gaugewrap"><div class="gaugelabel"><span>Boundary-Spanning Capacity (BSC)</span><span id="c5-bsc-v">50</span></div>
+          <div class="gaugetrack"><div class="gaugefill" id="c5-bsc-bar" style="width:50%"></div></div></div>
+        <div id="c5-out" aria-live="polite"></div>
+      </div>
+    </div>
+    <nav class="pagenav" aria-label="Section navigation">
+      <button class="navstep prev" data-dir="prev">‹ Previous</button>
+      <button class="navstep next" data-dir="next">Next ›</button>
+    </nav>
+  </div></section>
+</section>
+
+<!-- ACTIVITY 6 -->
+<section class="page" id="page-a6">
+  <div class="divider"><div class="inner"><span class="ghostnum">6</span><span class="label">Activity 6 · Knowledge &amp; Critical-Claim Checks</span></div></div>
+  <section class="content"><div class="inner">
+    <div class="card stack" id="c6-form">
+      <div class="stack-sm">
+        <h3>Claim 1</h3>
+        <div class="page-viewer"><p>"Herbert Simon's bounded rationality asserts that managers choose satisficing options primarily because of emotional instability and irrational cognitive biases."</p></div>
+        <div class="radiogroup" role="radiogroup" aria-label="Claim 1"><label><input type="radio" name="c6-1" value="True"> True</label><label><input type="radio" name="c6-1" value="False"> False</label></div>
+        <label for="c6-j1">Theoretical Reasoning (minimum 40 characters) — <span id="c6-cc1">0</span> characters</label>
+        <textarea id="c6-j1"></textarea>
+      </div>
+      <div class="stack-sm">
+        <h3>Claim 2</h3>
+        <div class="page-viewer"><p>"Burns and Stalker's contingency theory proves that organic management systems are universally superior to mechanistic systems in driving firm performance."</p></div>
+        <div class="radiogroup" role="radiogroup" aria-label="Claim 2"><label><input type="radio" name="c6-2" value="True"> True</label><label><input type="radio" name="c6-2" value="False"> False</label></div>
+        <label for="c6-j2">Theoretical Reasoning (minimum 40 characters) — <span id="c6-cc2">0</span> characters</label>
+        <textarea id="c6-j2"></textarea>
+      </div>
+      <div class="stack-sm">
+        <h3>Claim 3</h3>
+        <div class="page-viewer"><p>"The Garbage Can Model demonstrates that organisational decisions result from structured, step-by-step rational planning."</p></div>
+        <div class="radiogroup" role="radiogroup" aria-label="Claim 3"><label><input type="radio" name="c6-3" value="True"> True</label><label><input type="radio" name="c6-3" value="False"> False</label></div>
+        <label for="c6-j3">Theoretical Reasoning (minimum 40 characters) — <span id="c6-cc3">0</span> characters</label>
+        <textarea id="c6-j3"></textarea>
+      </div>
+      <button class="primary" id="c6-btn">Submit Critical Evaluations</button>
+      <div id="c6-out" aria-live="polite"></div>
+    </div>
+    <nav class="pagenav" aria-label="Section navigation">
+      <button class="navstep prev" data-dir="prev">‹ Previous</button>
+      <button class="navstep next" data-dir="next">Next ›</button>
+    </nav>
+  </div></section>
+</section>
+
+<!-- TAKEAWAYS -->
+<section class="page" id="page-takeaways">
+  <div class="divider"><div class="inner"><span class="ghostnum">✓</span><span class="label">Final Key Takeaways</span></div></div>
+  <section class="content"><div class="inner grid2">
+    <div class="card">
+      <h3>Executive Summary</h3>
+      <div class="page-viewer"><p>There is no universal best way to lead an organisation: operational success requires aligning structural formalisation and decision rights with environmental volatility. Classical assumptions of complete rationality are unachievable in real-world governance; under incomplete information, time constraints and finite processing capacity, executives must rely on satisficing strategies, dynamic heuristics and explicit problem-solution alignment to prevent friction, bias and garbage-can decision failures.</p></div>
+    </div>
+    <div class="card navycard">
+      <h3>Practitioner Action Items</h3>
+      <div class="page-viewer on-dark">
+        <ul>
+          <li><strong>Conduct Contingency Alignment Audits:</strong> evaluate your structure against external turbulence; keep dynamic units organic while stabilising core compliance functions with standardised routines.</li>
+          <li><strong>Institutionalise Satisficing Thresholds:</strong> set explicit operational criteria to avoid excessive search when costs outweigh incremental gains.</li>
+          <li><strong>Mitigate Garbage-Can Governance Risks:</strong> decouple vendor or executive solutions from strategic problem definitions; require evidence-based diagnostics before allocating capital.</li>
+          <li><strong>Design Systems for High Interdependence:</strong> map sub-system linkages across technology, people and workflow before initiating transformation.</li>
+          <li><strong>Cultivate Epistemic Humility:</strong> recognise sunk-cost and groupthink biases in C-suite decisions, and create psychologically safe channels for dissent.</li>
+        </ul>
+      </div>
+    </div>
+  </div></section>
+  <div class="inner">
+    <nav class="pagenav" style="justify-content:flex-start;" aria-label="Section navigation">
+      <button class="navstep prev" data-dir="prev">‹ Previous</button>
+    </nav>
+  </div>
+</section>
+</main>
+
+<footer><div class="inner">DBA 9101 · Study Session 3 · Highlight</div></footer>
+
+<script>
+function wordCount(str){ return str.trim().length ? str.trim().split(/\s+/).length : 0; }
+function clamp(x){ return Math.min(100, Math.max(0, x)); }
+
+// ---------- page navigation ----------
+const PAGES = [
+  {id:'title', label:'Title'},
+  {id:'a1', label:'Activity 1'},
+  {id:'a2', label:'Activity 2'},
+  {id:'a3', label:'Activity 3'},
+  {id:'a4', label:'Activity 4'},
+  {id:'a5', label:'Activity 5'},
+  {id:'a6', label:'Activity 6'},
+  {id:'takeaways', label:'Takeaways'}
+];
+function activatePage(id){
+  const idx = PAGES.findIndex(p=>p.id===id);
+  if(idx===-1) return;
+  document.querySelectorAll('.navbtn').forEach(b=>b.classList.toggle('active', b.dataset.page===id));
+  document.querySelectorAll('.page').forEach(p=>p.classList.toggle('active', p.id==='page-'+id));
+  const prevPage=PAGES[idx-1], nextPage=PAGES[idx+1];
+  document.querySelectorAll('.navstep.prev').forEach(btn=>{
+    btn.disabled=!prevPage;
+    btn.setAttribute('aria-label', prevPage?`Go to previous section: ${prevPage.label}`:'No previous section');
+  });
+  document.querySelectorAll('.navstep.next').forEach(btn=>{
+    btn.disabled=!nextPage;
+    btn.setAttribute('aria-label', nextPage?`Go to next section: ${nextPage.label}`:'No next section');
+  });
+  const scroller=document.querySelector('.main-scroll');
+  if(scroller) scroller.scrollTop=0;
+}
+document.querySelectorAll('.navbtn').forEach(btn=>btn.addEventListener('click',()=>activatePage(btn.dataset.page)));
+document.querySelectorAll('.navstep').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const current=document.querySelector('.page.active').id.replace('page-','');
+    const idx=PAGES.findIndex(p=>p.id===current);
+    const targetIdx = btn.dataset.dir==='prev'?idx-1:idx+1;
+    if(targetIdx>=0 && targetIdx<PAGES.length) activatePage(PAGES[targetIdx].id);
+  });
+});
+activatePage('title');
+
+// ---------- Activity 1 : contingency fit ----------
+const c1e=document.getElementById('c1-e'), c1s=document.getElementById('c1-s'), c1d=document.getElementById('c1-d');
+function c1calc(){
+  const E=+c1e.value, S=+c1s.value, D=+c1d.value;
+  document.getElementById('c1-e-v').textContent=E;
+  document.getElementById('c1-s-v').textContent=S;
+  document.getElementById('c1-d-v').textContent=D;
+
+  const Sopt=11-E, Dopt=E;
+  const Ps=Math.abs(S-Sopt), Pd=Math.abs(D-Dopt);
+  const F=Math.max(0,100-(Ps*6+Pd*6));
+  const SSI=(E*S)/D;
+  const SAR=Math.max(0,100-(E*5)+(D*5)-(S*3));
+
+  document.getElementById('c1-f-v').textContent=F.toFixed(1);
+  document.getElementById('c1-f-bar').style.width=Math.min(100,F)+'%';
+  document.getElementById('c1-ssi-v').textContent=SSI.toFixed(1);
+  document.getElementById('c1-sar-v').textContent=SAR.toFixed(1);
+
+  let state, cls;
+  if(F>=80){ state='Optimal Contingency Alignment (Organic-Dynamic or Mechanistic-Stable Fit)'; cls='good'; }
+  else if(F>=50){ state='Sub-Optimal Alignment (Structural Friction and Operational Delays)'; cls='info'; }
+  else { state='Critical Mismatch Alert (High Vulnerability to External Shocks)'; cls='warn'; }
+
+  let feedback = F>=80
+    ? 'Your structural configuration achieves high contingency fit. By aligning decentralisation with environmental turbulence, your organisation preserves boundary-spanning capacity while mitigating sub-system friction.'
+    : (F<50
+      ? `Critical structural mismatch detected. Operating in a turbulent environment with high formalisation and low decentralisation forces decision-makers into reactive bottlenecks. To restore balance, reduce formalisation or delegate decision rights to frontline operational units.`
+      : 'Partial fit: some friction is likely at the margins. Nudge formalisation and decentralisation closer to the turbulence-implied optimum to close the remaining gap.');
+
+  let extra = (E>=7 && S>=7) ? `<div class="alertbox warn">Bureaucratic Paralysis Warning: high environmental turbulence coupled with rigid formalisation causes critical decision bottlenecks.</div>` : '';
+
+  document.getElementById('c1-out').innerHTML = `<div class="alertbox ${cls}"><b>${state}</b><p style="margin-top:6px;">${feedback}</p></div>${extra}`;
+}
+[c1e,c1s,c1d].forEach(el=>el.addEventListener('input',c1calc));
+c1calc();
+
+// ---------- Activity 2 : bounded rationality ----------
+const c2n=document.getElementById('c2-n'), c2c=document.getElementById('c2-c'), c2v=document.getElementById('c2-v'), c2t=document.getElementById('c2-t');
+c2t.addEventListener('input',()=>document.getElementById('c2-t-v').textContent=c2t.value+'%');
+document.getElementById('c2-btn').addEventListener('click',()=>{
+  const N=+c2n.value, C=+c2c.value, V=+c2v.value, T=+c2t.value;
+  const CostOpt=N*C;
+  const ValueOpt=N*V*0.5;
+  const NVopt=ValueOpt-CostOpt;
+  const Nsat=Math.round(N*(1-T/100)+1);
+  const CostSat=Nsat*C;
+  const ValueSat=(T/100)*(N*V*0.5);
+  const NVsat=ValueSat-CostSat;
+  const DER = NVopt!==0 ? (NVsat/NVopt)*100 : NaN;
+
+  const mainMsg = NVsat>NVopt
+    ? `Bounded Rationality Validated: satisficing yields superior net economic returns by eliminating cognitive and search friction. Exhaustive evaluation of all ${N} options consumes capital faster than it generates incremental value; a satisficing strategy meeting a ${T}% threshold maximises net organisational utility.`
+    : `Optimisation Feasible: low search costs allow exhaustive analysis, though real-world cognitive limits may still constrain execution.`;
+  const negMsg = NVopt<0 ? `<div class="alertbox warn">Warning: exhaustive search costs exceed total expected gross value. Operating under classical optimisation assumptions in complex environments results in value destruction. Executives must set explicit satisficing criteria to preserve capital.</div>` : '';
+
+  document.getElementById('c2-out').innerHTML = `
+    <div class="resultgrid">
+      <div class="scoreline"><b>Exhaustive Search Cost:</b> $${CostOpt.toLocaleString()}</div>
+      <div class="scoreline"><b>Net Classical Utility:</b> $${NVopt.toLocaleString()}</div>
+      <div class="scoreline"><b>Options Searched (satisficing):</b> ${Nsat}</div>
+      <div class="scoreline"><b>Net Satisficing Utility:</b> $${NVsat.toLocaleString()}</div>
+      <div class="scoreline"><b>Decision Efficiency Ratio:</b> ${isNaN(DER)?'n/a':DER.toFixed(1)+'%'}</div>
+    </div>
+    <div class="alertbox ${NVsat>NVopt?'good':'info'}">${mainMsg}</div>
+    ${negMsg}`;
+});
+
+// ---------- Activity 3 : garbage-can ----------
+const Sw={problems:10, choice:15, participants:25, solutions:30};
+const Bw={availability:15, confirmation:20, sunkcost:30, groupthink:35};
+const streamLabels={problems:'Problems Looking for Solutions', choice:'Choice Opportunities Looking for Problems', participants:'Participants Seeking Decision Arenas', solutions:'Solutions Looking for Problems'};
+const biasLabels={availability:'Availability Heuristic', confirmation:'Confirmation Bias', sunkcost:'Sunk Cost Fallacy', groupthink:'Groupthink'};
+document.getElementById('c3-tc').addEventListener('input',()=>document.getElementById('c3-tc-v').textContent=document.getElementById('c3-tc').value);
+document.getElementById('c3-btn').addEventListener('click',()=>{
+  const sVal=document.getElementById('c3-stream').value, bVal=document.getElementById('c3-bias').value, TC=+document.getElementById('c3-tc').value;
+  const RI = TC*10 + Sw[sVal] + Bw[bVal];
+  let row,col,color,label,diag,cls;
+  if(RI<45){ row=1;col=1; color='var(--color-success)'; label='Rational Problem-Solution Pairing'; cls='good';
+    diag='Rational Problem-Solution Pairing: your selections align with grounded, evidence-based decision-making, keeping governance risk low.'; }
+  else if(RI<70){ row=2;col=2; color='var(--color-warning)'; label='Decision by Flight or Oversight'; cls='info';
+    diag='Decision by Flight/Oversight: the organisation is resolving issues by avoiding core conflict or passing decision responsibility to unaligned committees. Ensure clear problem-solution alignment before committing capital.'; }
+  else { row=3;col=3; color='var(--color-destructive)'; label='Garbage Can Failure (Irrational Choice Dumping)'; cls='warn';
+    diag=`Governance Failure Imminent. Pairing '${streamLabels[sVal]}' with '${biasLabels[bVal]}' under tight time constraints creates a classic Garbage Can outcome. Mitigate by decoupling solution selection from strategic problem definition.`; }
+
+  const gridEl=document.getElementById('c3-matrix');
+  gridEl.innerHTML='';
+  for(let r=3;r>=1;r--){
+    for(let c=1;c<=3;c++){
+      const cell=document.createElement('div');
+      cell.className='mcell';
+      if(r===row && c===col){ cell.style.background=color; cell.style.borderColor=color; }
+      gridEl.appendChild(cell);
+    }
+  }
+  document.getElementById('c3-out').innerHTML = `<div class="alertbox ${cls}"><div class="scoreline"><b>Risk Index (RI):</b> ${RI} — ${label}</div><p style="margin-top:6px;">${diag}</p></div>`;
+});
+
+// ---------- Activity 4 : practitioner lens ----------
+const roleMatrix={ CEO:{primary:'D',secondary:'A'}, CFO:{primary:'C',secondary:'B'}, CIO:{primary:'B',secondary:'A'}, CRO:{primary:'B',secondary:'D'}, HRD:{primary:'A',secondary:'D'} };
+const hypLabels={A:'Open-System Sub-system Friction', B:'Bounded Rationality and Information Asymmetry', C:'Escalation of Commitment (Sunk Cost Biases)', D:'Strategic Contingency Mismatch'};
+function c4sync(){
+  document.getElementById('c4-wc').textContent=wordCount(document.getElementById('c4-just').value);
+  const lens=document.getElementById('c4-lens').value;
+  const hyp=document.querySelector('input[name=c4-hyp]:checked');
+  document.getElementById('c4-btn').disabled = !(lens && hyp);
+}
+document.getElementById('c4-lens').addEventListener('change',c4sync);
+document.querySelectorAll('input[name=c4-hyp]').forEach(r=>r.addEventListener('change',c4sync));
+document.getElementById('c4-just').addEventListener('input',c4sync);
+c4sync();
+document.getElementById('c4-btn').addEventListener('click',()=>{
+  const wc=wordCount(document.getElementById('c4-just').value);
+  if(wc<50){ document.getElementById('c4-out').innerHTML = `<div class="alertbox warn">Executive synthesis incomplete. Please elaborate on your theoretical justification (minimum 50 words).</div>`; return; }
+  const lens=document.getElementById('c4-lens').value;
+  const hyp=document.querySelector('input[name=c4-hyp]:checked').value;
+  const role=roleMatrix[lens];
+  let pct,label;
+  if(hyp===role.primary){ pct=100; label='Primary Match'; }
+  else if(hyp===role.secondary){ pct=75; label='Secondary Match'; }
+  else { pct=0; label='No Defined Match'; }
+  const optimal = (lens==='CFO' && hyp==='C')
+    ? `<div class="alertbox good">Correct Alignment. From the CFO perspective, project failure is frequently prolonged by escalation of commitment. Sunk cost fallacies lead boards to misinterpret past investments as justifications for continued funding rather than evaluating future net marginal utility.</div>` : '';
+  document.getElementById('c4-out').innerHTML = `
+    <div class="alertbox ${pct>=75?'good':(pct===0?'warn':'info')}"><div class="scoreline"><b>${lens} lens vs. Hypothesis ${hyp} (${hypLabels[hyp]}):</b> ${label} (${pct}%)</div></div>
+    ${optimal}
+    <div class="alertbox info">Cross-Lens Insight: while the CFO identifies escalation of commitment, an HRD lens reveals that open-system sub-system friction (employee resistance and skill deficits) was the primary cause of poor adoption. Comprehensive executive leadership requires integrating structural, behavioural and financial perspectives.</div>`;
+});
+
+// ---------- Activity 5 : supply chain scenario ----------
+const c5Base = { A:{ors:-10,sii:25,bsc:-20}, B:{ors:25,sii:-10,bsc:30}, C:{ors:5,sii:10,bsc:-10} };
+const c5Node2 = { A2A:{ors:20,sii:20}, A2B:{ors:-15,sii:-30} }; // only apply when Node1 = B
+function c5render(ors,sii,bsc){
+  document.getElementById('c5-ors-v').textContent=ors.toFixed(0);
+  document.getElementById('c5-sii-v').textContent=sii.toFixed(0);
+  document.getElementById('c5-bsc-v').textContent=bsc.toFixed(0);
+  document.getElementById('c5-ors-bar').style.width=Math.min(100,Math.max(0,ors))+'%';
+  document.getElementById('c5-sii-bar').style.width=Math.min(100,Math.max(0,sii))+'%';
+  document.getElementById('c5-bsc-bar').style.width=Math.min(100,Math.max(0,bsc))+'%';
+}
+function c5evaluate(){
+  const n1 = document.querySelector('input[name=c5-1]:checked');
+  document.getElementById('c5-node2-wrap').style.display='none';
+  document.getElementById('c5-out').innerHTML='';
+  if(!n1){ c5render(50,50,50); return; }
+  const base=c5Base[n1.value];
+  let ors=50+base.ors, sii=50+base.sii, bsc=50+base.bsc;
+
+  if(n1.value==='B'){
+    document.getElementById('c5-node2-wrap').style.display='block';
+    const n2=document.querySelector('input[name=c5-2]:checked');
+    if(n2){
+      const mod=c5Node2['A2'+n2.value];
+      ors+=mod.ors; sii+=mod.sii;
+    }
+  }
+  c5render(ors,sii,bsc);
+
+  let cls,msg;
+  if(ors>=85){ cls='good'; msg=`Exceptional Leadership Judgement. Your combination maintained high boundary-spanning capacity (BSC ${bsc.toFixed(0)}) with strong system interdependence (SII ${sii.toFixed(0)}). Final Resilience Score (ORS ${ors.toFixed(0)}) reflects optimal structural alignment.`; }
+  else if(ors>=50){ cls='info'; msg=`Adequate resilience: ORS ${ors.toFixed(0)}. There is room to improve the balance between boundary-spanning capacity and system interdependence — consider whether your Node 2 choice reinforces or undercuts Node 1's intent.`; }
+  else { cls='warn'; msg=`Structural Failure. This path reduced boundary-spanning capacity (BSC ${bsc.toFixed(0)}) and created decision bottlenecks; the core system became rigid and vulnerable to environmental shocks (ORS ${ors.toFixed(0)}).`; }
+  document.getElementById('c5-out').innerHTML = `<div class="alertbox ${cls}">${msg}</div>`;
+}
+document.querySelectorAll('input[name=c5-1], input[name=c5-2]').forEach(r=>r.addEventListener('change',c5evaluate));
+c5render(50,50,50);
+
+// ---------- Activity 6 : true/false claims ----------
+const c6claims = {
+  1:{ correct:'False', key:"Bounded rationality stems from structural constraints (incomplete information, time limitations, finite cognitive capacity), not emotional instability." },
+  2:{ correct:'False', key:"Contingency theory asserts there is no single best way to organise. Mechanistic systems excel in stable, predictable environments; organic systems fit dynamic, changing environments." },
+  3:{ correct:'False', key:"The Garbage Can Model depicts decision-making in highly ambiguous environments as a stochastic pairing of independent streams (problems, solutions, participants, choice opportunities)." }
+};
+function c6sync(){
+  for(let i=1;i<=3;i++){ document.getElementById('c6-cc'+i).textContent = document.getElementById('c6-j'+i).value.trim().length; }
+}
+document.querySelectorAll('#c6-form textarea').forEach(t=>t.addEventListener('input',c6sync));
+c6sync();
+document.getElementById('c6-btn').addEventListener('click',()=>{
+  let allCorrect=true, rows=[];
+  for(let i=1;i<=3;i++){
+    const sel=document.querySelector(`input[name=c6-${i}]:checked`);
+    const text=document.getElementById('c6-j'+i).value;
+    const correct = sel && sel.value===c6claims[i].correct && text.trim().length>=40;
+    if(!correct) allCorrect=false;
+    rows.push(`<div class="scoreline"><b>Claim ${i}:</b> ${correct?'Correct':'Review'} — ${c6claims[i].key}</div>`);
+  }
+  document.getElementById('c6-out').innerHTML = `
+    <div class="alertbox ${allCorrect?'good':'info'}">
+      <b>${allCorrect?'Comprehensive Mastery':'Review Theoretical Foundations'}</b>
+      <p style="margin-top:6px;">${allCorrect
+        ? 'You demonstrated doctoral-level understanding across all three claims.'
+        : 'Remember that classification alone is not enough: correctness also requires a reasoned justification of at least 40 characters.'}</p>
+      ${rows.join('')}
+    </div>`;
+});
+</script>
+</body>
+</html>

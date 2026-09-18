@@ -317,21 +317,41 @@
 
 <!-- ACTIVITY 2 -->
 <section class="page" id="page-a2">
-  <div class="divider"><div class="inner"><span class="ghostnum">2</span><span class="label">Activity 2 · Quantitative Analysis &amp; Calculation</span></div></div>
+  <div class="divider"><div class="inner"><span class="ghostnum">2</span><span class="label">Activity 2 · Scenario-Based Decision Analysis</span></div></div>
   <section class="content"><div class="inner">
-    <div class="card stack">
-      <div class="page-viewer"><p>Herbert Simon's bounded rationality shows executives satisfice rather than exhaustively optimise. Calculate the financial trade-off between exhaustive search and a satisficing strategy under search-cost constraints.</p></div>
+    <div class="grid2">
+      <div class="card stack-sm">
+        <div class="page-viewer"><p>As the new Managing Director of a state-owned public utility, frontline staff show low psychological safety and middle management relies on informal, paternalistic authority to bypass formal procedure. Navigate the reform without destroying trust or triggering strike action.</p></div>
 
-      <div><label for="b2-n">Total Available Market Options (N)</label><input type="number" id="b2-n" min="10" max="500" value="200"></div>
-      <div><label for="b2-c">Search Cost per Option, USD (C)</label><input type="number" id="b2-c" min="50" max="1000" value="300"></div>
-      <div><label for="b2-v">Expected Gross Value per Option, USD (V)</label><input type="number" id="b2-v" min="100" max="5000" value="600"></div>
-      <div class="sliderrow">
-        <label for="b2-t">Satisficing Aspiration Threshold (T) — <span class="sv" id="b2-t-v">80%</span></label>
-        <input type="range" id="b2-t" min="50" max="95" step="5" value="80">
+        <label>Stage 1 — Opening Intervention</label>
+        <div class="radiogroup" role="radiogroup" aria-label="Stage 1 choice">
+          <label><input type="radio" name="s2-1" value="A1"> A1: Strict Weberian Enforcement</label>
+          <label><input type="radio" name="s2-1" value="B1"> B1: Participatory Diagnostic</label>
+          <label><input type="radio" name="s2-1" value="C1"> C1: Paternalistic Engagement</label>
+        </div>
+
+        <div id="s2-stage2-wrap" style="display:none;">
+          <label>Stage 2 — Follow-Through</label>
+          <div class="radiogroup" id="s2-stage2-A" style="display:none;" role="radiogroup" aria-label="Stage 2, following A1">
+            <label><input type="radio" name="s2-2" value="A2"> A2: Digital Taylorism (biometric tracking)</label>
+            <label><input type="radio" name="s2-2" value="B2"> B2: Pivot to Likert's Participatory Management</label>
+          </div>
+          <div class="radiogroup" id="s2-stage2-B" style="display:none;" role="radiogroup" aria-label="Stage 2, following B1">
+            <label><input type="radio" name="s2-2" value="A2"> A2: Integrate informal leaders (Follett's co-optation)</label>
+            <label><input type="radio" name="s2-2" value="B2"> B2: Override informal authority with external technical hires</label>
+          </div>
+        </div>
       </div>
-
-      <button class="primary" id="b2-btn">Run Economic Rationality Analysis</button>
-      <div id="b2-out" aria-live="polite"></div>
+      <div class="card navycard stack-sm">
+        <h3>Live Metrics</h3>
+        <div class="gaugewrap"><div class="gaugelabel"><span>Structural Compliance</span><span id="s2-comp-v">50</span></div>
+          <div class="gaugetrack"><div class="gaugefill" id="s2-comp-bar" style="width:50%"></div></div></div>
+        <div class="gaugewrap"><div class="gaugelabel"><span>Psychological Safety</span><span id="s2-safe-v">50</span></div>
+          <div class="gaugetrack"><div class="gaugefill" id="s2-safe-bar" style="width:50%"></div></div></div>
+        <div class="gaugewrap"><div class="gaugelabel"><span>Political / Informal Legitimacy</span><span id="s2-leg-v">50</span></div>
+          <div class="gaugetrack"><div class="gaugefill" id="s2-leg-bar" style="width:50%"></div></div></div>
+        <div id="s2-out" aria-live="polite"></div>
+      </div>
     </div>
     <nav class="pagenav" aria-label="Section navigation">
       <button class="navstep prev" data-dir="prev">‹ Previous</button>
@@ -345,36 +365,29 @@
   <div class="divider"><div class="inner"><span class="ghostnum">3</span><span class="label">Activity 3 · Risk &amp; Decision Analysis</span></div></div>
   <section class="content"><div class="inner">
     <div class="card stack">
-      <div class="page-viewer"><p>Garbage-can decision-making (Cohen, March &amp; Olsen) lets problems, solutions, participants and choices flow independently. Combine a stream-alignment pattern with a prevailing cognitive bias to evaluate governance risk.</p></div>
+      <div class="page-viewer"><p>Classical bureaucracy introduces red-tape delay and defensive decision-making; unstructured human relations risks role ambiguity. Assess a control mechanism's risk across three institutional settings.</p></div>
 
       <div>
-        <label for="b3-stream">Stream Alignment Focus</label>
-        <select id="b3-stream">
-          <option value="problems">Problems Looking for Solutions</option>
-          <option value="choice">Choice Opportunities Looking for Problems</option>
-          <option value="participants">Participants Seeking Decision Arenas</option>
-          <option value="solutions" selected>Solutions Looking for Problems</option>
+        <label for="s3-sector">Sector Context</label>
+        <select id="s3-sector">
+          <option value="bank">Commercial Bank</option>
+          <option value="ministry">Public Sector Ministry</option>
+          <option value="academic">Academic Institution</option>
         </select>
       </div>
       <div>
-        <label for="b3-bias">Predominant Cognitive Bias</label>
-        <select id="b3-bias">
-          <option value="availability">Availability Heuristic</option>
-          <option value="confirmation">Confirmation Bias</option>
-          <option value="sunkcost">Sunk Cost Fallacy</option>
-          <option value="groupthink" selected>Groupthink</option>
+        <label for="s3-mech">Control Mechanism</label>
+        <select id="s3-mech">
+          <option value="biometric">Strict Biometric Performance Tracking (Taylorism)</option>
+          <option value="approvals">Multi-Tiered Centralised Approval Sign-Offs (Weberian)</option>
+          <option value="paternalistic">Informal Paternalistic Conflict Resolution</option>
+          <option value="discretion">Unstructured Frontline Discretion (Theory Y)</option>
         </select>
       </div>
-      <div class="sliderrow">
-        <label for="b3-tc">Executive Time Constraint (TC) — <span class="sv" id="b3-tc-v">3</span></label>
-        <input type="range" id="b3-tc" min="1" max="5" step="1" value="3">
-      </div>
 
-      <button class="primary" id="b3-btn">Evaluate Governance Risk Matrix</button>
-
-      <div class="matrix3" id="b3-matrix" aria-hidden="true"></div>
-      <div class="matrixlabels"><span>Rational → Garbage Can</span><span>Risk severity ↑</span></div>
-      <div id="b3-out" aria-live="polite"></div>
+      <div class="matrix3" id="s3-matrix" aria-hidden="true"></div>
+      <div class="matrixlabels"><span>Likelihood: Low → High</span><span>Impact: Minor → Catastrophic ↑</span></div>
+      <div id="s3-out" aria-live="polite"></div>
     </div>
     <nav class="pagenav" aria-label="Section navigation">
       <button class="navstep prev" data-dir="prev">‹ Previous</button>
@@ -388,34 +401,45 @@
   <div class="divider"><div class="inner"><span class="ghostnum">4</span><span class="label">Activity 4 · Practitioner Lens / Multi-Perspective Analysis</span></div></div>
   <section class="content"><div class="inner">
     <div class="card stack">
-      <div class="page-viewer"><p>A workforce-monitoring software rollout (Digital Taylorism) is interpreted differently across the C-suite. Evaluate it through a chosen executive lens against four diagnostic hypotheses.</p></div>
+      <div class="page-viewer"><p>A real-time workforce monitoring rollout (Digital Taylorism) reads differently depending on executive lens. Match the lens to its defining philosophical bias and strategic focus.</p></div>
 
       <div>
-        <label for="b4-lens">C-Suite Executive Lens</label>
-        <select id="b4-lens">
+        <label for="s4-lens">C-Suite / Stakeholder Lens</label>
+        <select id="s4-lens">
           <option value="">Select a lens…</option>
           <option value="CEO">Chief Executive Officer (CEO)</option>
           <option value="CFO">Chief Financial Officer (CFO)</option>
-          <option value="CIO">Chief Information Officer (CIO)</option>
-          <option value="CRO">Chief Risk Officer (CRO)</option>
-          <option value="HRD">Human Resources Director (HRD)</option>
+          <option value="CHRO">Chief Human Resources Officer (CHRO)</option>
+          <option value="CRO">Chief Risk &amp; Compliance Officer (CRO)</option>
+          <option value="Union">Union &amp; Employee Representative</option>
+        </select>
+      </div>
+      <div>
+        <label for="s4-bias">Primary Philosophical Alignment</label>
+        <select id="s4-bias">
+          <option value="Positivism">Positivism / Scientific Management</option>
+          <option value="Interpretivism">Interpretivism / Human Relations</option>
+          <option value="CriticalRealism">Critical Realism / Critical Management Thought</option>
+        </select>
+      </div>
+      <div>
+        <label for="s4-focus">Primary Strategic Focus</label>
+        <select id="s4-focus">
+          <option value="CostEfficiency">Cost Efficiency</option>
+          <option value="Compliance">Compliance</option>
+          <option value="Wellbeing">Employee Wellbeing</option>
+          <option value="OrgRisk">Organisational Risk</option>
+          <option value="Trust">Trust</option>
         </select>
       </div>
 
-      <div class="radiogroup" role="radiogroup" aria-label="Diagnostic hypothesis">
-        <label><input type="radio" name="b4-hyp" value="A"> A: Open-System Sub-system Friction (Human–Technology Mismatch)</label>
-        <label><input type="radio" name="b4-hyp" value="B"> B: Bounded Rationality and Information Asymmetry</label>
-        <label><input type="radio" name="b4-hyp" value="C"> C: Escalation of Commitment (Sunk Cost Biases)</label>
-        <label><input type="radio" name="b4-hyp" value="D"> D: Strategic Contingency Mismatch (Structure–Environment Drift)</label>
-      </div>
+      <button class="primary" id="s4-btn">Check Alignment</button>
+      <div id="s4-out" aria-live="polite"></div>
 
       <div>
-        <label for="b4-just">Executive Reasoning and Mitigation Synthesis (minimum 50 words) — <span id="b4-wc">0</span> words</label>
-        <textarea id="b4-just"></textarea>
+        <label for="s4-just">Executive Synthesis (minimum 150 words) — <span id="s4-wc">0</span> words</label>
+        <textarea id="s4-just" placeholder="Reconcile the CFO's cost imperatives, the CRO's compliance needs, and CHRO/Union concerns over workplace dignity…"></textarea>
       </div>
-
-      <button class="primary" id="b4-btn" disabled>Evaluate Role Perspective</button>
-      <div id="b4-out" aria-live="polite"></div>
     </div>
     <nav class="pagenav" aria-label="Section navigation">
       <button class="navstep prev" data-dir="prev">‹ Previous</button>
@@ -583,113 +607,138 @@ function b1calc(){
 [b1s,b1a,b1v].forEach(el=>el.addEventListener('input',b1calc));
 b1calc();
 
-// ---------- Activity 2 : Quantitative Analysis & Calculation ----------
-const b2n=document.getElementById('b2-n'), b2c=document.getElementById('b2-c'), b2v=document.getElementById('b2-v'), b2t=document.getElementById('b2-t');
-b2t.addEventListener('input',()=>document.getElementById('b2-t-v').textContent=b2t.value+'%');
-document.getElementById('b2-btn').addEventListener('click',()=>{
-  const N=+b2n.value, C=+b2c.value, V=+b2v.value, T=+b2t.value;
-  const CostOpt=N*C;
-  const ValueOpt=N*V*0.5;
-  const NVopt=ValueOpt-CostOpt;
-  const Nsat=Math.round(N*(1-T/100)+1);
-  const CostSat=Nsat*C;
-  const ValueSat=(T/100)*(N*V*0.5);
-  const NVsat=ValueSat-CostSat;
-  const DER = NVopt!==0 ? (NVsat/NVopt)*100 : NaN;
-
-  const mainMsg = NVsat>NVopt
-    ? `Bounded Rationality Validated: satisficing yields superior net economic returns by eliminating cognitive and search friction. The quantitative model demonstrates Herbert Simon's core insight: exhaustive evaluation of all ${N} options consumes capital faster than it generates incremental value. A satisficing strategy meeting a ${T}% threshold maximises net organisational utility.`
-    : `Optimisation Feasible: low search costs allow exhaustive analysis, though real-world cognitive limits may still constrain execution.`;
-  const negMsg = NVopt<0 ? `<div class="alertbox warn">Warning: exhaustive search costs exceed total expected gross value. Operating under classical optimisation assumptions in complex environments results in value destruction. Executives must set explicit satisficing criteria to preserve capital.</div>` : '';
-
-  document.getElementById('b2-out').innerHTML = `
-    <div class="resultgrid">
-      <div class="scoreline"><b>Exhaustive Search Cost:</b> $${CostOpt.toLocaleString()}</div>
-      <div class="scoreline"><b>Net Classical Utility:</b> $${NVopt.toLocaleString()}</div>
-      <div class="scoreline"><b>Options Searched (satisficing):</b> ${Nsat}</div>
-      <div class="scoreline"><b>Net Satisficing Utility:</b> $${NVsat.toLocaleString()}</div>
-      <div class="scoreline"><b>Decision Efficiency Ratio:</b> ${isNaN(DER)?'n/a':DER.toFixed(1)+'%'}</div>
-    </div>
-    <div class="alertbox ${NVsat>NVopt?'good':'info'}">${mainMsg}</div>
-    ${negMsg}`;
-});
-
-// ---------- Activity 3 : Risk & Decision Analysis ----------
-const Sw={problems:10, choice:15, participants:25, solutions:30};
-const Bw={availability:15, confirmation:20, sunkcost:30, groupthink:35};
-const streamLabels={problems:'Problems Looking for Solutions', choice:'Choice Opportunities Looking for Problems', participants:'Participants Seeking Decision Arenas', solutions:'Solutions Looking for Problems'};
-const biasLabels={availability:'Availability Heuristic', confirmation:'Confirmation Bias', sunkcost:'Sunk Cost Fallacy', groupthink:'Groupthink'};
-function b3calc(){
-  document.getElementById('b3-tc-v').textContent=document.getElementById('b3-tc').value;
+// ---------- Activity 2 : Scenario-Based Decision Analysis ----------
+const s2Stage1Effects = {
+  A1:{comp:25, safe:-30, leg:-15},
+  B1:{comp:-5, safe:30, leg:15},
+  C1:{comp:5, safe:5, leg:25}
+};
+const s2Stage2Effects = {
+  A2_afterA1:{comp:15, safe:-35, leg:-20, terminal:true, terminalMsg:'Termination State: Organisational Collapse via Strike.'},
+  B2_afterA1:{comp:-10, safe:25, leg:10},
+  A2_afterB1:{comp:20, safe:15, leg:20},
+  B2_afterB1:{comp:10, safe:-25, leg:-30}
+};
+function s2render(comp, safe, leg){
+  document.getElementById('s2-comp-v').textContent=comp.toFixed(0);
+  document.getElementById('s2-safe-v').textContent=safe.toFixed(0);
+  document.getElementById('s2-leg-v').textContent=leg.toFixed(0);
+  document.getElementById('s2-comp-bar').style.width=Math.min(100,Math.max(0,comp))+'%';
+  document.getElementById('s2-safe-bar').style.width=Math.min(100,Math.max(0,safe))+'%';
+  document.getElementById('s2-leg-bar').style.width=Math.min(100,Math.max(0,leg))+'%';
 }
-document.getElementById('b3-tc').addEventListener('input',b3calc);
-b3calc();
-document.getElementById('b3-btn').addEventListener('click',()=>{
-  const sVal=document.getElementById('b3-stream').value, bVal=document.getElementById('b3-bias').value, TC=+document.getElementById('b3-tc').value;
-  const RI = TC*10 + Sw[sVal] + Bw[bVal];
-  let row,col,color,label,diag,alertClass;
-  if(RI<45){ row=1;col=1; color='var(--color-success)'; label='Rational Problem-Solution Pairing'; alertClass='good';
-    diag=`Rational Problem-Solution Pairing: your selections align with grounded, evidence-based decision-making, keeping governance risk low.`; }
-  else if(RI<70){ row=2;col=2; color='var(--color-warning)'; label='Decision by Flight or Oversight'; alertClass='info';
-    diag=`Decision by Flight/Oversight: the organisation is resolving issues by avoiding core conflict or passing decision responsibility to unaligned committees. Ensure clear problem-solution alignment before committing capital.`; }
-  else { row=3;col=3; color='var(--color-destructive)'; label='Garbage Can Failure (Irrational Choice Dumping)'; alertClass='warn';
-    diag=`Governance Failure Imminent. Pairing '${streamLabels[sVal]}' with '${biasLabels[bVal]}' under tight time constraints creates a classic Garbage Can outcome. Technology or capital is deployed to satisfy participant agendas rather than resolve real operational problems. Mitigate by decoupling solution selection from strategic problem definition.`; }
+function s2evaluate(){
+  const stage1 = document.querySelector('input[name=s2-1]:checked');
+  document.getElementById('s2-stage2-wrap').style.display='none';
+  document.getElementById('s2-stage2-A').style.display='none';
+  document.getElementById('s2-stage2-B').style.display='none';
+  document.getElementById('s2-out').innerHTML='';
+  if(!stage1){ s2render(50,50,50); return; }
+  const e1 = s2Stage1Effects[stage1.value];
+  let comp=50+e1.comp, safe=50+e1.safe, leg=50+e1.leg;
 
-  const gridEl=document.getElementById('b3-matrix');
+  if(stage1.value==='C1'){
+    s2render(comp,safe,leg);
+    document.getElementById('s2-out').innerHTML = `<div class="alertbox info">Strategy Sub-Optimal. Outcome: Informal Capture. Leveraging paternalistic leadership preserves short-term peace but reinforces dependence on personal relationships rather than institutional systems, leaving the agency vulnerable to nepotism.</div>`;
+    return;
+  }
+
+  document.getElementById('s2-stage2-wrap').style.display='block';
+  document.getElementById('s2-stage2-'+(stage1.value==='A1'?'A':'B')).style.display='flex';
+  const stage2 = document.querySelector('input[name=s2-2]:checked');
+  if(!stage2){ s2render(comp,safe,leg); return; }
+
+  const key = stage2.value+'_after'+stage1.value;
+  const e2 = s2Stage2Effects[key];
+  if(e2){ comp+=e2.comp; safe+=e2.safe; leg+=e2.leg; }
+  s2render(comp,safe,leg);
+
+  let msg, cls;
+  if(stage1.value==='A1' && stage2.value==='A2'){
+    cls='warn';
+    msg='Strategy Failed. Outcome: Bureaucratic Rigidity and Employee Silence. Relying solely on Weberian rules and Taylorist monitoring in a low-trust public environment creates malicious compliance: workers obey the letter of the law while hiding critical operational risks. Reference: Ikpen and Abobo (2025) find formal rules account for only 16% of performance variance in civil service contexts. ' + (e2.terminalMsg||'');
+  } else if(stage1.value==='B1' && stage2.value==='A2'){
+    cls='good';
+    msg='Optimal Executive Pathway. Outcome: Institutional Renewal. You combined structural efficiency with psychological safety, addressing employee silence through participative channels (Likert/Barnard) and co-opting informal authority networks. Reference: Fatoki (2024) shows inclusive leadership directly enhances psychological safety and employee voice in African organisational settings.';
+  } else {
+    cls='info';
+    msg=`Outcome computed from your path: Compliance ${comp.toFixed(0)}, Psychological Safety ${safe.toFixed(0)}, Legitimacy ${leg.toFixed(0)}. This combination is not one of the doc's two named exemplar paths, but the same underlying dynamics apply: reconciling control with trust remains the central trade-off.`;
+  }
+  document.getElementById('s2-out').innerHTML = `<div class="alertbox ${cls}">${msg}</div>`;
+}
+document.querySelectorAll('input[name=s2-1], input[name=s2-2]').forEach(r=>r.addEventListener('change',s2evaluate));
+s2render(50,50,50);
+
+// ---------- Activity 3 : Risk & Decision Analysis (3-sector) ----------
+const s3rules = {
+  'bank|biometric':{L:3,I:2, driver:'Metric manipulation and destruction of customer trust.'},
+  'bank|approvals':{L:3,I:3, driver:'Operational delay, missed market opportunities, loss of competitive agility.'},
+  'ministry|approvals':{L:3,I:3, driver:'Administrative paralysis, public service delivery collapse.'},
+  'academic|biometric':{L:3,I:3, driver:'Severe academic demoralisation, destruction of intellectual autonomy, high faculty turnover.'},
+  'academic|discretion':{L:2,I:2, driver:'Standards inconsistency across faculties, weak administrative alignment.'}
+};
+const sectorLabels={bank:'Commercial Bank', ministry:'Public Sector Ministry', academic:'Academic Institution'};
+function s3calc(){
+  const sector=document.getElementById('s3-sector').value, mech=document.getElementById('s3-mech').value;
+  const rule = s3rules[sector+'|'+mech];
+  const gridEl=document.getElementById('s3-matrix');
   gridEl.innerHTML='';
-  for(let r=3;r>=1;r--){
-    for(let c=1;c<=3;c++){
+  for(let i=1;i<=3;i++){
+    for(let j=1;j<=3;j++){
       const cell=document.createElement('div');
       cell.className='mcell';
-      if(r===row && c===col){ cell.style.background=color; cell.style.borderColor=color; }
+      if(rule && j===rule.L && i===(4-rule.I)){
+        const color = rule.L*rule.I<=4?'var(--color-success)':(rule.L*rule.I<=6?'var(--color-warning)':'var(--color-destructive)');
+        cell.style.background=color; cell.style.borderColor=color;
+      }
       gridEl.appendChild(cell);
     }
   }
-  document.getElementById('b3-out').innerHTML = `
-    <div class="alertbox ${alertClass}">
-      <div class="scoreline"><b>Risk Index (RI):</b> ${RI} — ${label}</div>
-      <p style="margin-top:6px;">${diag}</p>
-    </div>`;
-});
-
-// ---------- Activity 4 : Practitioner Lens ----------
-const roleMatrix={ CEO:{primary:'D',secondary:'A'}, CFO:{primary:'C',secondary:'B'}, CIO:{primary:'B',secondary:'A'}, CRO:{primary:'B',secondary:'D'}, HRD:{primary:'A',secondary:'D'} };
-const hypLabels={A:'Open-System Sub-system Friction', B:'Bounded Rationality and Information Asymmetry', C:'Escalation of Commitment (Sunk Cost Biases)', D:'Strategic Contingency Mismatch'};
-function b4sync(){
-  const wc=wordCount(document.getElementById('b4-just').value);
-  document.getElementById('b4-wc').textContent=wc;
-  const lens=document.getElementById('b4-lens').value;
-  const hyp=document.querySelector('input[name=b4-hyp]:checked');
-  document.getElementById('b4-btn').disabled = !(lens && hyp);
-}
-document.getElementById('b4-lens').addEventListener('change',b4sync);
-document.querySelectorAll('input[name=b4-hyp]').forEach(r=>r.addEventListener('change',b4sync));
-document.getElementById('b4-just').addEventListener('input',b4sync);
-b4sync();
-
-document.getElementById('b4-btn').addEventListener('click',()=>{
-  const wc=wordCount(document.getElementById('b4-just').value);
-  if(wc<50){
-    document.getElementById('b4-out').innerHTML = `<div class="alertbox warn">Executive synthesis incomplete. Please elaborate on your theoretical justification (minimum 50 words).</div>`;
+  if(!rule){
+    document.getElementById('s3-out').innerHTML = `<div class="alertbox info">This sector/mechanism pairing isn't one of the source material's scored combinations. Try Commercial Bank + Biometric Tracking or Approvals, Public Sector Ministry + Approvals, or Academic Institution + Biometric Tracking or Discretion.</div>`;
     return;
   }
-  const lens=document.getElementById('b4-lens').value;
-  const hyp=document.querySelector('input[name=b4-hyp]:checked').value;
-  const role=roleMatrix[lens];
-  let pct, label;
-  if(hyp===role.primary){ pct=100; label='Primary Match'; }
-  else if(hyp===role.secondary){ pct=75; label='Secondary Match'; }
-  else { pct=0; label='No Defined Match'; }
+  const rei = rule.L*rule.I;
+  let evalMsg='';
+  if(sector==='ministry'){ evalMsg = `<div class="alertbox warn">Accurate Assessment: in public administration, excessive Weberian rules generate high risk of bureaucratic paralysis. Recommended Mitigation: implement delegated authority matrices and digitised workflow tracking to preserve auditability while reducing approval nodes.</div>`; }
+  else if(sector==='academic' && mech==='biometric'){ evalMsg = `<div class="alertbox warn">Accurate Assessment: applying raw Taylorism to knowledge work creates severe friction. Standardising academic output via rigid time metrics deskills professionals and undermines motivation. Recommended Mitigation: replace rigid task surveillance with outcome-based peer evaluation and participatory goal alignment (Likert).</div>`; }
 
-  const optimal = (lens==='CFO' && hyp==='C')
-    ? `<div class="alertbox good">Correct Alignment. From the CFO perspective, project failure is frequently prolonged by escalation of commitment. Sunk cost fallacies lead boards to misinterpret past investments as justifications for continued funding rather than evaluating future net marginal utility.</div>` : '';
-
-  document.getElementById('b4-out').innerHTML = `
-    <div class="alertbox ${pct>=75?'good':(pct===0?'warn':'info')}">
-      <div class="scoreline"><b>${lens} lens vs. Hypothesis ${hyp} (${hypLabels[hyp]}):</b> ${label} (${pct}%)</div>
+  document.getElementById('s3-out').innerHTML = `
+    <div class="alertbox ${rei<=4?'good':(rei<=6?'info':'warn')}">
+      <div class="scoreline"><b>Risk Exposure Index (REI):</b> ${rei} — ${sectorLabels[sector]}</div>
+      <p style="margin-top:6px;">${rule.driver}</p>
     </div>
-    ${optimal}
-    <div class="alertbox info">Cross-Lens Insight: while the CFO identifies escalation of commitment, an HRD lens reveals that open-system sub-system friction (employee resistance and skill deficits) was the primary cause of poor adoption. Comprehensive executive leadership requires integrating structural, behavioural and financial perspectives.</div>`;
+    ${evalMsg}
+    <div class="alertbox info">Executive Takeaway: control mechanisms are not universally applicable. Structural controls that protect stability in banking can produce paralysis in public administration and innovation collapse in higher education.</div>`;
+}
+document.getElementById('s3-sector').addEventListener('change',s3calc);
+document.getElementById('s3-mech').addEventListener('change',s3calc);
+s3calc();
+
+// ---------- Activity 4 : Practitioner Lens (5-lens) ----------
+const s4roles = {
+  CEO:{bias:'Positivism', focus:'CostEfficiency', risk:'Misinterpreting metric compliance for genuine strategic execution.'},
+  CFO:{bias:'Positivism', focus:'CostEfficiency', risk:'Over-indexing on short-term efficiency while driving long-term talent depletion.'},
+  CHRO:{bias:'Interpretivism', focus:'Wellbeing', risk:'Ignoring genuine operational inefficiencies while protecting existing informal norms.'},
+  CRO:{bias:'CriticalRealism', focus:'Compliance', risk:'Creating excessive procedural friction that induces illegal workarounds.'},
+  Union:{bias:'CriticalRealism', focus:'Trust', risk:'Resisting all productivity measurement regardless of operational necessity.'}
+};
+function s4wc(){ document.getElementById('s4-wc').textContent = wordCount(document.getElementById('s4-just').value); }
+document.getElementById('s4-just').addEventListener('input', s4wc);
+document.getElementById('s4-btn').addEventListener('click',()=>{
+  const lens=document.getElementById('s4-lens').value;
+  if(!lens){ document.getElementById('s4-out').innerHTML = `<div class="alertbox warn">Select a lens first.</div>`; return; }
+  const bias=document.getElementById('s4-bias').value, focus=document.getElementById('s4-focus').value;
+  const role = s4roles[lens];
+  const match = (bias===role.bias && focus===role.focus);
+  let extra='';
+  if(lens==='CEO' && !match){ extra = `<div class="alertbox warn">Warning: CEO perspective is incomplete. Effective leadership requires integrating Fayol's administrative coordination with Barnard's acceptance theory of authority to ensure executive decisions carry organisational legitimacy.</div>`; }
+  document.getElementById('s4-out').innerHTML = `
+    <div class="alertbox ${match?'good':'info'}">
+      <div class="scoreline"><b>${lens}:</b> ${match?"Correct Analysis — you have identified this lens's defining tension.":'Review this lens.'}</div>
+      <p style="margin-top:6px;"><b>Core Risk for this lens:</b> ${role.risk}</p>
+    </div>
+    ${extra}`;
 });
 
 // ---------- Activity 5 : Synthesis & Integration ----------
