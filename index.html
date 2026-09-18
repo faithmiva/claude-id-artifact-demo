@@ -133,8 +133,10 @@
   .navbtn:focus-visible{outline:2px solid var(--color-secondary);outline-offset:2px;}
   .navbtn.active{background:var(--color-base-white);color:var(--color-primary);border-color:var(--color-base-white);}
 
-  .page{display:none;}
+  .page{display:none;min-height:100%;}
   .page.active{display:block;}
+  #page-title.active{display:flex;flex-direction:column;}
+  #page-title .hero{flex:1 1 auto;display:flex;align-items:center;}
 
   /* ---- hero ---- */
   .hero{background:var(--color-primary);color:var(--color-base-white);padding:1.25rem 0;}
