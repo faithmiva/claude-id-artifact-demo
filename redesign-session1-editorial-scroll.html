@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DBA 9101 · Study Session 1 · Highlight (Editorial Scroll)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Afacad:wght@500;600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --color-primary:#0A3150; --color-primary-soft:#E4F1FF; --color-primary-dark:#072339;
+    --color-secondary:#BB9E7F; --color-accent:#0591E2; --color-accent-dark:#06649A;
+    --color-destructive:#E83831; --color-destructive-dark:#CC3722;
+    --color-success:#009933; --color-warning:#FFAB00; --color-info:#3355FF;
+    --color-base-white:#FFFFFF; --color-bg-page:#F4F6F8; --color-bg-tertiary:#F0F2F4; --color-bg-quaternary:#DDE2E7; --color-bg-disabled:#9DABB6;
+    --color-text-primary:#081D2D; --color-text-secondary:#404D67;
+    --color-border:#DDE2E7; --color-border-strong:#667085;
+    --sf-destructive:#FDE5D8; --sf-success:#C9EFDD; --sf-warning:#F4EAC9; --sf-info:#CDE5FF;
+    --font-sans:'Manrope', ui-sans-serif, system-ui, sans-serif;
+    --font-afacad:'Afacad', ui-sans-serif, system-ui, sans-serif;
+    --edge:1rem;
+  }
+  *{box-sizing:border-box;}
+  html,body{height:100%;}
+  html{font-size:16px;}
+  body{margin:0;background:var(--color-bg-page);color:var(--color-text-primary);font-family:var(--font-sans);font-size:14px;line-height:1.6;overflow-x:hidden;display:flex;flex-direction:column;height:100vh;min-height:360px;}
+  .inner{max-width:1280px;margin:0 auto;padding-left:var(--edge);padding-right:var(--edge);}
+  h1,h2,h3,h4{font-family:var(--font-afacad);font-weight:700;}
+
+  .railwrap{flex:0 0 auto;background:var(--color-bg-tertiary);border-bottom:1px solid var(--color-border);position:relative;}
+  .progressrail{height:3px;background:var(--color-bg-quaternary);}
+  .progressfill{height:100%;background:var(--color-secondary);width:0%;transition:width .1s linear;}
+  .railbar{padding:0.5rem var(--edge);}
+  .jumpbtn{font-family:var(--font-sans);font-weight:600;font-size:0.75rem;color:var(--color-base-white);background:var(--color-primary);border:none;border-radius:999px;padding:0.5rem 0.9rem;cursor:pointer;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:inline-flex;align-items:center;gap:0.4rem;}
+  .jumpbtn:focus-visible{outline:2px solid var(--color-accent);outline-offset:2px;}
+  .jumpsheet{position:absolute;top:100%;left:var(--edge);right:var(--edge);background:var(--color-base-white);border-radius:16px;box-shadow:0 10px 24px -8px rgba(8,29,45,.25);margin-top:6px;overflow:hidden;border:1px solid var(--color-border);z-index:30;}
+  .jumpsheet[hidden]{display:none;}
+  .jumpsheet button{display:block;width:100%;text-align:left;background:none;border:none;font-family:var(--font-sans);font-size:0.8125rem;font-weight:600;color:var(--color-text-primary);padding:0.65rem 0.9rem;cursor:pointer;border-bottom:1px solid var(--color-border);}
+  .jumpsheet button:last-child{border-bottom:none;}
+  .jumpsheet button:hover,.jumpsheet button:focus-visible{background:var(--color-bg-tertiary);}
+  .jumpsheet button.current{color:var(--color-accent);}
+
+  .main-scroll{flex:1 1 auto;min-height:0;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;}
+  .sec{min-height:100%;}
+  #sec-title{display:flex;flex-direction:column;}
+
+  .titlehero{flex:1 1 auto;display:flex;align-items:center;background:var(--color-base-white);}
+  .titlecard{background:var(--color-base-white);border:1px solid var(--color-border);border-radius:20px;padding:1.5rem 1.25rem;width:100%;}
+  .kicker{font-family:var(--font-sans);font-weight:700;font-size:0.75rem;letter-spacing:.02em;color:var(--color-accent);text-transform:uppercase;margin-bottom:0.5rem;}
+  .titlecard h1{font-size:clamp(1.25rem,5vw,1.75rem);line-height:1.2;color:var(--color-primary);margin:0 0 0.5rem;}
+  .titlecard .subtitle{font-size:0.8125rem;color:var(--color-text-secondary);margin:0;}
+  .scrollcue{margin-top:1rem;font-size:0.75rem;color:var(--color-secondary);font-weight:700;}
+
+  .edivider{background:var(--color-bg-tertiary);padding:1.5rem 0 0.5rem;}
+  .edivider .num{font-family:var(--font-afacad);font-size:2.5rem;font-weight:700;color:var(--color-secondary);line-height:1;}
+  .edivider .kicker2{font-family:var(--font-sans);font-weight:700;font-size:0.75rem;letter-spacing:.02em;color:var(--color-text-secondary);margin-top:0.4rem;}
+  .edivider h2{font-family:var(--font-afacad);font-size:1.25rem;margin:0.2rem 0 0;color:var(--color-primary);}
+
+  .content{padding:0.75rem 0 1.5rem;}
+  .card{background:var(--color-base-white);border:1px solid var(--color-border);border-radius:20px;padding:1rem;}
+  .card > div + div{margin-top:0.75rem;}
+  .grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:0.85rem;}
+
+  .contextpanel{background:var(--color-primary-soft);border-radius:16px;padding:0.85rem 0.95rem;margin-bottom:0.85rem;}
+  .contextpanel .plabel{font-weight:700;color:var(--color-primary);font-size:0.8125rem;margin-bottom:0.35rem;}
+  .contextpanel p{font-size:0.8125rem;color:var(--color-text-secondary);margin:0;}
+  .pullquote{border-left:4px solid var(--color-secondary);background:var(--color-primary-soft);padding:0.8rem 1rem;border-radius:0 12px 12px 0;font-weight:600;color:var(--color-primary);font-size:0.875rem;margin-top:0.7rem;}
+
+  .subcard{background:var(--color-bg-tertiary);border-radius:16px;padding:0.85rem;margin-bottom:0.75rem;}
+  .subcard:last-of-type{margin-bottom:0;}
+
+  label{display:block;font-weight:600;font-size:0.8125rem;margin-bottom:0.35rem;color:var(--color-text-secondary);}
+  select, textarea{width:100%;font-family:var(--font-sans);font-size:0.875rem;padding:0.6rem 0.75rem;border:1px solid var(--color-border);border-radius:12px;background:var(--color-base-white);color:var(--color-text-primary);}
+  select{
+    padding-right:2.5rem; appearance:none; -webkit-appearance:none; -moz-appearance:none;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'><path d='M1 1L6 6L11 1' stroke='%23404D67' stroke-width='1.6' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+    background-repeat:no-repeat; background-position:right 0.9rem center; background-size:12px 8px;
+  }
+  select:focus-visible, textarea:focus-visible{outline:2px solid var(--color-accent);outline-offset:1px;}
+  textarea{min-height:60px;resize:vertical;line-height:1.6;}
+  input[type=range]{width:100%;accent-color:var(--color-success);height:18px;}
+  .sliderrow{margin-bottom:0.7rem;}
+  .sliderrow .sv{color:var(--color-accent);font-weight:700;}
+  button.primary{font-family:var(--font-sans);font-weight:600;font-size:0.8125rem;background:var(--color-destructive);color:var(--color-base-white);border:none;border-radius:12px;padding:0.65rem 1.15rem;cursor:pointer;}
+  button.primary:hover{background:var(--color-destructive-dark);}
+  button.primary:disabled{background:var(--color-bg-disabled);cursor:not-allowed;}
+  .optionrow.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:0.5rem;margin-bottom:0.5rem;align-items:stretch;}
+  .optionrow.grid3 > label{display:flex;gap:0.5rem;align-items:center;border:1px solid var(--color-border);border-radius:12px;padding:0.6rem 0.75rem;cursor:pointer;font-size:0.8125rem;min-height:2.75rem;}
+  .optionrow.grid3 input{margin-top:2px;width:16px;height:16px;accent-color:var(--color-primary);}
+  .togglegrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:0.5rem;margin:0.75rem 0;}
+  .toggle{display:flex;align-items:center;justify-content:space-between;background:var(--color-bg-tertiary);border-radius:12px;padding:0.55rem 0.8rem;font-size:0.8125rem;}
+  .switch{position:relative;width:36px;height:20px;flex:none;}
+  .switch input{opacity:0;width:100%;height:100%;position:absolute;cursor:pointer;margin:0;}
+  .strack{position:absolute;inset:0;background:var(--color-bg-quaternary);border-radius:999px;transition:.15s;}
+  .strack:before{content:"";position:absolute;height:14px;width:14px;left:3px;top:3px;background:var(--color-base-white);border-radius:50%;transition:.15s;}
+  .switch input:checked + .strack{background:var(--color-primary);}
+  .switch input:checked + .strack:before{transform:translateX(16px);}
+
+  .kpirow{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:0.5rem;margin:0.75rem 0;}
+  .kpitile{background:var(--color-bg-tertiary);border-radius:16px;padding:0.7rem 0.8rem;}
+  .kpitile.hero{background:var(--color-primary);color:var(--color-base-white);}
+  .kpitile .num{font-size:1.5rem;line-height:1.1;}
+  .kpitile .lbl{font-size:0.6875rem;color:var(--color-text-secondary);margin-top:0.2rem;}
+  .kpitile.hero .lbl{color:var(--color-bg-quaternary);}
+
+  .badge{display:inline-block;border-radius:999px;padding:0.25rem 0.75rem;font-weight:700;font-size:0.6875rem;}
+  .badge.b-good{background:var(--sf-success);color:#1c5c33;}
+  .badge.b-warn{background:var(--sf-destructive);color:#8a241b;}
+  .badge.b-mod{background:var(--sf-warning);color:#7a5a05;}
+  .badge.b-info{background:var(--sf-info);color:var(--color-primary);}
+
+  .resultcard{background:var(--color-base-white);border:1px solid var(--color-border);border-radius:16px;padding:0.85rem 1rem;margin-top:0.85rem;}
+  .resulthead{display:flex;justify-content:space-between;align-items:center;gap:0.5rem;margin-bottom:0.5rem;flex-wrap:wrap;}
+  .resulthead h4{font-size:0.9375rem;color:var(--color-primary);margin:0;}
+  .resultcard p{font-size:0.8125rem;color:var(--color-text-secondary);margin:0.4rem 0 0;}
+
+  .matrix{border-collapse:separate;border-spacing:3px;margin:0.75rem 0;font-size:0.6875rem;}
+  .matrix th,.matrix td{width:40px;height:34px;text-align:center;border-radius:8px;}
+  .matrix th{background:var(--color-primary);color:var(--color-base-white);font-weight:700;}
+  .matrix td{background:var(--color-base-white);border:1px solid var(--color-border);}
+  .matrix .corner{background:var(--color-primary);}
+  .matrix .marker{display:inline-flex;width:22px;height:22px;border-radius:50%;background:var(--color-primary);color:var(--color-base-white);align-items:center;justify-content:center;font-weight:700;}
+
+  ul.actionlist{padding-left:1.3rem;margin:0;}
+  ul.actionlist li{margin-bottom:0.6rem;font-size:0.8125rem;color:var(--color-text-secondary);}
+  ul.actionlist li strong{color:var(--color-primary);}
+  footer{background:var(--color-bg-tertiary);color:var(--color-text-secondary);padding:1rem 0;font-size:0.75rem;border-top:1px solid var(--color-border);}
+  @media (prefers-reduced-motion: reduce){ *{transition:none !important;} }
+</style>
+</head>
+<body>
+
+<div class="railwrap">
+  <div class="progressrail"><div class="progressfill" id="pr-fill"></div></div>
+  <div class="railbar"><button class="jumpbtn" id="pr-jumpbtn" aria-haspopup="true" aria-expanded="false">Section 1 of 7 · Title ▾</button></div>
+  <div class="jumpsheet" id="pr-jumpsheet" hidden role="menu" aria-label="Jump to section">
+    <button role="menuitem" data-target="sec-title">Title</button>
+    <button role="menuitem" data-target="sec-a1">Activity 1 · Multi-Perspective Lens Analysis</button>
+    <button role="menuitem" data-target="sec-a2">Activity 2 · Concept Genealogy Driver Mapping</button>
+    <button role="menuitem" data-target="sec-a3">Activity 3 · Executive Epistemic Decision Simulator</button>
+    <button role="menuitem" data-target="sec-a4">Activity 4 · Research Stance &amp; Governance Risk Matrix</button>
+    <button role="menuitem" data-target="sec-a5">Activity 5 · Critical Reasoning Check</button>
+    <button role="menuitem" data-target="sec-takeaways">Final Key Takeaways</button>
+  </div>
+</div>
+
+<main class="main-scroll" id="scroller">
+
+<section class="sec" id="sec-title">
+  <div class="titlehero"><div class="inner">
+    <div class="titlecard">
+      <div class="kicker">Doctor of Business Administration · Study Session 1</div>
+      <h1>Introduction to Management Thought and Philosophy</h1>
+      <p class="subtitle">Epistemic Foundations, Research Paradigms, and Executive Judgement in African and Global Contexts</p>
+      <div class="scrollcue">↓ Scroll to begin — Activity 1 of 5</div>
+    </div>
+  </div></div>
+</section>
+
+<section class="sec" id="sec-a1">
+  <div class="edivider"><div class="inner"><div class="num">01</div><div class="kicker2">ACTIVITY</div><h2>Multi-Perspective Lens Analysis</h2></div></div>
+  <div class="content"><div class="inner">
+    <div class="card">
+      <div class="contextpanel">
+        <div class="plabel">Executive Context &amp; Framing:</div>
+        <p>A major Nigerian commercial bank's engagement survey scored 84% (up from 68%), but middle-manager turnover hit 22% and exit interviews suggest fear of compromised anonymity.</p>
+        <div class="pullquote">Evaluate this organisational intelligence crisis through distinct executive lenses.</div>
+      </div>
+      <div><label for="a1-lens">Executive Lens</label><select id="a1-lens"><option value="">Select a lens…</option><option value="positivist">Positivist Chief Financial Officer</option><option value="interpretivist">Interpretivist Human Resources Director</option><option value="critical">Critical Realist Chief Risk Officer</option><option value="postcolonial">Postcolonial Governance Specialist</option></select></div>
+      <div class="sliderrow"><label for="a1-survey">Weight: Quantitative Survey Score (84%) — <span class="sv" id="a1-survey-v">3</span></label><input type="range" id="a1-survey" min="1" max="5" step="1" value="3"></div>
+      <div class="sliderrow"><label for="a1-exit">Weight: Qualitative Exit Interview Narrative — <span class="sv" id="a1-exit-v">3</span></label><input type="range" id="a1-exit" min="1" max="5" step="1" value="3"></div>
+      <div class="sliderrow"><label for="a1-market">Weight: External Market &amp; Economic Pressures — <span class="sv" id="a1-market-v">3</span></label><input type="range" id="a1-market" min="1" max="5" step="1" value="3"></div>
+      <div><label for="a1-just">Executive Justification (minimum 50 words) — <span id="a1-wc">0</span> words</label><textarea id="a1-just"></textarea></div>
+      <div><button class="primary" id="a1-btn" disabled>Calculate Alignment</button></div>
+      <div id="a1-out" aria-live="polite"></div>
+    </div>
+  </div></div>
+</section>
+
+<section class="sec" id="sec-a2">
+  <div class="edivider"><div class="inner"><div class="num">02</div><div class="kicker2">ACTIVITY</div><h2>Concept Genealogy Driver Mapping</h2></div></div>
+  <div class="content"><div class="inner">
+    <div class="card">
+      <div class="contextpanel">
+        <div class="plabel">Executive Context &amp; Framing:</div>
+        <p>A Lagos logistics enterprise's GPS tracking rollout drove turnover up 35% and fuel fraud increased. Management diagnosed this as an "attitude problem."</p>
+        <div class="pullquote">Trace the problem to its ontological, epistemological, and axiological assumptions.</div>
+      </div>
+      <div><label for="a2-s1">Stage 1 — Practical Management Problem</label><select id="a2-s1"><option value="A1">A1: High driver turnover and fuel fraud</option><option value="A2">A2: Inaccurate GPS hardware</option><option value="A3">A3: Inadequate driver wages</option></select></div>
+      <div><label for="a2-s2">Stage 2 — Ontological Assumption</label><select id="a2-s2"><option value="B1">B1: Performance is objective, technically measurable</option><option value="B2">B2: Performance is socially constructed</option><option value="B3">B3: Performance interplays metrics with socio-economic structures</option></select></div>
+      <div><label for="a2-s3">Stage 3 — Epistemological Stance</label><select id="a2-s3"><option value="C1">C1: Only hard telemetry is valid</option><option value="C2">C2: Lived experience is valid</option><option value="C3">C3: Triangulate telemetry with hidden mechanisms</option></select></div>
+      <div><label for="a2-s4">Stage 4 — Axiological Value Commitment</label><select id="a2-s4"><option value="D1">D1: Prioritise algorithmic efficiency</option><option value="D2">D2: Prioritise worker voice, trust, dignity</option><option value="D3">D3: Prioritise institutional sustainability</option></select></div>
+      <div><button class="primary" id="a2-btn">Verify Alignment</button></div>
+      <div id="a2-out" aria-live="polite"></div>
+    </div>
+  </div></div>
+</section>
+
+<section class="sec" id="sec-a3">
+  <div class="edivider"><div class="inner"><div class="num">03</div><div class="kicker2">ACTIVITY</div><h2>Executive Epistemic Decision Simulator</h2></div></div>
+  <div class="content"><div class="inner">
+    <div class="grid2">
+      <div class="card">
+        <div class="contextpanel"><div class="plabel">Executive Context &amp; Framing:</div><p>Balance quantitative metrics, contextual adaptation, and qualitative voice to optimise decision robustness.</p></div>
+        <div class="sliderrow"><label for="a3-m">Quantitative Metric Weight (M) — <span class="sv" id="a3-m-v">35%</span></label><input type="range" id="a3-m" min="0" max="100" step="5" value="35"></div>
+        <div class="sliderrow"><label for="a3-c">Contextual &amp; Indigenous Adaptation (C) — <span class="sv" id="a3-c-v">35%</span></label><input type="range" id="a3-c" min="0" max="100" step="5" value="35"></div>
+        <div class="sliderrow"><label for="a3-v">Qualitative Voice &amp; Dialogue (V) — <span class="sv" id="a3-v-v">30%</span></label><input type="range" id="a3-v" min="0" max="100" step="5" value="30"></div>
+        <div id="a3-sum" class="badge b-info">Total allocation: 100%</div>
+      </div>
+      <div class="card">
+        <h4 style="margin:0 0 0.5rem;color:var(--color-primary);">Live Indicators</h4>
+        <div class="kpirow">
+          <div class="kpitile hero"><div class="num" id="a3-drs-v">0</div><div class="lbl">Decision Robustness</div></div>
+          <div class="kpitile"><div class="num" id="a3-rri-v">0</div><div class="lbl">Resistance Risk</div></div>
+          <div class="kpitile"><div class="num" id="a3-ebf-v">0</div><div class="lbl">Epistemic Blindspot</div></div>
+        </div>
+        <div id="a3-out" aria-live="polite"></div>
+      </div>
+    </div>
+  </div></div>
+</section>
+
+<section class="sec" id="sec-a4">
+  <div class="edivider"><div class="inner"><div class="num">04</div><div class="kicker2">ACTIVITY</div><h2>Research Stance &amp; Governance Risk Matrix</h2></div></div>
+  <div class="content"><div class="inner">
+    <div class="card">
+      <div class="contextpanel"><div class="plabel">Executive Context &amp; Framing:</div><p>A diversified African conglomerate faces a governance breakdown across West African subsidiaries.</p></div>
+      <label>Research Stance</label>
+      <div class="optionrow grid3" role="radiogroup" aria-label="Research stance">
+        <label><input type="radio" name="a4-stance" value="positivist" checked> Stance A: Positivist Audit</label>
+        <label><input type="radio" name="a4-stance" value="interpretivist"> Stance B: Interpretivist Cultural</label>
+        <label><input type="radio" name="a4-stance" value="critical"> Stance C: Critical Realist</label>
+      </div>
+      <div class="togglegrid">
+        <div class="toggle"><span>High Regulatory Scrutiny (T1)</span><span class="switch"><input type="checkbox" id="a4-t1"><span class="strack"></span></span></div>
+        <div class="toggle"><span>Informal Kinship Networks (T2)</span><span class="switch"><input type="checkbox" id="a4-t2"><span class="strack"></span></span></div>
+        <div class="toggle"><span>Data Scarcity (T3)</span><span class="switch"><input type="checkbox" id="a4-t3"><span class="strack"></span></span></div>
+      </div>
+      <table class="matrix" id="a4-matrix" aria-hidden="true"><tbody></tbody></table>
+      <div id="a4-out" aria-live="polite"></div>
+    </div>
+  </div></div>
+</section>
+
+<section class="sec" id="sec-a5">
+  <div class="edivider"><div class="inner"><div class="num">05</div><div class="kicker2">ACTIVITY</div><h2>Modified True/False Critical Reasoning Check</h2></div></div>
+  <div class="content"><div class="inner">
+    <div class="card" id="a5-form">
+      <div class="subcard"><b>Claim 1</b><p style="font-size:0.8125rem;color:var(--color-text-secondary);">"Because quantitative performance dashboards provide objective numerical data, they eliminate managerial bias and accurately reflect organisational reality."</p>
+        <div class="optionrow grid3" role="radiogroup" aria-label="Claim 1"><label><input type="radio" name="a5-c1" value="True"> True</label><label><input type="radio" name="a5-c1" value="False"> False</label><label><input type="radio" name="a5-c1" value="Partial"> Partially True</label></div>
+        <label for="a5-j1">Executive Epistemic Justification (min 30 words) — <span id="a5-wc1">0</span> words</label><textarea id="a5-j1"></textarea></div>
+      <div class="subcard"><b>Claim 2</b><p style="font-size:0.8125rem;color:var(--color-text-secondary);">"Indigenous African management practices, such as the Igbo Apprenticeship System (Igba-Boi), should be treated strictly as informal cultural artefacts rather than legitimate sources of management theory building."</p>
+        <div class="optionrow grid3" role="radiogroup" aria-label="Claim 2"><label><input type="radio" name="a5-c2" value="True"> True</label><label><input type="radio" name="a5-c2" value="False"> False</label><label><input type="radio" name="a5-c2" value="Partial"> Partially True</label></div>
+        <label for="a5-j2">Executive Epistemic Justification (min 30 words) — <span id="a5-wc2">0</span> words</label><textarea id="a5-j2"></textarea></div>
+      <div class="subcard"><b>Claim 3</b><p style="font-size:0.8125rem;color:var(--color-text-secondary);">"Critical realism is an effective philosophical foundation for DBA research in developing economies because it connects observable surface events with deeper, hidden structural mechanisms."</p>
+        <div class="optionrow grid3" role="radiogroup" aria-label="Claim 3"><label><input type="radio" name="a5-c3" value="True"> True</label><label><input type="radio" name="a5-c3" value="False"> False</label><label><input type="radio" name="a5-c3" value="Partial"> Partially True</label></div>
+        <label for="a5-j3">Executive Epistemic Justification (min 30 words) — <span id="a5-wc3">0</span> words</label><textarea id="a5-j3"></textarea></div>
+      <div><button class="primary" id="a5-btn" disabled>Submit &amp; Evaluate</button></div>
+      <div id="a5-out" aria-live="polite"></div>
+    </div>
+  </div></div>
+</section>
+
+<section class="sec" id="sec-takeaways">
+  <div class="edivider"><div class="inner"><div class="num">✓</div><div class="kicker2">CLOSING</div><h2>Final Key Takeaways</h2></div></div>
+  <div class="content"><div class="inner">
+    <div class="contextpanel" style="margin-bottom:0.85rem;">
+      <div class="kicker" style="margin-bottom:0.4rem;">Executive Summary</div>
+      <h3 style="font-size:1rem;color:var(--color-primary);margin:0 0 0.4rem;">Philosophy as the Foundation of Executive Practice</h3>
+      <p>Management thought is a disciplined lens for interrogating executive practice, organisational structures, and research design. African organisational contexts must not be treated as imperfect copies of Western models.</p>
+    </div>
+    <div class="card">
+      <div class="kicker" style="margin-bottom:0.4rem;">Practitioner Action Items</div>
+      <h3 style="font-size:1rem;color:var(--color-primary);margin:0 0 0.6rem;">Strategic Directives for Scholar-Practitioners</h3>
+      <ul class="actionlist">
+        <li><strong>Audit Organisational Control Systems:</strong> identify hidden assumptions about human motivation, authority and control.</li>
+        <li><strong>Articulate Epistemic Stances:</strong> define evidentiary assumptions before approving major strategies.</li>
+        <li><strong>Integrate Critical Realism:</strong> uncover hidden structural mechanisms behind failures.</li>
+        <li><strong>Advance Context-Sensitive Theory:</strong> treat local realities as primary sources of knowledge.</li>
+      </ul>
+    </div>
+  </div></div>
+</section>
+
+<footer><div class="inner">DBA 9101 · Study Session 1 · Highlight — Editorial Scroll</div></footer>
+</main>
+
+<script>
+function wordCount(str){ return str.trim().length ? str.trim().split(/\s+/).length : 0; }
+
+const sections=Array.from(document.querySelectorAll('.sec'));
+const labels={'sec-title':'Title','sec-a1':'Activity 1','sec-a2':'Activity 2','sec-a3':'Activity 3','sec-a4':'Activity 4','sec-a5':'Activity 5','sec-takeaways':'Takeaways'};
+const scroller=document.getElementById('scroller');
+const jumpbtn=document.getElementById('pr-jumpbtn'), jumpsheet=document.getElementById('pr-jumpsheet');
+let currentIdx=0;
+function setCurrent(idx){
+  currentIdx=idx;
+  jumpbtn.innerHTML = `Section ${idx+1} of ${sections.length} · ${labels[sections[idx].id]} <span>▾</span>`;
+  jumpsheet.querySelectorAll('button').forEach((b,i)=>b.classList.toggle('current', i===idx));
+}
+const observer=new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{ if(e.isIntersecting && e.intersectionRatio>0.5){ const idx=sections.findIndex(s=>s.id===e.target.id); if(idx!==-1) setCurrent(idx); } });
+}, {root:scroller, threshold:[0.5]});
+sections.forEach(s=>observer.observe(s));
+scroller.addEventListener('scroll',()=>{
+  const pct = scroller.scrollTop/(scroller.scrollHeight-scroller.clientHeight)*100;
+  document.getElementById('pr-fill').style.width=(isNaN(pct)?0:pct)+'%';
+});
+jumpbtn.addEventListener('click',()=>{
+  const open=jumpsheet.hasAttribute('hidden');
+  if(open){jumpsheet.removeAttribute('hidden');jumpbtn.setAttribute('aria-expanded','true');}
+  else{jumpsheet.setAttribute('hidden','');jumpbtn.setAttribute('aria-expanded','false');}
+});
+jumpsheet.querySelectorAll('button').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.getElementById(btn.dataset.target).scrollIntoView({behavior:'smooth',block:'start'});
+    jumpsheet.setAttribute('hidden','');jumpbtn.setAttribute('aria-expanded','false');
+  });
+});
+document.addEventListener('click',(e)=>{
+  if(!jumpsheet.contains(e.target)&&e.target!==jumpbtn&&!jumpbtn.contains(e.target)&&!jumpsheet.hasAttribute('hidden')){
+    jumpsheet.setAttribute('hidden','');jumpbtn.setAttribute('aria-expanded','false');
+  }
+});
+setCurrent(0);
+
+// ---------- Activity 1 ----------
+const a1survey=document.getElementById('a1-survey'),a1exit=document.getElementById('a1-exit'),a1market=document.getElementById('a1-market');
+const a1lens=document.getElementById('a1-lens'),a1just=document.getElementById('a1-just'),a1btn=document.getElementById('a1-btn');
+function a1sync(){
+  document.getElementById('a1-survey-v').textContent=a1survey.value;
+  document.getElementById('a1-exit-v').textContent=a1exit.value;
+  document.getElementById('a1-market-v').textContent=a1market.value;
+  const wc=wordCount(a1just.value); document.getElementById('a1-wc').textContent=wc;
+  a1btn.disabled=!(a1lens.value&&wc>=50);
+}
+[a1survey,a1exit,a1market,a1lens,a1just].forEach(el=>el.addEventListener('input',a1sync));
+a1sync();
+a1btn.addEventListener('click',()=>{
+  const Ws=+a1survey.value,We=+a1exit.value,Wm=+a1market.value,lens=a1lens.value;
+  const emi=(Math.abs(Ws-We)*15)+((5-Wm)*10);
+  let stateTitle=null,stateMsg=null;
+  if(lens==='positivist'&&Ws>=4&&We<=2){stateTitle='High Risk: Metric Myopia';stateMsg='Prioritising surface measurement over operational reality.';}
+  else if(lens==='interpretivist'&&We>=4&&Ws<=2){stateTitle='Contextual Insight';stateMsg='Risk of neglecting formal board reporting metrics.';}
+  else if(lens==='critical'&&Ws>=3&&We>=4&&Wm>=3){stateTitle='Optimal Epistemic Realignment';stateMsg='Connecting observable metrics with underlying mechanisms.';}
+  else if(lens==='postcolonial'&&Wm>=4){stateTitle='Structural Context Awareness';stateMsg='Correctly accounting for socio-economic realities.';}
+  let rubric,cls;
+  if(emi<25){rubric='High Epistemic Integrity.';cls='b-good';}
+  else if(emi<=45){rubric='Moderate Epistemic Bias.';cls='b-mod';}
+  else{rubric='Critical Epistemic Failure.';cls='b-warn';}
+  document.getElementById('a1-out').innerHTML=`<div class="resultcard"><div class="resulthead"><h4>EMI: ${emi.toFixed(1)}</h4>${stateTitle?`<span class="badge ${cls}">${stateTitle}</span>`:''}</div>${stateMsg?`<p>${stateMsg}</p>`:''}<p><b>Rubric:</b> ${rubric}</p></div>`;
+});
+
+// ---------- Activity 2 ----------
+document.getElementById('a2-btn').addEventListener('click',()=>{
+  const A=document.getElementById('a2-s1').value,B=document.getElementById('a2-s2').value,C=document.getElementById('a2-s3').value,D=document.getElementById('a2-s4').value;
+  let status,score,diag,coherent=false;
+  if(A==='A1'&&B==='B1'&&C==='C1'&&D==='D1'){status='Coherent Positivist Paradigm';score=100;diag='Internally consistent, focused on measurable efficiency.';coherent=true;}
+  else if(A==='A1'&&B==='B2'&&C==='C2'&&D==='D2'){status='Coherent Interpretivist Paradigm';score=100;diag='Internally consistent, prioritising meaning and lived experience.';coherent=true;}
+  else if(A==='A1'&&B==='B3'&&C==='C3'&&D==='D3'){status='Coherent Critical Realist Paradigm';score=100;diag='Connects surface metrics with deeper mechanisms.';coherent=true;}
+  else{
+    const nums=[B,C,D].map(x=>x.slice(1)); const counts={'1':0,'2':0,'3':0}; nums.forEach(n=>counts[n]++);
+    const majority=Object.keys(counts).reduce((a,b)=>counts[a]>=counts[b]?a:b);
+    const mismatches=nums.filter(n=>n!==majority).length;
+    score=Math.max(0,100-(mismatches*33.3)); status='Dissonant / Misaligned Path';
+    diag=`Mixes assumptions across ${mismatches} of 3 stages.`;
+  }
+  let dissonanceAlert=(B==='B1'&&D==='D2')?`<span class="badge b-warn" style="display:block;margin-top:0.5rem;">Epistemic Dissonance Detected</span>`:'';
+  document.getElementById('a2-out').innerHTML=`<div class="resultcard"><div class="resulthead"><h4>${status}</h4><span class="badge ${coherent?'b-good':'b-warn'}">${score.toFixed(1)}%</span></div><p>${diag}</p></div>${dissonanceAlert}`;
+});
+
+// ---------- Activity 3 ----------
+const a3m=document.getElementById('a3-m'),a3c=document.getElementById('a3-c'),a3v=document.getElementById('a3-v');
+function a3calc(){
+  const M=+a3m.value,C=+a3c.value,V=+a3v.value,sum=M+C+V;
+  document.getElementById('a3-m-v').textContent=M+'%'; document.getElementById('a3-c-v').textContent=C+'%'; document.getElementById('a3-v-v').textContent=V+'%';
+  const sumEl=document.getElementById('a3-sum');
+  sumEl.className='badge '+(sum!==100?'b-warn':'b-good');
+  sumEl.textContent = sum!==100 ? `Total must equal 100% (currently ${sum}%)` : 'Total allocation: 100%';
+  const DRS=(M*0.35)+(C*0.40)+(V*0.25), RRI=Math.max(0,(M-V)*1.2)+Math.max(0,(40-C)*0.9), EBF=Math.abs(M-V)+Math.abs(40-C);
+  document.getElementById('a3-drs-v').textContent=DRS.toFixed(1);
+  document.getElementById('a3-rri-v').textContent=RRI.toFixed(1);
+  document.getElementById('a3-ebf-v').textContent=EBF.toFixed(1);
+  let alerts=[];
+  if(M>60&&C<25) alerts.push({c:'b-warn',m:'Colonial / Imported Paradigm Trap.'});
+  if(V>55&&M<20) alerts.push({c:'b-warn',m:'Execution Paralysis.'});
+  if(C>=30&&M>=30&&V>=25) alerts.push({c:'b-good',m:'Optimal Scholar-Practitioner Equilibrium.'});
+  let perf=DRS>=75&&RRI<20?'Executive Mastery.':(DRS>=50?'Moderate Risk.':'Unstable System.');
+  document.getElementById('a3-out').innerHTML=`<div class="resultcard">${alerts.map(a=>`<span class="badge ${a.c}" style="display:inline-block;margin:2px 4px 2px 0;">${a.m}</span>`).join('')}<p><b>Performance:</b> ${perf}</p></div>`;
+}
+[a3m,a3c,a3v].forEach(el=>el.addEventListener('input',a3calc));
+a3calc();
+
+// ---------- Activity 4 ----------
+function a4calc(){
+  const stance=document.querySelector('input[name=a4-stance]:checked').value;
+  const t1=document.getElementById('a4-t1').checked,t2=document.getElementById('a4-t2').checked,t3=document.getElementById('a4-t3').checked;
+  let depth,risk,notes=[];
+  if(stance==='positivist'){depth=1;risk=1;
+    if(t2){risk=Math.min(3,risk+2);notes.push('Positivist audits miss informal networks.');}
+    if(t3){risk=Math.min(3,risk+1);depth=0;notes.push('Incomplete records render quantitative audits useless.');}
+  } else if(stance==='interpretivist'){depth=2;risk=2;
+    if(t1){risk=Math.min(3,risk+1);notes.push('Regulators require hard empirical baselines.');}
+  } else {depth=3;risk=1;if(t3){risk=2;}}
+  const ars=(risk*30)+((3-depth)*20);
+  const dCol=Math.max(1,depth);
+  const tbody=document.querySelector('#a4-matrix tbody'); tbody.innerHTML='';
+  const headRow=document.createElement('tr'); headRow.innerHTML='<th class="corner"></th>'+[1,2,3].map(c=>`<th>D${c}</th>`).join(''); tbody.appendChild(headRow);
+  for(let r=3;r>=1;r--){
+    const row=document.createElement('tr');
+    row.innerHTML=`<th>R${r}</th>`+[1,2,3].map(c=>`<td>${(r===risk&&c===dCol)?'<span class="marker">●</span>':''}</td>`).join('');
+    tbody.appendChild(row);
+  }
+  let zoneLabel=ars<=30?'Green — low risk':(ars<=60?'Yellow — moderate risk':'Red — high risk');
+  document.getElementById('a4-out').innerHTML=`<div class="resultcard"><div class="resulthead"><h4>ARS: ${ars}</h4><span class="badge ${ars<=30?'b-good':(ars<=60?'b-mod':'b-warn')}">${zoneLabel}</span></div>${notes.map(n=>`<p>${n}</p>`).join('')}</div>`;
+}
+document.querySelectorAll('input[name=a4-stance]').forEach(r=>r.addEventListener('change',a4calc));
+['a4-t1','a4-t2','a4-t3'].forEach(id=>document.getElementById(id).addEventListener('change',a4calc));
+a4calc();
+
+// ---------- Activity 5 ----------
+const claims={1:{correct:['False'],keywords:['ontology','axiology','assumption','interpretation','construct','selectivity']},2:{correct:['False'],keywords:['theory','knowledge','epistemology','context','nkomo','decolonial','indigenous']},3:{correct:['True','Partial'],keywords:['mechanism','structure','surface','lawani','causality','context']}};
+function a5wc(){
+  for(let i=1;i<=3;i++){document.getElementById('a5-wc'+i).textContent=wordCount(document.getElementById('a5-j'+i).value);}
+  document.getElementById('a5-btn').disabled=![1,2,3].every(i=>document.querySelector(`input[name=a5-c${i}]:checked`));
+}
+document.querySelectorAll('#a5-form textarea, #a5-form input[type=radio]').forEach(el=>{el.addEventListener('input',a5wc);el.addEventListener('change',a5wc);});
+a5wc();
+document.getElementById('a5-btn').addEventListener('click',()=>{
+  let total=0, rows=[];
+  for(let i=1;i<=3;i++){
+    const sel=document.querySelector(`input[name=a5-c${i}]:checked`).value;
+    const text=document.getElementById('a5-j'+i).value; const wc=wordCount(text);
+    const classPts=claims[i].correct.includes(sel)?10:0; const wcPts=wc>=30?5:0;
+    const lower=text.toLowerCase(); const matched=claims[i].keywords.filter(k=>lower.includes(k));
+    const kwPts=Math.min(15,matched.length*5); const modTotal=classPts+wcPts+kwPts; total+=modTotal;
+    rows.push(`<div class="scoreline"><b>Claim ${i}:</b> ${modTotal}/30</div>`);
+  }
+  document.getElementById('a5-out').innerHTML=`<div class="resultcard"><div class="resulthead"><h4>Score Breakdown</h4><span class="badge ${total>=70?'b-good':'b-info'}">${total}/90</span></div>${rows.join('')}</div>`;
+});
+</script>
+</body>
+</html>

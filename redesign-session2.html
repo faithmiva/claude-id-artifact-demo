@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DBA 9101 · Study Session 2 · Highlight</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Afacad:wght@500;600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --color-primary:#0A3150; --color-primary-soft:#E4F1FF; --color-primary-dark:#072339;
+    --color-secondary:#BB9E7F; --color-secondary-dark:#90785E;
+    --color-accent:#0591E2; --color-accent-dark:#06649A;
+    --color-destructive:#E83831; --color-destructive-dark:#CC3722;
+    --color-success:#009933; --color-warning:#FFAB00; --color-info:#3355FF;
+    --color-base-white:#FFFFFF; --color-bg-page:#F4F6F8; --color-bg-tertiary:#F0F2F4;
+    --color-bg-quaternary:#DDE2E7; --color-bg-disabled:#9DABB6;
+    --color-text-primary:#081D2D; --color-text-secondary:#404D67; --color-text-tertiary:#667085;
+    --color-border:#DDE2E7; --color-border-strong:#667085;
+    --sf-primary:#CDE5FF; --sf-secondary:#EEE3D8; --sf-destructive:#FDE5D8;
+    --sf-success:#C9EFDD; --sf-warning:#F4EAC9; --sf-info:#CDE5FF;
+    --font-sans:'Manrope', ui-sans-serif, system-ui, sans-serif;
+    --font-afacad:'Afacad', ui-sans-serif, system-ui, sans-serif;
+    --edge:1rem;
+  }
+  *{box-sizing:border-box;}
+  html,body{height:100%;}
+  html{font-size:16px;}
+  body{margin:0;background:var(--color-bg-page);color:var(--color-text-primary);font-family:var(--font-sans);font-size:14px;line-height:1.6;overflow-x:hidden;display:flex;flex-direction:column;height:100vh;min-height:360px;}
+  .inner{max-width:1280px;margin:0 auto;padding-left:var(--edge);padding-right:var(--edge);}
+  h1,h2,h3,h4,.stat{font-family:var(--font-afacad);font-weight:700;}
+
+  .main-scroll{flex:1 1 auto;min-height:0;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;display:flex;flex-direction:column;}
+  .page{display:none;}
+  .page.active{display:block;flex:1 0 auto;}
+  .page.active > .inner{padding-top:0.9rem;padding-bottom:1.25rem;}
+
+  .topnav{flex:0 0 auto;background:var(--color-bg-tertiary);border-bottom:1px solid var(--color-border);position:relative;}
+  .topnav .inner{padding-top:0.6rem;padding-bottom:0.6rem;}
+
+  .tabwrap{background:var(--color-bg-quaternary);border-radius:999px;display:flex;gap:2px;padding:3px;overflow-x:auto;scrollbar-width:thin;width:fit-content;max-width:100%;}
+  .tabwrap::-webkit-scrollbar{height:4px;}
+  .tabwrap::-webkit-scrollbar-track{background:transparent;}
+  .tabwrap::-webkit-scrollbar-thumb{background:var(--color-border-strong);border-radius:999px;}
+  .navbtn{flex:0 0 auto;font-family:var(--font-sans);font-weight:600;font-size:0.75rem;background:transparent;color:var(--color-text-secondary);border:none;border-radius:999px;padding:0.4rem 0.85rem;cursor:pointer;white-space:nowrap;}
+  .navbtn.active{background:var(--color-primary);color:var(--color-base-white);}
+  .navbtn:focus-visible{outline:2px solid var(--color-accent);outline-offset:2px;}
+
+  .sectionbtn{background:var(--color-primary);color:var(--color-base-white);border:none;border-radius:999px;padding:0.5rem 1rem;font-family:var(--font-sans);font-weight:600;font-size:0.8125rem;display:inline-flex;align-items:center;gap:0.5rem;cursor:pointer;max-width:100%;}
+  .sectionbtn .chev{font-size:0.7rem;transition:transform .15s ease;}
+  .sectionbtn[aria-expanded="true"] .chev{transform:rotate(180deg);}
+  .sectionbtn:focus-visible{outline:2px solid var(--color-accent);outline-offset:2px;}
+  .sectionmenu{position:absolute;top:calc(100% + 6px);left:1rem;right:1rem;background:var(--color-base-white);border:1px solid var(--color-border);border-radius:16px;box-shadow:0 10px 24px -8px rgba(8,29,45,.25);overflow:hidden;z-index:30;max-height:60vh;overflow-y:auto;}
+  .sectionmenu[hidden]{display:none;}
+  .sectionmenu button{display:block;width:100%;text-align:left;background:none;border:none;border-bottom:1px solid var(--color-border);padding:0.7rem 0.95rem;font-family:var(--font-sans);font-weight:600;font-size:0.8125rem;color:var(--color-text-primary);cursor:pointer;}
+  .sectionmenu button:last-child{border-bottom:none;}
+  .sectionmenu button:hover, .sectionmenu button:focus-visible{background:var(--color-bg-tertiary);}
+  .sectionmenu button.current{color:var(--color-accent);background:var(--color-primary-soft);}
+
+  .nav-dropdown{display:none;}
+  .nav-tabs{display:block;}
+  @media (max-width:450px){
+    .nav-dropdown{display:block;}
+    .nav-tabs{display:none;}
+  }
+
+  .pagenav{display:flex;justify-content:space-between;gap:0.5rem;margin-top:0.9rem;}
+  .navstep{font-family:var(--font-sans);font-weight:600;font-size:0.8125rem;padding:0.55rem 1rem;border-radius:12px;cursor:pointer;}
+  .navstep.next{background:var(--color-primary);color:var(--color-base-white);border:none;}
+  .navstep.prev{background:transparent;color:var(--color-text-primary);border:1px solid var(--color-border-strong);}
+  .navstep:disabled{opacity:.4;cursor:not-allowed;}
+  .navstep:focus-visible{outline:2px solid var(--color-accent);outline-offset:2px;}
+
+  .titlecard{background:var(--color-base-white);border:1px solid var(--color-border);border-radius:20px;padding:1.5rem 1.25rem;}
+  .kicker{font-family:var(--font-sans);font-weight:700;font-size:0.75rem;letter-spacing:.02em;color:var(--color-accent);text-transform:uppercase;margin-bottom:0.5rem;}
+  .titlecard h1{font-size:clamp(1.25rem,5vw,1.75rem);line-height:1.2;color:var(--color-primary);margin:0 0 0.5rem;}
+  .titlecard .subtitle{font-size:0.8125rem;color:var(--color-text-secondary);margin:0;}
+
+  h2.acttitle{font-size:1.0625rem;color:var(--color-primary);margin:0 0 0.75rem;}
+
+  .card{background:var(--color-base-white);border:1px solid var(--color-border);border-radius:20px;padding:1rem;}
+  .card > div + div{margin-top:0.75rem;}
+  .grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:0.85rem;}
+
+  .contextpanel{background:var(--color-primary-soft);border-radius:16px;padding:0.85rem 0.95rem;margin-bottom:0.85rem;}
+  .contextpanel .plabel{font-weight:700;color:var(--color-primary);font-size:0.8125rem;margin-bottom:0.35rem;}
+  .contextpanel p{font-size:0.8125rem;color:var(--color-text-secondary);margin:0;}
+  .promptsbox{background:#D6E9FB;border-radius:12px;padding:0.7rem 0.85rem;margin-top:0.7rem;}
+  .promptsbox .plabel{font-weight:700;color:var(--color-primary);font-size:0.8125rem;margin-bottom:0.35rem;}
+  .promptsbox ol{margin:0;padding-left:1.2rem;font-size:0.8125rem;color:var(--color-text-secondary);}
+  .promptsbox li{margin-bottom:0.3rem;}
+
+  .subcard{background:var(--color-bg-tertiary);border-radius:16px;padding:0.85rem;margin-bottom:0.75rem;}
+  .subcard:last-of-type{margin-bottom:0;}
+
+  label{display:block;font-weight:600;font-size:0.8125rem;margin-bottom:0.35rem;color:var(--color-text-secondary);}
+  select, textarea, input[type=number]{width:100%;font-family:var(--font-sans);font-size:0.875rem;padding:0.6rem 0.75rem;border:1px solid var(--color-border);border-radius:12px;background:var(--color-base-white);color:var(--color-text-primary);}
+  select{
+    padding-right:2.5rem;
+    appearance:none; -webkit-appearance:none; -moz-appearance:none;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'><path d='M1 1L6 6L11 1' stroke='%23404D67' stroke-width='1.6' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+    background-repeat:no-repeat;
+    background-position:right 0.9rem center;
+    background-size:12px 8px;
+  }
+  select:focus-visible, textarea:focus-visible, input:focus-visible{outline:2px solid var(--color-accent);outline-offset:1px;}
+  textarea{min-height:60px;resize:vertical;line-height:1.6;}
+
+  input[type=range]{width:100%;accent-color:var(--color-success);height:18px;}
+  .sliderrow{margin-bottom:0.7rem;}
+  .sliderrow .sv{color:var(--color-accent);font-weight:700;}
+
+  button.primary{font-family:var(--font-sans);font-weight:600;font-size:0.8125rem;background:var(--color-destructive);color:var(--color-base-white);border:none;border-radius:12px;padding:0.65rem 1.15rem;cursor:pointer;}
+  button.primary:hover{background:var(--color-destructive-dark);}
+  button.primary:disabled{background:var(--color-bg-disabled);cursor:not-allowed;}
+  button.primary:focus-visible{outline:2px solid var(--color-accent);outline-offset:2px;}
+
+  .optionrow.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:0.5rem;margin-bottom:0.5rem;align-items:stretch;}
+  .optionrow.grid3 > label{display:flex;gap:0.5rem;align-items:center;border:1px solid var(--color-border);border-radius:12px;padding:0.6rem 0.75rem;cursor:pointer;font-size:0.8125rem;min-height:2.75rem;}
+  .optionrow.grid3 input{margin-top:2px;width:16px;height:16px;accent-color:var(--color-primary);}
+
+  .kpirow{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:0.5rem;margin:0.75rem 0;}
+  .kpitile{background:var(--color-bg-tertiary);border-radius:16px;padding:0.7rem 0.8rem;}
+  .kpitile.hero{background:var(--color-primary);color:var(--color-base-white);}
+  .kpitile .num{font-size:1.5rem;line-height:1.1;}
+  .kpitile .lbl{font-size:0.6875rem;color:var(--color-text-secondary);margin-top:0.2rem;}
+  .kpitile.hero .lbl{color:var(--color-bg-quaternary);}
+
+  .badge{display:inline-block;border-radius:999px;padding:0.25rem 0.75rem;font-weight:700;font-size:0.6875rem;}
+  .badge.b-good{background:var(--sf-success);color:#1c5c33;}
+  .badge.b-warn{background:var(--sf-destructive);color:#8a241b;}
+  .badge.b-mod{background:var(--sf-warning);color:#7a5a05;}
+  .badge.b-info{background:var(--sf-info);color:var(--color-primary);}
+
+  .resultcard{background:var(--color-base-white);border:1px solid var(--color-border);border-radius:16px;padding:0.85rem 1rem;margin-top:0.85rem;}
+  .resulthead{display:flex;justify-content:space-between;align-items:center;gap:0.5rem;margin-bottom:0.5rem;flex-wrap:wrap;}
+  .resulthead h4{font-size:0.9375rem;color:var(--color-primary);margin:0;}
+  .resultcard p{font-size:0.8125rem;color:var(--color-text-secondary);margin:0.4rem 0 0;}
+
+  .diaggrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:0.5rem;margin-top:0.5rem;}
+  .diagcell{background:var(--color-bg-tertiary);border-radius:12px;padding:0.6rem 0.75rem;}
+  .diagcell .dl{font-weight:700;font-size:0.75rem;color:var(--color-primary);margin-bottom:0.2rem;}
+  .diagcell .dv{font-size:0.75rem;color:var(--color-text-secondary);}
+
+  .matrix{border-collapse:separate;border-spacing:3px;margin:0.75rem 0;font-size:0.6875rem;}
+  .matrix th,.matrix td{width:40px;height:34px;text-align:center;border-radius:8px;}
+  .matrix th{background:var(--color-primary);color:var(--color-base-white);font-weight:700;}
+  .matrix td{background:var(--color-base-white);border:1px solid var(--color-border);}
+  .matrix .corner{background:var(--color-primary);}
+  .matrix .marker{display:inline-flex;width:22px;height:22px;border-radius:50%;background:var(--color-primary);color:var(--color-base-white);align-items:center;justify-content:center;font-weight:700;}
+
+  .actioncard{background:var(--color-base-white);border:1px solid var(--color-border);border-radius:14px;padding:0.75rem 0.9rem;margin-bottom:0.6rem;}
+  .actioncard:last-child{margin-bottom:0;}
+  .actioncard .at{font-weight:700;color:var(--color-primary);font-size:0.8125rem;margin-bottom:0.2rem;}
+  .actioncard .ad{font-size:0.8125rem;color:var(--color-text-secondary);}
+  @media (prefers-reduced-motion: reduce){ *{transition:none !important;} }
+</style>
+</head>
+<body>
+
+<nav class="topnav" aria-label="Study session navigation">
+  <div class="inner">
+    <div class="nav-tabs">
+      <div class="tabwrap">
+        <button class="navbtn active" data-page="title">Title Page</button>
+        <button class="navbtn" data-page="a1">Activity 1</button>
+        <button class="navbtn" data-page="a2">Activity 2</button>
+        <button class="navbtn" data-page="a3">Activity 3</button>
+        <button class="navbtn" data-page="a4">Activity 4</button>
+        <button class="navbtn" data-page="a5">Activity 5</button>
+        <button class="navbtn" data-page="takeaways">Key Takeaways</button>
+      </div>
+    </div>
+    <div class="nav-dropdown">
+      <button class="sectionbtn" id="sectionbtn" aria-haspopup="true" aria-expanded="false">
+        <span id="sectionbtn-label">Title Page</span><span class="chev">▾</span>
+      </button>
+      <div class="sectionmenu" id="sectionmenu" hidden role="menu" aria-label="Jump to section">
+        <button role="menuitem" data-page="title">Title Page</button>
+        <button role="menuitem" data-page="a1">Activity 1</button>
+        <button role="menuitem" data-page="a2">Activity 2</button>
+        <button role="menuitem" data-page="a3">Activity 3</button>
+        <button role="menuitem" data-page="a4">Activity 4</button>
+        <button role="menuitem" data-page="a5">Activity 5</button>
+        <button role="menuitem" data-page="takeaways">Key Takeaways</button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<main class="main-scroll" id="scroller">
+
+<section class="page active" id="page-title"><div class="inner">
+  <div class="titlecard">
+    <div class="kicker">Doctor of Business Administration · Study Session 2</div>
+    <h1>Classical Management Theories, Behavioural and Human Relations Perspectives</h1>
+    <p class="subtitle">Strategic Alignment of Structural Control and Human Agency in Contemporary Organisations</p>
+  </div>
+  <nav class="pagenav" style="justify-content:flex-end;" aria-label="Section navigation"><button class="navstep next" data-dir="next">Next ›</button></nav>
+</div></section>
+
+<!-- ACTIVITY 1 -->
+<section class="page" id="page-a1"><div class="inner">
+  <h2 class="acttitle">Activity 1: What-If Simulation</h2>
+  <div class="grid2">
+    <div class="card">
+      <div class="contextpanel">
+        <div class="plabel">Executive Context &amp; Framing:</div>
+        <p>Taylor's scientific management increases short-term throughput but risks suppressing initiative; Weberian bureaucracy adds predictability but multi-layered approval can induce paralysis. Manipulate the controls for a regional bank branch network.</p>
+        <div class="promptsbox">
+          <div class="plabel">Prompts &amp; User Actions:</div>
+          <ol>
+            <li>Simulate a traditional cost-reduction mandate (S=85%, A=5, V=15%). Observe the impact on Attrition Risk and Service Quality.</li>
+            <li>Reconfigure parameters to achieve Efficiency above 75 while keeping Attrition Risk below 30% and Service Quality above 70.</li>
+            <li>Justify your optimal combination using Follett's integration and Barnard's acceptance theory of authority.</li>
+          </ol>
+        </div>
+      </div>
+      <div class="sliderrow"><label for="b1-s">Standardisation &amp; Task Surveillance (S) — <span class="sv" id="b1-s-v">75%</span></label><input type="range" id="b1-s" min="0" max="100" step="5" value="75"></div>
+      <div class="sliderrow"><label for="b1-a">Administrative Hierarchy &amp; Approval Layers (A) — <span class="sv" id="b1-a-v">4</span></label><input type="range" id="b1-a" min="1" max="5" step="1" value="4"></div>
+      <div class="sliderrow"><label for="b1-v">Participatory Voice &amp; Autonomy (V) — <span class="sv" id="b1-v-v">25%</span></label><input type="range" id="b1-v" min="0" max="100" step="5" value="25"></div>
+    </div>
+    <div class="card">
+      <h4 style="margin:0 0 0.5rem;color:var(--color-primary);">Live Indicators</h4>
+      <div class="kpirow">
+        <div class="kpitile hero"><div class="num" id="b1-e-v">0</div><div class="lbl">Operational Efficiency (E)</div></div>
+        <div class="kpitile"><div class="num" id="b1-r-v">0</div><div class="lbl">Attrition Risk (R)</div></div>
+        <div class="kpitile"><div class="num" id="b1-q-v">0</div><div class="lbl">Service Quality (Q)</div></div>
+        <div class="kpitile"><div class="num" id="b1-c-v">0</div><div class="lbl">Compliance &amp; Audit (C)</div></div>
+      </div>
+      <div id="b1-out" aria-live="polite"></div>
+    </div>
+  </div>
+  <nav class="pagenav" aria-label="Section navigation"><button class="navstep prev" data-dir="prev">‹ Previous</button><button class="navstep next" data-dir="next">Next ›</button></nav>
+</div></section>
+
+<!-- ACTIVITY 2 -->
+<section class="page" id="page-a2"><div class="inner">
+  <h2 class="acttitle">Activity 2: Scenario-Based Decision Analysis</h2>
+  <div class="grid2">
+    <div class="card">
+      <div class="contextpanel">
+        <div class="plabel">Executive Context &amp; Framing:</div>
+        <p>As the new MD of a state-owned public utility, frontline staff show low psychological safety and middle management relies on informal, paternalistic authority. Navigate the reform without destroying trust or triggering strike action.</p>
+        <div class="promptsbox">
+          <div class="plabel">Prompts &amp; User Actions:</div>
+          <ol>
+            <li>Evaluate Stage 1 options and select your initial intervention strategy.</li>
+            <li>Review the resulting organisational systemic reaction across the three state indicators.</li>
+            <li>Select your Stage 2 response to steer the enterprise toward sustainable performance.</li>
+          </ol>
+        </div>
+      </div>
+      <label>Stage 1 — Opening Intervention</label>
+      <div class="optionrow grid3" role="radiogroup" aria-label="Stage 1 choice">
+        <label><input type="radio" name="s2-1" value="A1"> A1: Strict Weberian Enforcement</label>
+        <label><input type="radio" name="s2-1" value="B1"> B1: Participatory Diagnostic</label>
+        <label><input type="radio" name="s2-1" value="C1"> C1: Paternalistic Engagement</label>
+      </div>
+      <div id="s2-stage2-wrap" style="display:none;">
+        <label>Stage 2 — Follow-Through</label>
+        <div class="optionrow grid3" id="s2-stage2-A" style="display:none;" role="radiogroup" aria-label="Stage 2 following A1">
+          <label><input type="radio" name="s2-2" value="A2"> A2: Digital Taylorism (biometric tracking)</label>
+          <label><input type="radio" name="s2-2" value="B2"> B2: Pivot to Likert's Participatory Management</label>
+        </div>
+        <div class="optionrow grid3" id="s2-stage2-B" style="display:none;" role="radiogroup" aria-label="Stage 2 following B1">
+          <label><input type="radio" name="s2-2" value="A2"> A2: Integrate informal leaders (Follett's co-optation)</label>
+          <label><input type="radio" name="s2-2" value="B2"> B2: Override informal authority with external hires</label>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <h4 style="margin:0 0 0.5rem;color:var(--color-primary);">Live Metrics</h4>
+      <div class="kpirow">
+        <div class="kpitile hero"><div class="num" id="s2-comp-v">50</div><div class="lbl">Structural Compliance</div></div>
+        <div class="kpitile"><div class="num" id="s2-safe-v">50</div><div class="lbl">Psychological Safety</div></div>
+        <div class="kpitile"><div class="num" id="s2-leg-v">50</div><div class="lbl">Informal Legitimacy</div></div>
+      </div>
+      <div id="s2-out" aria-live="polite"></div>
+    </div>
+  </div>
+  <nav class="pagenav" aria-label="Section navigation"><button class="navstep prev" data-dir="prev">‹ Previous</button><button class="navstep next" data-dir="next">Next ›</button></nav>
+</div></section>
+
+<!-- ACTIVITY 3 -->
+<section class="page" id="page-a3"><div class="inner">
+  <h2 class="acttitle">Activity 3: Risk &amp; Decision Analysis</h2>
+  <div class="card">
+    <div class="contextpanel">
+      <div class="plabel">Executive Context &amp; Framing:</div>
+      <p>Classical bureaucracy introduces red-tape delay and defensive decision-making; unstructured human relations risks role ambiguity. Assess a control mechanism's risk across three institutional settings.</p>
+      <div class="promptsbox">
+        <div class="plabel">Prompts &amp; User Actions:</div>
+        <ol>
+          <li>Select the Public Sector Ministry context and map a control mechanism onto the Risk Grid.</li>
+          <li>Switch to the Academic Institution context and evaluate how the risk profile shifts.</li>
+          <li>Select an appropriate mitigation strategy for each high-risk pairing.</li>
+        </ol>
+      </div>
+    </div>
+    <div><label for="s3-sector">Sector Context</label><select id="s3-sector"><option value="bank">Commercial Bank</option><option value="ministry">Public Sector Ministry</option><option value="academic">Academic Institution</option></select></div>
+    <div><label for="s3-mech">Control Mechanism</label><select id="s3-mech"><option value="biometric">Strict Biometric Performance Tracking (Taylorism)</option><option value="approvals">Multi-Tiered Centralised Approval Sign-Offs (Weberian)</option><option value="paternalistic">Informal Paternalistic Conflict Resolution</option><option value="discretion">Unstructured Frontline Discretion (Theory Y)</option></select></div>
+    <table class="matrix" id="s3-matrix" aria-hidden="true"><tbody></tbody></table>
+    <div id="s3-out" aria-live="polite"></div>
+  </div>
+  <nav class="pagenav" aria-label="Section navigation"><button class="navstep prev" data-dir="prev">‹ Previous</button><button class="navstep next" data-dir="next">Next ›</button></nav>
+</div></section>
+
+<!-- ACTIVITY 4 -->
+<section class="page" id="page-a4"><div class="inner">
+  <h2 class="acttitle">Activity 4: Practitioner Lens / Multi-Perspective Analysis</h2>
+  <div class="card">
+    <div class="contextpanel">
+      <div class="plabel">Executive Context &amp; Framing:</div>
+      <p>A real-time workforce monitoring rollout (Digital Taylorism) reads differently depending on executive lens. Match the lens to its defining philosophical bias and strategic focus.</p>
+      <div class="promptsbox">
+        <div class="plabel">Prompts &amp; User Actions:</div>
+        <ol>
+          <li>Select a lens, its Philosophical Alignment, and its Strategic Focus.</li>
+          <li>Review the resulting alignment and the lens's Core Risk.</li>
+          <li>Draft an integrated recommendation satisfying CFO cost imperatives and CRO compliance without triggering CHRO/Union backlash (minimum 150 words).</li>
+        </ol>
+      </div>
+    </div>
+    <div><label for="s4-lens">C-Suite / Stakeholder Lens</label><select id="s4-lens"><option value="">Select a lens…</option><option value="CEO">Chief Executive Officer (CEO)</option><option value="CFO">Chief Financial Officer (CFO)</option><option value="CHRO">Chief Human Resources Officer (CHRO)</option><option value="CRO">Chief Risk &amp; Compliance Officer (CRO)</option><option value="Union">Union &amp; Employee Representative</option></select></div>
+    <div><label for="s4-bias">Primary Philosophical Alignment</label><select id="s4-bias"><option value="Positivism">Positivism / Scientific Management</option><option value="Interpretivism">Interpretivism / Human Relations</option><option value="CriticalRealism">Critical Realism</option></select></div>
+    <div><label for="s4-focus">Primary Strategic Focus</label><select id="s4-focus"><option value="CostEfficiency">Cost Efficiency</option><option value="Compliance">Compliance</option><option value="Wellbeing">Employee Wellbeing</option><option value="OrgRisk">Organisational Risk</option><option value="Trust">Trust</option></select></div>
+    <div style="margin:0.85rem 0;"><button class="primary" id="s4-btn">Check Alignment</button></div>
+    <div id="s4-out" aria-live="polite"></div>
+    <div style="margin-top:0.85rem;"><label for="s4-just">Executive Synthesis (minimum 150 words) — <span id="s4-wc">0</span> words</label><textarea id="s4-just"></textarea></div>
+  </div>
+  <nav class="pagenav" aria-label="Section navigation"><button class="navstep prev" data-dir="prev">‹ Previous</button><button class="navstep next" data-dir="next">Next ›</button></nav>
+</div></section>
+
+<!-- ACTIVITY 5 -->
+<section class="page" id="page-a5"><div class="inner">
+  <h2 class="acttitle">Activity 5: Synthesis &amp; Integration Challenge</h2>
+  <div class="card">
+    <div class="contextpanel">
+      <div class="plabel">Executive Context &amp; Framing:</div>
+      <p>Build a conceptual framework linking classical control mechanisms to organisational outcomes, mediated by human factors.</p>
+      <div class="promptsbox">
+        <div class="plabel">Prompts &amp; User Actions:</div>
+        <ol>
+          <li>Select an Independent Variable, a Mediating Variable, and a Dependent Variable.</li>
+          <li>Define the hypothesised relationship and validate the theoretical chain.</li>
+          <li>Map at least two foundational literature anchors to justify your links.</li>
+        </ol>
+      </div>
+    </div>
+    <div><label for="b5-iv">Independent Variable</label><select id="b5-iv"><option value="IV1">Biometric Surveillance Intensity (IV₁)</option><option value="IV2">Bureaucratic Rule Density (IV₂)</option><option value="IV3">Inclusive Leadership Behaviour (IV₃)</option></select></div>
+    <div><label for="b5-mv">Mediating / Moderating Variable</label><select id="b5-mv"><option value="none">None</option><option value="MV1">Psychological Safety (MV₁)</option><option value="MV2">Informal Social Group Cohesion (MV₂)</option><option value="MV3">Perceived Organisational Fairness (MV₃)</option></select></div>
+    <div><label for="b5-dv">Dependent Variable</label><select id="b5-dv"><option value="DV1">Discretionary Effort (DV₁)</option><option value="DV2">Metric Manipulation / Gaming (DV₂)</option><option value="DV3">Sustained Operational Performance (DV₃)</option></select></div>
+    <div style="margin:0.85rem 0;"><button class="primary" id="b5-btn">Validate Framework</button></div>
+    <div id="b5-out" aria-live="polite"></div>
+  </div>
+  <nav class="pagenav" aria-label="Section navigation"><button class="navstep prev" data-dir="prev">‹ Previous</button><button class="navstep next" data-dir="next">Next ›</button></nav>
+</div></section>
+
+<!-- TAKEAWAYS -->
+<section class="page" id="page-takeaways"><div class="inner">
+  <h2 class="acttitle" style="margin-bottom:0.9rem;">Final Key Takeaways</h2>
+  <div class="contextpanel" style="margin-bottom:0.85rem;">
+    <div class="kicker" style="margin-bottom:0.4rem;">Executive Summary</div>
+    <h3 style="font-size:1rem;color:var(--color-primary);margin:0 0 0.4rem;">Structural Control Needs Human Agency</h3>
+    <p>Classical frameworks establish essential mechanisms for efficiency and coordination, but unchecked they generate paralysis and attrition. Behavioural perspectives are vital correctives — human dignity, motivation and psychological safety directly dictate operational outcomes. High-performing organisations pair intelligent structural control with high psychological safety.</p>
+  </div>
+  <div class="card">
+    <div class="kicker" style="margin-bottom:0.4rem;">Practitioner Action Items</div>
+    <h3 style="font-size:1rem;color:var(--color-primary);margin:0 0 0.75rem;">Strategic Directives for Scholar-Practitioners</h3>
+    <div class="actioncard"><div class="at">Calibrate Structural Controls to Context</div><div class="ad">Audit workflows and surveillance systems to distinguish controls that protect compliance from those that create delay or gaming.</div></div>
+    <div class="actioncard"><div class="at">Build Architecture for Employee Voice</div><div class="ad">Establish psychological safety protocols letting frontline staff report failures without fear of retribution.</div></div>
+    <div class="actioncard"><div class="at">Integrate Informal Authority Networks</div><div class="ad">Engage informal influencers to build legitimate buy-in rather than relying solely on position power.</div></div>
+    <div class="actioncard"><div class="at">Ground Doctoral Research in Dual Traditions</div><div class="ad">Bridge classical structural variables with human relations mediators in DBA research design.</div></div>
+  </div>
+  <nav class="pagenav" style="justify-content:flex-start;margin-bottom:0.5rem;" aria-label="Section navigation"><button class="navstep prev" data-dir="prev">‹ Previous</button></nav>
+</div></section>
+
+</main>
+
+<script>
+function wordCount(str){ return str.trim().length ? str.trim().split(/\s+/).length : 0; }
+function clamp(x){ return Math.min(100, Math.max(0, x)); }
+
+const PAGES=[{id:'title',label:'Title Page'},{id:'a1',label:'Activity 1'},{id:'a2',label:'Activity 2'},{id:'a3',label:'Activity 3'},{id:'a4',label:'Activity 4'},{id:'a5',label:'Activity 5'},{id:'takeaways',label:'Key Takeaways'}];
+const sectionbtn=document.getElementById('sectionbtn'), sectionbtnLabel=document.getElementById('sectionbtn-label'), sectionmenu=document.getElementById('sectionmenu');
+function activatePage(id){
+  const idx=PAGES.findIndex(p=>p.id===id); if(idx===-1) return;
+  document.querySelectorAll('.page').forEach(p=>p.classList.toggle('active', p.id==='page-'+id));
+  document.querySelectorAll('.navbtn').forEach(b=>b.classList.toggle('active', b.dataset.page===id));
+  sectionbtnLabel.textContent = PAGES[idx].label;
+  sectionmenu.querySelectorAll('button').forEach(b=>b.classList.toggle('current', b.dataset.page===id));
+  document.querySelectorAll('.navstep.prev').forEach(btn=>btn.disabled = idx===0);
+  document.querySelectorAll('.navstep.next').forEach(btn=>btn.disabled = idx===PAGES.length-1);
+  const s=document.getElementById('scroller'); if(s) s.scrollTop=0;
+}
+document.querySelectorAll('.navbtn').forEach(btn=>btn.addEventListener('click',()=>activatePage(btn.dataset.page)));
+sectionbtn.addEventListener('click',()=>{
+  const willOpen = sectionmenu.hasAttribute('hidden');
+  if(willOpen){ sectionmenu.removeAttribute('hidden'); sectionbtn.setAttribute('aria-expanded','true'); }
+  else { sectionmenu.setAttribute('hidden',''); sectionbtn.setAttribute('aria-expanded','false'); }
+});
+sectionmenu.querySelectorAll('button').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    activatePage(btn.dataset.page);
+    sectionmenu.setAttribute('hidden',''); sectionbtn.setAttribute('aria-expanded','false');
+  });
+});
+document.addEventListener('click',(e)=>{
+  if(!sectionmenu.contains(e.target) && e.target!==sectionbtn && !sectionbtn.contains(e.target) && !sectionmenu.hasAttribute('hidden')){
+    sectionmenu.setAttribute('hidden',''); sectionbtn.setAttribute('aria-expanded','false');
+  }
+});
+document.querySelectorAll('.navstep').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const current=document.querySelector('.page.active').id.replace('page-','');
+    const idx=PAGES.findIndex(p=>p.id===current);
+    const t=btn.dataset.dir==='prev'?idx-1:idx+1;
+    if(t>=0&&t<PAGES.length) activatePage(PAGES[t].id);
+  });
+});
+activatePage('title');
+
+// ---------- Activity 1 ----------
+const b1s=document.getElementById('b1-s'),b1a=document.getElementById('b1-a'),b1v=document.getElementById('b1-v');
+function b1calc(){
+  const S=+b1s.value,A=+b1a.value,V=+b1v.value;
+  document.getElementById('b1-s-v').textContent=S+'%'; document.getElementById('b1-a-v').textContent=A; document.getElementById('b1-v-v').textContent=V+'%';
+  const E=clamp(S*0.55+(5-A)*9+V*0.10), C=clamp(A*12+S*0.40), R=clamp(S*0.45+A*7-V*0.65), Q=clamp(V*0.55+S*0.15-A*6);
+  document.getElementById('b1-e-v').textContent=E.toFixed(1);
+  document.getElementById('b1-r-v').textContent=R.toFixed(1);
+  document.getElementById('b1-q-v').textContent=Q.toFixed(1);
+  document.getElementById('b1-c-v').textContent=C.toFixed(1);
+  let alerts=[];
+  if(S>80&&V<30) alerts.push({c:'b-warn',m:'High Taylorist Friction.'});
+  if(A>=4&&V<40) alerts.push({c:'b-warn',m:'Bureaucratic Paralysis.'});
+  if(V>=65&&S>=50&&A<=3) alerts.push({c:'b-good',m:'Optimal Structural Equilibrium.'});
+  let rubric=null;
+  if(S>75&&V<25) rubric={c:'b-warn',m:'High Control / Low Voice Outcome: classic Taylorism, employees withhold discretionary effort.'};
+  else if(S<30&&A<2&&V>80) rubric={c:'b-warn',m:'High Autonomy / Low Structure Outcome: compliance drops below acceptable thresholds.'};
+  else if(S>=50&&S<=60&&A>=2&&A<=3&&V>=60&&V<=70) rubric={c:'b-good',m:'Balanced Executive Outcome: integrated structural coordination with human relations.'};
+  document.getElementById('b1-out').innerHTML = `<div class="resultcard">${alerts.map(a=>`<span class="badge ${a.c}" style="display:inline-block;margin:2px 4px 2px 0;">${a.m}</span>`).join('')}${rubric?`<p><b>Executive Rubric:</b> ${rubric.m}</p>`:''}</div>`;
+}
+[b1s,b1a,b1v].forEach(el=>el.addEventListener('input',b1calc));
+b1calc();
+
+// ---------- Activity 2 ----------
+const s2Stage1Effects={A1:{comp:25,safe:-30,leg:-15},B1:{comp:-5,safe:30,leg:15},C1:{comp:5,safe:5,leg:25}};
+const s2Stage2Effects={A2_afterA1:{comp:15,safe:-35,leg:-20},B2_afterA1:{comp:-10,safe:25,leg:10},A2_afterB1:{comp:20,safe:15,leg:20},B2_afterB1:{comp:10,safe:-25,leg:-30}};
+function s2render(comp,safe,leg){
+  document.getElementById('s2-comp-v').textContent=comp.toFixed(0);
+  document.getElementById('s2-safe-v').textContent=safe.toFixed(0);
+  document.getElementById('s2-leg-v').textContent=leg.toFixed(0);
+}
+function s2evaluate(){
+  const stage1=document.querySelector('input[name=s2-1]:checked');
+  document.getElementById('s2-stage2-wrap').style.display='none';
+  document.getElementById('s2-stage2-A').style.display='none';
+  document.getElementById('s2-stage2-B').style.display='none';
+  document.getElementById('s2-out').innerHTML='';
+  if(!stage1){s2render(50,50,50);return;}
+  const e1=s2Stage1Effects[stage1.value];
+  let comp=50+e1.comp,safe=50+e1.safe,leg=50+e1.leg;
+  if(stage1.value==='C1'){
+    s2render(comp,safe,leg);
+    document.getElementById('s2-out').innerHTML=`<div class="resultcard"><p>Strategy Sub-Optimal. Outcome: Informal Capture. Preserves short-term peace but reinforces dependence on personal relationships over institutional systems.</p></div>`;
+    return;
+  }
+  document.getElementById('s2-stage2-wrap').style.display='block';
+  document.getElementById('s2-stage2-'+(stage1.value==='A1'?'A':'B')).style.display='grid';
+  const stage2=document.querySelector('input[name=s2-2]:checked');
+  if(!stage2){s2render(comp,safe,leg);return;}
+  const key=stage2.value+'_after'+stage1.value;
+  const e2=s2Stage2Effects[key];
+  if(e2){comp+=e2.comp;safe+=e2.safe;leg+=e2.leg;}
+  s2render(comp,safe,leg);
+  let msg,cls;
+  if(stage1.value==='A1'&&stage2.value==='A2'){cls='b-warn';msg='Strategy Failed. Bureaucratic Rigidity and Employee Silence. Reference: Ikpen &amp; Abobo (2025).';}
+  else if(stage1.value==='B1'&&stage2.value==='A2'){cls='b-good';msg='Optimal Executive Pathway. Institutional Renewal. Reference: Fatoki (2024).';}
+  else {cls='b-info';msg=`Outcome computed from your path: Compliance ${comp.toFixed(0)}, Safety ${safe.toFixed(0)}, Legitimacy ${leg.toFixed(0)}.`;}
+  document.getElementById('s2-out').innerHTML=`<div class="resultcard"><span class="badge ${cls}">${msg}</span></div>`;
+}
+document.querySelectorAll('input[name=s2-1], input[name=s2-2]').forEach(r=>r.addEventListener('change',s2evaluate));
+s2render(50,50,50);
+
+// ---------- Activity 3 ----------
+const s3rules={'bank|biometric':{L:3,I:2,driver:'Metric manipulation and destruction of customer trust.'},'bank|approvals':{L:3,I:3,driver:'Operational delay, missed opportunities, loss of agility.'},'ministry|approvals':{L:3,I:3,driver:'Administrative paralysis, service delivery collapse.'},'academic|biometric':{L:3,I:3,driver:'Severe demoralisation, destruction of intellectual autonomy.'},'academic|discretion':{L:2,I:2,driver:'Standards inconsistency across faculties.'}};
+const sectorLabels={bank:'Commercial Bank',ministry:'Public Sector Ministry',academic:'Academic Institution'};
+function s3calc(){
+  const sector=document.getElementById('s3-sector').value, mech=document.getElementById('s3-mech').value;
+  const rule=s3rules[sector+'|'+mech];
+  const tbody=document.querySelector('#s3-matrix tbody'); tbody.innerHTML='';
+  const headRow=document.createElement('tr'); headRow.innerHTML='<th class="corner"></th>'+[1,2,3].map(c=>`<th>L${c}</th>`).join(''); tbody.appendChild(headRow);
+  for(let r=3;r>=1;r--){
+    const row=document.createElement('tr');
+    row.innerHTML=`<th>I${r}</th>`+[1,2,3].map(c=>{
+      const isTarget = rule && c===rule.L && r===rule.I;
+      return `<td>${isTarget?'<span class="marker">●</span>':''}</td>`;
+    }).join('');
+    tbody.appendChild(row);
+  }
+  if(!rule){ document.getElementById('s3-out').innerHTML=`<div class="resultcard"><p>This sector/mechanism pairing isn't one of the source's scored combinations.</p></div>`; return; }
+  const rei=rule.L*rule.I;
+  let evalMsg='';
+  if(sector==='ministry') evalMsg='Accurate Assessment: excessive Weberian rules generate high risk of bureaucratic paralysis.';
+  else if(sector==='academic'&&mech==='biometric') evalMsg='Accurate Assessment: raw Taylorism on knowledge work creates severe friction.';
+  document.getElementById('s3-out').innerHTML=`<div class="resultcard"><div class="resulthead"><h4>Risk Exposure Index: ${rei}</h4><span class="badge ${rei<=4?'b-good':(rei<=6?'b-mod':'b-warn')}">${sectorLabels[sector]}</span></div><p>${rule.driver}</p>${evalMsg?`<p>${evalMsg}</p>`:''}</div>`;
+}
+document.getElementById('s3-sector').addEventListener('change',s3calc);
+document.getElementById('s3-mech').addEventListener('change',s3calc);
+s3calc();
+
+// ---------- Activity 4 ----------
+const s4roles={CEO:{bias:'Positivism',focus:'CostEfficiency',risk:'Misinterpreting metric compliance for genuine strategic execution.'},CFO:{bias:'Positivism',focus:'CostEfficiency',risk:'Over-indexing short-term efficiency, driving long-term talent depletion.'},CHRO:{bias:'Interpretivism',focus:'Wellbeing',risk:'Ignoring operational inefficiencies while protecting informal norms.'},CRO:{bias:'CriticalRealism',focus:'Compliance',risk:'Creating procedural friction that induces illegal workarounds.'},Union:{bias:'CriticalRealism',focus:'Trust',risk:'Resisting all productivity measurement regardless of necessity.'}};
+document.getElementById('s4-just').addEventListener('input',()=>document.getElementById('s4-wc').textContent=wordCount(document.getElementById('s4-just').value));
+document.getElementById('s4-btn').addEventListener('click',()=>{
+  const lens=document.getElementById('s4-lens').value;
+  if(!lens){document.getElementById('s4-out').innerHTML=`<div class="resultcard"><p>Select a lens first.</p></div>`;return;}
+  const bias=document.getElementById('s4-bias').value, focus=document.getElementById('s4-focus').value;
+  const role=s4roles[lens]; const match=(bias===role.bias&&focus===role.focus);
+  let extra = (lens==='CEO'&&!match) ? `<p>Warning: CEO perspective is incomplete — integrate Fayol's coordination with Barnard's acceptance theory.</p>` : '';
+  document.getElementById('s4-out').innerHTML=`<div class="resultcard"><div class="resulthead"><h4>${lens}</h4><span class="badge ${match?'b-good':'b-info'}">${match?'Correct Analysis':'Review this lens'}</span></div><p><b>Core Risk:</b> ${role.risk}</p>${extra}</div>`;
+});
+
+// ---------- Activity 5 ----------
+document.getElementById('b5-btn').addEventListener('click',()=>{
+  const IV=document.getElementById('b5-iv').value, MV=document.getElementById('b5-mv').value, DV=document.getElementById('b5-dv').value;
+  let cls,msg;
+  if(IV==='IV1'&&DV==='DV3'&&MV==='none'){cls='b-warn';msg='Naive Positivist Assumption: assumes monitoring directly produces performance without considering human agency.';}
+  else if(IV==='IV1'&&DV==='DV2'&&MV==='MV1'){cls='b-good';msg='Robust Theoretical Alignment: incorporates Critical Realism via structural mechanisms under psychological conditions.';}
+  else if(IV==='IV3'&&DV==='DV1'&&MV==='MV1'){cls='b-good';msg='Outstanding Theoretical Architecture: Psychological Safety (Fatoki 2024) mediates Leadership → Discretionary Effort.';}
+  else if(MV==='none'){cls='b-warn';msg='Your framework lacks mediating variables — classical controls rarely impact outcomes directly.';}
+  else {cls='b-info';msg='Not one of the pre-validated theoretical chains. Reconsider whether your mediator explains the causal path.';}
+  document.getElementById('b5-out').innerHTML=`<div class="resultcard"><span class="badge ${cls}" style="display:block;">${msg}</span></div>`;
+});
+</script>
+</body>
+</html>
